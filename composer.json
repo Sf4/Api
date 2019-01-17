@@ -1,5 +1,5 @@
 {
-    "name": "Sf4/Api",
+    "name": "sf4/api",
     "type": "library",
     "description": "Simple rest API for Symfony 4",
     "keywords": [
