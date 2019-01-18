@@ -8,22 +8,23 @@
 
 namespace Sf4\Api\Response;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
-
 class OptionsResponse extends AbstractResponse
 {
-
-    /**
-     * @return JsonResponse
-     */
-    public function getJsonResponse(): JsonResponse
+    public function init()
     {
-        $request = $this->getRequest()->getRequest();
-        $response = parent::getJsonResponse();
-        $response->headers->set('Access-Control-Allow-Credentials', 'true');
-        $response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
-        $response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
-
-        return $response;
+        $request = $this->getRequest();
+        $headers = $this->getHeaders();
+        if ($request) {
+            $httpRequest = $request->getRequest();
+            $requestHeaders = $httpRequest->headers;
+            $headers['Access-Control-Allow-Credentials'] = 'true';
+            if ($requestHeaders->has('Access-Control-Request-Headers')) {
+                $headers['Access-Control-Allow-Headers'] = $requestHeaders->get('Access-Control-Request-Headers');
+            }
+            if ($requestHeaders->has('Access-Control-Request-Method')) {
+                $headers['Access-Control-Allow-Methods'] = $requestHeaders->get('Access-Control-Request-Method');
+            }
+        }
+        $this->setHeaders($headers);
     }
 }

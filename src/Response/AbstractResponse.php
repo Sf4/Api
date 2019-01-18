@@ -44,6 +44,8 @@ abstract class AbstractResponse implements ResponseInterface
         $this->setHeaders($headers);
     }
 
+    public abstract function init();
+
     /**
      * @return JsonResponse
      */

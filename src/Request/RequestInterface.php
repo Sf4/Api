@@ -7,7 +7,6 @@ use Sf4\Api\Dto\DtoTraitInterface;
 use Sf4\Api\RequestHandler\RequestHandlerTraitInterface;
 use Sf4\Api\Response\ResponseInterface;
 use Sf4\Api\Response\ResponseTraitInterface;
-use Sf4\Populator\PopulatorInterface;
 use Sf4\Populator\Traits\PopulatorTraitInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,9 +18,8 @@ interface RequestInterface extends PopulatorTraitInterface, ResponseTraitInterfa
      * AbstractRequest constructor.
      * @param ResponseInterface $response
      * @param DtoInterface $dto
-     * @param PopulatorInterface $populator
      */
-    public function init(ResponseInterface $response, DtoInterface $dto, PopulatorInterface $populator);
+    public function init(ResponseInterface $response, DtoInterface $dto);
 
     /**
      * @param Request $request

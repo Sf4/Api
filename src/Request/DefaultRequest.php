@@ -8,10 +8,7 @@
 
 namespace Sf4\Api\Request;
 
-use Sf4\Api\Dto\EmptyDto;
 use Sf4\Api\Response\DefaultResponse;
-use Sf4\Populator\Populator;
-use Sf4\Populator\PopulatorInterface;
 
 class DefaultRequest extends AbstractRequest
 {
@@ -19,9 +16,8 @@ class DefaultRequest extends AbstractRequest
 
     public function __construct()
     {
-        $response = new DefaultResponse();
-        $dto = new EmptyDto();
-        $populator = new Populator();
-        $this->init($response, $dto, $populator);
+        $this->init(
+            new DefaultResponse()
+        );
     }
 }
