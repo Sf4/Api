@@ -42,7 +42,7 @@ interface ResponseInterface extends DtoTraitInterface, RequestTraitInterface
     /**
      * @param int $status
      */
-    public function setStatus(int $status): void;
+    public function setStatus($status): void;
 
     /**
      * @return array

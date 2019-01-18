@@ -89,7 +89,7 @@ abstract class AbstractResponse implements ResponseInterface
     /**
      * @param int $status
      */
-    public function setStatus(int $status): void
+    public function setStatus($status): void
     {
         $this->status = $status;
     }
