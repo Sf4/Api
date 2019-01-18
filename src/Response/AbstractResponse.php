@@ -9,12 +9,14 @@
 namespace Sf4\Api\Response;
 
 use Sf4\Api\Dto\DtoTrait;
+use Sf4\Api\Request\RequestTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 abstract class AbstractResponse implements ResponseInterface
 {
 
     use DtoTrait;
+    use RequestTrait;
 
     /** @var array $data */
     protected $data;

@@ -8,13 +8,10 @@
 
 namespace Sf4\Api\Response;
 
-use Sf4\Api\Request\RequestTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class OptionsResponse extends AbstractResponse
 {
-
-    use RequestTrait;
 
     /**
      * @return JsonResponse

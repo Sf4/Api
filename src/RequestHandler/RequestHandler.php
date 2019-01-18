@@ -70,10 +70,10 @@ class RequestHandler implements RequestHandlerInterface
      */
     protected function handleNormalRequest(Request $request)
     {
-        $availableRoutes = $this->getAvailableRoutes();
+        $routes = $this->getAvailableRoutes();
         $route = $request->attributes->get('_route');
-        if (array_key_exists($route, $availableRoutes)) {
-            $requestClassName = $availableRoutes[$route];
+        if (array_key_exists($route, $routes)) {
+            $requestClassName = $routes[$route];
             $this->handleRequestClass($request, $requestClassName);
         }
     }
