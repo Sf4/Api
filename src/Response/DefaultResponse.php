@@ -10,11 +10,10 @@ namespace Sf4\Api\Response;
 
 class DefaultResponse extends AbstractResponse
 {
-    public function __construct()
+    public function init()
     {
-        parent::__construct();
         $this->setData([
-            'message' => 'Test'
+            'message' => 'Default'
         ]);
     }
 }
