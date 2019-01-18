@@ -11,14 +11,12 @@ namespace Sf4\Api\RequestHandler;
 use Sf4\Api\Request\OptionsRequest;
 use Sf4\Api\Request\RequestInterface;
 use Sf4\Api\Request\RequestTrait;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class RequestHandler implements RequestHandlerInterface
 {
 
-    use ContainerAwareTrait;
     use RequestTrait;
 
     /** @var array $availableRoutes */
@@ -56,7 +54,7 @@ class RequestHandler implements RequestHandlerInterface
     protected function createRequestClass(string $requestClassName)
     {
         /** @var RequestInterface $request */
-        $request = $this->container->get($requestClassName);
+        $request = new $requestClassName();
 
         if ($request instanceof RequestInterface) {
             $this->setRequest($request);

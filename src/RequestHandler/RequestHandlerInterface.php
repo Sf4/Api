@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-interface RequestHandlerInterface extends ContainerAwareInterface
+interface RequestHandlerInterface
 {
 
     /**

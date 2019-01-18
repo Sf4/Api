@@ -4,8 +4,6 @@ namespace Sf4\Api\EventSubscriber;
 
 use Sf4\Api\RequestHandler\RequestHandlerInterface;
 use Sf4\Api\RequestHandler\RequestHandlerTrait;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -16,7 +14,6 @@ class RequestSubscriber implements EventSubscriberInterface
 {
 
     use RequestHandlerTrait;
-    use ContainerAwareTrait;
 
     /** @var RequestHandlerInterface $requestHandler */
     protected $requestHandler;
@@ -24,13 +21,10 @@ class RequestSubscriber implements EventSubscriberInterface
     /**
      * RequestSubscriber constructor.
      * @param RequestHandlerInterface $requestHandler
-     * @param ContainerInterface $container
      */
-    public function __construct(RequestHandlerInterface $requestHandler, ContainerInterface $container)
+    public function __construct(RequestHandlerInterface $requestHandler)
     {
-        $requestHandler->setContainer($container);
         $this->setRequestHandler($requestHandler);
-        $this->setContainer($container);
     }
 
     /**

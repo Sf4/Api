@@ -38,30 +38,14 @@ services:
 
 #   ...
 
-    Sf4\Populator\PopulatorInterface:
-        class: Sf4\Populator\Populator
-    Sf4\Api\Dto\EmptyDto:
-        class: Sf4\Api\Dto\EmptyDto
-        public: true
-    Sf4\Api\Response\DefaultResponse:
-        class: Sf4\Api\Response\DefaultResponse
-        public: true
-    Sf4\Api\Request\DefaultRequest:
-        class: Sf4\Api\Request\DefaultRequest
-        public: true
     Sf4\Api\EventSubscriber\RequestSubscriber: ~
-    Sf4\Api\RequestHandler\RequestHandler:
+    Sf4\Api\RequestHandler\RequestHandlerInterface:
         class: Sf4\Api\RequestHandler\RequestHandler
         calls:
-            - method: setAvailableRoutes
-              arguments:
+              - method: setAvailableRoutes
+                arguments:
                   - api_default: 'Sf4\Api\Request\DefaultRequest'
-    Sf4\Api\RequestHandler\RequestHandlerInterface: '@Sf4\Api\RequestHandler\RequestHandler'
 ```
-
-## Change log
-
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## Testing
 
