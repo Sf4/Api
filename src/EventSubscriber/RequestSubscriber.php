@@ -1,6 +1,6 @@
 <?php
 
-namespace Sf4\EventSubscriber;
+namespace Sf4\Api\EventSubscriber;
 
 use Sf4\Api\RequestHandler\RequestHandlerInterface;
 use Sf4\Api\RequestHandler\RequestHandlerTrait;
