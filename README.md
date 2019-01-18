@@ -32,9 +32,15 @@ $ composer require Sf4/Api
 
 ## Usage
 
-``` php
-$skeleton = new Sf4\Api();
-echo $skeleton->echoPhrase('Hello, League!');
+config/services.yaml
+``` yaml
+services:
+
+#   ...
+
+    Sf4\Api\EventSubscriber\RequestSubscriber: ~
+    Sf4\Api\RequestHandler\RequestHandler: ~
+    Sf4\Api\RequestHandler\RequestHandlerInterface: '@Sf4\Api\RequestHandler\RequestHandler'
 ```
 
 ## Change log
