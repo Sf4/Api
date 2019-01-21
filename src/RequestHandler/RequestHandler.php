@@ -8,6 +8,7 @@
 
 namespace Sf4\Api\RequestHandler;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Sf4\Api\Request\OptionsRequest;
 use Sf4\Api\Request\RequestInterface;
 use Sf4\Api\Request\RequestTrait;
@@ -21,6 +22,9 @@ class RequestHandler implements RequestHandlerInterface
 
     /** @var array $availableRoutes */
     protected $availableRoutes = [];
+
+    /** @var EntityManagerInterface $entityManager */
+    protected $entityManager;
 
     /**
      * @param Request $request
@@ -133,5 +137,21 @@ class RequestHandler implements RequestHandlerInterface
         }
 
         return null;
+    }
+
+    /**
+     * @return EntityManagerInterface
+     */
+    public function getEntityManager(): EntityManagerInterface
+    {
+        return $this->entityManager;
+    }
+
+    /**
+     * @param EntityManagerInterface $entityManager
+     */
+    public function setEntityManager(EntityManagerInterface $entityManager): void
+    {
+        $this->entityManager = $entityManager;
     }
 }
