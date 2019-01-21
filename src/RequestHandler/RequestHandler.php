@@ -14,7 +14,6 @@ use Sf4\Api\Request\RequestInterface;
 use Sf4\Api\Request\RequestTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Sf4\ApiUser\Request\DetailRequest;
 
 class RequestHandler implements RequestHandlerInterface
 {
