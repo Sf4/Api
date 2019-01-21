@@ -42,9 +42,12 @@ services:
     Sf4\Api\RequestHandler\RequestHandlerInterface:
         class: Sf4\Api\RequestHandler\RequestHandler
         calls:
-              - method: setAvailableRoutes
+            -   method: setEntityManager
                 arguments:
-                  - api_default: 'Sf4\Api\Request\DefaultRequest'
+                    -   '@Doctrine\ORM\EntityManagerInterface'
+            -   method: setAvailableRoutes
+                arguments:
+                    -   api_default: 'Sf4\Api\Request\DefaultRequest'
 ```
 
 ## Testing
