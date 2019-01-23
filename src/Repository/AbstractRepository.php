@@ -8,11 +8,12 @@
 
 namespace Sf4\Api\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Statement;
+use Doctrine\ORM\EntityRepository;
+use Sf4\Api\Exception\InvalidObjectTypeException;
 
-abstract class AbstractRepository extends ServiceEntityRepository
+abstract class AbstractRepository extends EntityRepository
 {
     const TABLE_NAME = null;
 
@@ -93,7 +94,7 @@ abstract class AbstractRepository extends ServiceEntityRepository
     protected function throwExceptionWhenDbNameIsNull()
     {
         if (static::TABLE_NAME === null) {
-            throw new \Exception('Invalid repository');
+            throw new InvalidObjectTypeException('Invalid repository');
         }
     }
 
