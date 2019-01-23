@@ -14,7 +14,7 @@ use Doctrine\DBAL\Driver\Statement;
 
 abstract class AbstractRepository extends ServiceEntityRepository
 {
-    const DB_NAME = null;
+    const TABLE_NAME = null;
 
     /**
      * @param $id
@@ -26,7 +26,7 @@ abstract class AbstractRepository extends ServiceEntityRepository
         $this->throwExceptionWhenDbNameIsNull();
 
         return $this->findOneOrNullData(
-            'SELECT * FROM ' . static::DB_NAME . ' WHERE id = ?',
+            'SELECT * FROM ' . static::TABLE_NAME . ' WHERE id = ?',
             [
                 $id
             ]
@@ -92,7 +92,7 @@ abstract class AbstractRepository extends ServiceEntityRepository
      */
     protected function throwExceptionWhenDbNameIsNull()
     {
-        if (static::DB_NAME === null) {
+        if (static::TABLE_NAME === null) {
             throw new \Exception('Invalid repository');
         }
     }
