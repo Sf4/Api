@@ -9,6 +9,7 @@
 namespace Sf4\Api\Response;
 
 use Sf4\Api\Dto\DtoTrait;
+use Sf4\Api\Repository\AbstractRepository;
 use Sf4\Api\Request\RequestTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -110,5 +111,26 @@ abstract class AbstractResponse implements ResponseInterface
     public function setResponseHeaders(array $responseHeaders): void
     {
         $this->responseHeaders = $responseHeaders;
+    }
+
+    /**
+     * @param string $entityClass
+     * @return AbstractRepository|null
+     */
+    public function getRepository(string $entityClass): ?AbstractRepository
+    {
+        $request = $this->getRequest();
+        if(!$request) {
+            return null;
+        }
+        $requestHandler = $request->getRequestHandler();
+        $manager = $requestHandler->getEntityManager();
+
+        $repository = $manager->getRepository($entityClass);
+        if($repository instanceof AbstractRepository) {
+            return $repository;
+        }
+
+        return null;
     }
 }

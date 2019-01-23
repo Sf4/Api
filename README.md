@@ -75,7 +75,6 @@ If you discover any security related issues, please email siim.liimand@gmail.com
 ## Credits
 
 - [Siim Liimand][link-author]
-- [All Contributors][link-contributors]
 
 ## License
 
@@ -94,4 +93,3 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [link-code-quality]: https://scrutinizer-ci.com/g/Sf4/Api
 [link-downloads]: https://packagist.org/packages/Sf4/Api
 [link-author]: https://github.com/siimliimand
-[link-contributors]: ../../contributors

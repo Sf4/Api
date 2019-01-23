@@ -8,6 +8,7 @@
 
 namespace Sf4\Api\RequestHandler;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,4 +24,14 @@ interface RequestHandlerInterface
      * @return JsonResponse|null
      */
     public function getResponse(): ?JsonResponse;
+
+    /**
+     * @return EntityManagerInterface
+     */
+    public function getEntityManager(): EntityManagerInterface;
+
+    /**
+     * @param EntityManagerInterface $entityManager
+     */
+    public function setEntityManager(EntityManagerInterface $entityManager): void;
 }
