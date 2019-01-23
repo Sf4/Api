@@ -18,14 +18,14 @@ abstract class AbstractResponse implements ResponseInterface
     use DtoTrait;
     use RequestTrait;
 
-    /** @var array $data */
-    protected $data;
+    /** @var array $responseData */
+    protected $responseData;
 
-    /** @var int $status */
-    protected $status;
+    /** @var int $responseStatus */
+    protected $responseStatus;
 
-    /** @var array $headers */
-    protected $headers;
+    /** @var array $responseHeaders */
+    protected $responseHeaders;
 
     public function __construct()
     {
@@ -39,9 +39,9 @@ abstract class AbstractResponse implements ResponseInterface
      */
     protected function createJsonResponse(array $data, int $status = 200, array $headers = self::HEADERS)
     {
-        $this->setData($data);
-        $this->setStatus($status);
-        $this->setHeaders($headers);
+        $this->setResponseData($data);
+        $this->setResponseStatus($status);
+        $this->setResponseHeaders($headers);
     }
 
     public abstract function init();
@@ -52,9 +52,9 @@ abstract class AbstractResponse implements ResponseInterface
     public function getJsonResponse(): JsonResponse
     {
         $response = new JsonResponse(
-            $this->getData(),
-            $this->getStatus(),
-            $this->getHeaders()
+            $this->getResponseData(),
+            $this->getResponseStatus(),
+            $this->getResponseHeaders()
         );
         $request = $this->getRequest()->getRequest();
         $response->headers->set(
@@ -67,48 +67,48 @@ abstract class AbstractResponse implements ResponseInterface
     /**
      * @return array
      */
-    public function getData(): array
+    public function getResponseData(): array
     {
-        return $this->data;
+        return $this->responseData;
     }
 
     /**
-     * @param array $data
+     * @param array $responseData
      */
-    public function setData(array $data): void
+    public function setResponseData(array $responseData): void
     {
-        $this->data = $data;
+        $this->responseData = $responseData;
     }
 
     /**
      * @return int
      */
-    public function getStatus(): int
+    public function getResponseStatus(): int
     {
-        return $this->status;
+        return $this->responseStatus;
     }
 
     /**
-     * @param int $status
+     * @param int $responseStatus
      */
-    public function setStatus($status): void
+    public function setResponseStatus($responseStatus): void
     {
-        $this->status = $status;
+        $this->responseStatus = $responseStatus;
     }
 
     /**
      * @return array
      */
-    public function getHeaders(): array
+    public function getResponseHeaders(): array
     {
-        return $this->headers;
+        return $this->responseHeaders;
     }
 
     /**
-     * @param array $headers
+     * @param array $responseHeaders
      */
-    public function setHeaders(array $headers): void
+    public function setResponseHeaders(array $responseHeaders): void
     {
-        $this->headers = $headers;
+        $this->responseHeaders = $responseHeaders;
     }
 }

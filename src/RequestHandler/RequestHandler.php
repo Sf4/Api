@@ -116,7 +116,7 @@ class RequestHandler implements RequestHandlerInterface
         if ($request) {
             $response = $request->getResponse();
             if ($response) {
-                $response->setData([
+                $response->setResponseData([
                     'error' => $exception->getMessage()
                 ]);
             }

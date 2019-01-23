@@ -12,7 +12,7 @@ class DefaultResponse extends AbstractResponse
 {
     public function init()
     {
-        $this->setData([
+        $this->setResponseData([
             'message' => 'Default'
         ]);
     }

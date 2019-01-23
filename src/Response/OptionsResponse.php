@@ -13,7 +13,7 @@ class OptionsResponse extends AbstractResponse
     public function init()
     {
         $request = $this->getRequest();
-        $headers = $this->getHeaders();
+        $headers = $this->getResponseHeaders();
         if ($request) {
             $httpRequest = $request->getRequest();
             $requestHeaders = $httpRequest->headers;
@@ -25,6 +25,6 @@ class OptionsResponse extends AbstractResponse
                 $headers['Access-Control-Allow-Methods'] = $requestHeaders->get('Access-Control-Request-Method');
             }
         }
-        $this->setHeaders($headers);
+        $this->setResponseHeaders($headers);
     }
 }

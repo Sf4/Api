@@ -27,32 +27,32 @@ interface ResponseInterface extends DtoTraitInterface, RequestTraitInterface
     /**
      * @return array
      */
-    public function getData(): array;
+    public function getResponseData(): array;
 
     /**
      * @param array $data
      */
-    public function setData(array $data): void;
+    public function setResponseData(array $data): void;
 
     /**
      * @return int
      */
-    public function getStatus(): int;
+    public function getResponseStatus(): int;
 
     /**
      * @param int $status
      */
-    public function setStatus($status): void;
+    public function setResponseStatus($status): void;
 
     /**
      * @return array
      */
-    public function getHeaders(): array;
+    public function getResponseHeaders(): array;
 
     /**
      * @param array $headers
      */
-    public function setHeaders(array $headers): void;
+    public function setResponseHeaders(array $headers): void;
 
     public function init();
 }

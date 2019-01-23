@@ -32,6 +32,14 @@ $ composer require Sf4/Api
 
 ## Usage
 
+config/routes.yaml
+``` yaml
+api_default:
+    path: /
+    methods: [GET, OPTIONS]
+    
+```
+
 config/services.yaml
 ``` yaml
 services:
