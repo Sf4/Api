@@ -11,6 +11,7 @@ namespace Sf4\Api\Response;
 use Sf4\Api\Dto\DtoInterface;
 use Sf4\Api\Dto\DtoTrait;
 use Sf4\Api\Dto\EmptyDto;
+use Sf4\Api\Dto\ErrorDto;
 use Sf4\Api\Repository\AbstractRepository;
 use Sf4\Api\Request\RequestTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -65,6 +66,22 @@ abstract class AbstractResponse implements ResponseInterface
             $request->headers->get('Origin')
         );
         return $response;
+    }
+
+    /**
+     * @param DtoInterface $dto
+     * @param array $data
+     */
+    protected function populateDto(DtoInterface $dto, array $data)
+    {
+        if($data) {
+            try {
+                $dto->populate($data);
+            } catch (\ReflectionException $e) {
+                $dto = new ErrorDto();
+                $dto->error = $e->getMessage();
+            }
+        }
     }
 
     /**
