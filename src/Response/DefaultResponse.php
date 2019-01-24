@@ -8,12 +8,14 @@
 
 namespace Sf4\Api\Response;
 
+use Sf4\Api\Dto\MessageDto;
+
 class DefaultResponse extends AbstractResponse
 {
     public function init()
     {
-        $this->setResponseData([
-            'message' => 'Default'
-        ]);
+        $messageDto = new MessageDto();
+        $messageDto->message = 'Default view';
+        $this->setResponseDto($messageDto);
     }
 }

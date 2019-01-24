@@ -8,7 +8,9 @@
 
 namespace Sf4\Api\Response;
 
+use Sf4\Api\Dto\DtoInterface;
 use Sf4\Api\Dto\DtoTrait;
+use Sf4\Api\Dto\EmptyDto;
 use Sf4\Api\Repository\AbstractRepository;
 use Sf4\Api\Request\RequestTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,8 +21,8 @@ abstract class AbstractResponse implements ResponseInterface
     use DtoTrait;
     use RequestTrait;
 
-    /** @var array $responseData */
-    protected $responseData;
+    /** @var DtoInterface $responseDto */
+    protected $responseDto;
 
     /** @var int $responseStatus */
     protected $responseStatus;
@@ -30,17 +32,17 @@ abstract class AbstractResponse implements ResponseInterface
 
     public function __construct()
     {
-        $this->createJsonResponse([], 200, static::HEADERS);
+        $this->createJsonResponse(new EmptyDto(), 200, static::HEADERS);
     }
 
     /**
-     * @param array $data
+     * @param DtoInterface $data
      * @param int $status
      * @param array $headers
      */
-    protected function createJsonResponse(array $data, int $status = 200, array $headers = self::HEADERS)
+    protected function createJsonResponse(DtoInterface $data, int $status = 200, array $headers = self::HEADERS)
     {
-        $this->setResponseData($data);
+        $this->setResponseDto($data);
         $this->setResponseStatus($status);
         $this->setResponseHeaders($headers);
     }
@@ -53,7 +55,7 @@ abstract class AbstractResponse implements ResponseInterface
     public function getJsonResponse(): JsonResponse
     {
         $response = new JsonResponse(
-            $this->getResponseData(),
+            $this->getResponseDto(),
             $this->getResponseStatus(),
             $this->getResponseHeaders()
         );
@@ -66,19 +68,19 @@ abstract class AbstractResponse implements ResponseInterface
     }
 
     /**
-     * @return array
+     * @return DtoInterface
      */
-    public function getResponseData(): array
+    public function getResponseDto(): DtoInterface
     {
-        return $this->responseData;
+        return $this->responseDto;
     }
 
     /**
-     * @param array $responseData
+     * @param DtoInterface $responseDto
      */
-    public function setResponseData(array $responseData): void
+    public function setResponseDto(DtoInterface $responseDto): void
     {
-        $this->responseData = $responseData;
+        $this->responseDto = $responseDto;
     }
 
     /**
