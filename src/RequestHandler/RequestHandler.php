@@ -9,6 +9,7 @@
 namespace Sf4\Api\RequestHandler;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Sf4\Api\Dto\ErrorDto;
 use Sf4\Api\Request\OptionsRequest;
 use Sf4\Api\Request\RequestInterface;
 use Sf4\Api\Request\RequestTrait;
@@ -116,9 +117,9 @@ class RequestHandler implements RequestHandlerInterface
         if ($request) {
             $response = $request->getResponse();
             if ($response) {
-                $response->setResponseDto([
-                    'error' => $exception->getMessage()
-                ]);
+                $errorDto = new ErrorDto();
+                $errorDto->error = $exception->getMessage();
+                $response->setResponseDto($errorDto);
             }
         }
     }
