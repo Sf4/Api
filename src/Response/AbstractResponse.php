@@ -56,7 +56,7 @@ abstract class AbstractResponse implements ResponseInterface
     public function getJsonResponse(): JsonResponse
     {
         $response = new JsonResponse(
-            $this->getResponseDto(),
+            $this->getResponseDto()->toArray(),
             $this->getResponseStatus(),
             $this->getResponseHeaders()
         );
