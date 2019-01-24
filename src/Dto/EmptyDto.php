@@ -8,7 +8,7 @@
 
 namespace Sf4\Api\Dto;
 
-class EmptyDto implements DtoInterface
+class EmptyDto extends AbstractDto
 {
 
 }

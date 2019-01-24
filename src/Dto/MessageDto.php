@@ -8,7 +8,7 @@
 
 namespace Sf4\Api\Dto;
 
-class MessageDto implements DtoInterface
+class MessageDto extends AbstractDto
 {
     public $message;
 }

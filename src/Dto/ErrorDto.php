@@ -8,7 +8,7 @@
 
 namespace Sf4\Api\Dto;
 
-class ErrorDto implements DtoInterface
+class ErrorDto extends AbstractDto
 {
     public $error;
 }
