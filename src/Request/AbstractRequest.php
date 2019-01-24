@@ -13,8 +13,6 @@ use Sf4\Api\Dto\DtoTrait;
 use Sf4\Api\RequestHandler\RequestHandlerTrait;
 use Sf4\Api\Response\ResponseInterface;
 use Sf4\Api\Response\ResponseTrait;
-use Sf4\Populator\Populator;
-use Sf4\Populator\Traits\PopulatorTrait;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractRequest implements RequestInterface
@@ -22,7 +20,6 @@ abstract class AbstractRequest implements RequestInterface
 
     use ResponseTrait;
     use DtoTrait;
-    use PopulatorTrait;
     use RequestHandlerTrait;
 
     /** @var Request|null $request */
@@ -40,9 +37,6 @@ abstract class AbstractRequest implements RequestInterface
         if ($dto) {
             $this->setDto($dto);
             $this->attachDtoToResponse();
-            $this->setPopulator(
-                new Populator()
-            );
         }
     }
 
@@ -66,7 +60,7 @@ abstract class AbstractRequest implements RequestInterface
         $requestContent = $request->getContent();
         if ($requestContent) {
             $data = json_decode($requestContent);
-            $this->getPopulator()->populate($data, $this->getDto());
+            $this->getDto()->populate($data);
         }
     }
 
