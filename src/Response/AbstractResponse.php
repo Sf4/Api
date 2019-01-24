@@ -70,9 +70,9 @@ abstract class AbstractResponse implements ResponseInterface
 
     /**
      * @param DtoInterface $dto
-     * @param array $data
+     * @param array $data|null
      */
-    protected function populateDto(DtoInterface $dto, array $data)
+    protected function populateDto(DtoInterface $dto, ?array $data)
     {
         if($data) {
             try {
