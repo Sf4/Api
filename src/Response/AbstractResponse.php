@@ -9,6 +9,7 @@
 namespace Sf4\Api\Response;
 
 use Sf4\Api\Dto\DtoInterface;
+use Sf4\Api\Dto\DtoPopulator;
 use Sf4\Api\Dto\DtoTrait;
 use Sf4\Api\Dto\EmptyDto;
 use Sf4\Api\Repository\AbstractRepository;
@@ -65,6 +66,12 @@ abstract class AbstractResponse implements ResponseInterface
             $request->headers->get('Origin')
         );
         return $response;
+    }
+
+    protected function populateDto(DtoInterface $dto, array $data)
+    {
+        $dtoPopulator = new DtoPopulator();
+        $dtoPopulator->populate($dto, $data);
     }
 
     /**
