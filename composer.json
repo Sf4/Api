@@ -20,6 +20,7 @@
         "php": "~7.1",
         "ext-json": "*",
         "ramsey/uuid-doctrine": "^1.5",
+        "sf4/api-user": "^1.0",
         "sf4/populator": "^1.1",
         "symfony/framework-bundle": "^4.2",
         "symfony/orm-pack": "^1.0"

@@ -8,6 +8,8 @@
 
 namespace Sf4\Api\Entity\Traits;
 
+use Sf4\ApiUser\Entity\User;
+
 trait TimestampableTrait
 {
 
@@ -17,7 +19,7 @@ trait TimestampableTrait
     private $created_at;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Sf4\ApiUser\Entity\User")
      */
     private $created_by;
 
@@ -27,7 +29,7 @@ trait TimestampableTrait
     private $updated_at;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Sf4\ApiUser\Entity\User")
      */
     private $updated_by;
 
@@ -37,7 +39,7 @@ trait TimestampableTrait
     private $deleted_at;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Sf4\ApiUser\Entity\User")
      */
     private $deleted_by;
 
@@ -58,7 +60,7 @@ trait TimestampableTrait
         return $this->created_by;
     }
 
-    public function setCreatedBy(?self $created_by): self
+    public function setCreatedBy(?User $created_by): self
     {
         $this->created_by = $created_by;
 
@@ -82,7 +84,7 @@ trait TimestampableTrait
         return $this->updated_by;
     }
 
-    public function setUpdatedBy(?self $updated_by): self
+    public function setUpdatedBy(?User $updated_by): self
     {
         $this->updated_by = $updated_by;
 
@@ -106,7 +108,7 @@ trait TimestampableTrait
         return $this->deleted_by;
     }
 
-    public function setDeletedBy(?self $deleted_by): self
+    public function setDeletedBy(?User $deleted_by): self
     {
         $this->deleted_by = $deleted_by;
 
