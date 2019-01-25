@@ -10,22 +10,22 @@ namespace Sf4\Api\Dto;
 
 abstract class AbstractListDto extends AbstractDto
 {
-    /** @var array $list */
-    protected $list;
+    /** @var array $items */
+    protected $items;
 
     /**
      * @return array
      */
-    public function getList(): array
+    public function getItems(): array
     {
-        return $this->list;
+        return $this->items;
     }
 
     /**
-     * @param array $list
+     * @param array $items
      */
-    public function setList(array $list): void
+    public function setItems(array $items): void
     {
-        $this->list = $list;
+        $this->items = $items;
     }
 }
