@@ -13,7 +13,7 @@ use Sf4\Populator\Populator;
 abstract class AbstractDto implements DtoInterface
 {
 
-    protected $populator;
+    private $populator;
 
     public function __construct()
     {
