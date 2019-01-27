@@ -47,7 +47,7 @@ abstract class AbstractListDto extends AbstractDto
         $data['items'] = [];
         foreach($this->items as $item) {
             if($item instanceof DtoInterface) {
-                $data['items'] = $item->toArray();
+                $data['items'][] = $item->toArray();
             }
         }
         return $data;
