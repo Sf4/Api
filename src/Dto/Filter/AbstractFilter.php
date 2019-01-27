@@ -10,7 +10,7 @@ namespace Sf4\Api\Dto\Filter;
 
 use Sf4\Api\Dto\AbstractDto;
 
-abstract class AbstractFilter extends AbstractDto
+abstract class AbstractFilter extends AbstractDto implements FilterInterface
 {
 
 }
