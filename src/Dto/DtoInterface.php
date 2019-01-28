@@ -5,7 +5,7 @@ namespace Sf4\Api\Dto;
 interface DtoInterface
 {
     /**
-     * @param array $data
+     * @param array|object|null $data
      * @throws \ReflectionException
      */
     public function populate(array $data): void;

@@ -21,12 +21,14 @@ abstract class AbstractDto implements DtoInterface
     }
 
     /**
-     * @param array $data
+     * @param array|object|null $data
      * @throws \ReflectionException
      */
     public function populate(array $data): void
     {
-        $this->getPopulator()->populate($data, $this);
+        if($data) {
+            $this->getPopulator()->populate($data, $this);
+        }
     }
 
     /**
