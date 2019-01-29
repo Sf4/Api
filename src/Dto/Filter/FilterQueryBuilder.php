@@ -17,9 +17,9 @@ class FilterQueryBuilder
      * @param FilterItemInterface $filterItem
      * @param string $fieldName
      */
-    public static function buildQuery(QueryBuilder $queryBuilder, FilterItemInterface $filterItem, string $fieldName)
+    public static function buildQuery(QueryBuilder $queryBuilder, ?FilterItemInterface $filterItem, string $fieldName)
     {
-        if(empty($filterItem->getValue())) {
+        if(!$filterItem || empty($filterItem->getValue())) {
             return ;
         }
         switch ($filterItem->getType()) {

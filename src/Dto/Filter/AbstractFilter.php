@@ -12,6 +12,10 @@ use Sf4\Api\Dto\AbstractDto;
 
 abstract class AbstractFilter extends AbstractDto implements FilterInterface
 {
+    /**
+     * @param array $data
+     * @throws \ReflectionException
+     */
     public function populate(array $data): void
     {
         $newData = [];
@@ -24,5 +28,23 @@ abstract class AbstractFilter extends AbstractDto implements FilterInterface
             }
         }
         parent::populate($newData);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $data = parent::toArray();
+        foreach($data as $key => $filterItem) {
+            if($filterItem instanceof FilterItemInterface) {
+                $data[$key] = [
+                    'type' => $filterItem->getType(),
+                    'value' => $filterItem->getValue()
+                ];
+            }
+        }
+
+        return $data;
     }
 }
