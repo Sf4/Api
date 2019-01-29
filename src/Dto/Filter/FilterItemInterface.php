@@ -12,6 +12,7 @@ interface FilterItemInterface
 {
     const TYPE_LIKE = 'like';
     const TYPE_EQUAL = 'equal';
+    const TYPE_NOT_EQUAL = 'not_equal';
     const TYPE_IN = 'in';
     const TYPE_NOT_IN = 'not_in';
     const TYPE_IS_NULL = 'is_null';
