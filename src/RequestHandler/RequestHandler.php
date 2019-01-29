@@ -9,7 +9,7 @@
 namespace Sf4\Api\RequestHandler;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Sf4\Api\Dto\ErrorDto;
+use Sf4\Api\Dto\Response\ErrorDto;
 use Sf4\Api\Request\OptionsRequest;
 use Sf4\Api\Request\RequestInterface;
 use Sf4\Api\Request\RequestTrait;

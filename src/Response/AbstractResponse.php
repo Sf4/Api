@@ -9,9 +9,9 @@
 namespace Sf4\Api\Response;
 
 use Sf4\Api\Dto\DtoInterface;
-use Sf4\Api\Dto\DtoTrait;
-use Sf4\Api\Dto\EmptyDto;
-use Sf4\Api\Dto\ErrorDto;
+use Sf4\Api\Dto\Traits\DtoTrait;
+use Sf4\Api\Dto\Response\EmptyDto;
+use Sf4\Api\Dto\Response\ErrorDto;
 use Sf4\Api\Repository\AbstractRepository;
 use Sf4\Api\Request\RequestTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;

@@ -8,7 +8,7 @@
 
 namespace Sf4\Api\Response;
 
-use Sf4\Api\Dto\MessageDto;
+use Sf4\Api\Dto\Response\MessageDto;
 
 class DefaultResponse extends AbstractResponse
 {

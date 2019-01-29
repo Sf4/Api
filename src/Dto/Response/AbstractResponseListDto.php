@@ -2,18 +2,18 @@
 /**
  * Created by PhpStorm.
  * User: siim
- * Date: 25.01.19
- * Time: 10:01
+ * Date: 29.01.19
+ * Time: 9:36
  */
 
-namespace Sf4\Api\Dto;
+namespace Sf4\Api\Dto\Response;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Sf4\Api\Dto\DtoInterface;
 use Sf4\Api\Dto\Traits\PaginationTrait;
 
-abstract class AbstractListDto extends AbstractDto
+abstract class AbstractResponseListDto extends AbstractResponseDto
 {
-
     use PaginationTrait;
 
     /** @var ArrayCollection $items */
@@ -36,11 +36,17 @@ abstract class AbstractListDto extends AbstractDto
 
     public abstract function getListItemClass(): string;
 
+    /**
+     * @param DtoInterface $dto
+     */
     public function addItem(DtoInterface $dto)
     {
         $this->items->add($dto);
     }
 
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         $data = parent::toArray();
@@ -53,6 +59,10 @@ abstract class AbstractListDto extends AbstractDto
         return $data;
     }
 
+    /**
+     * @param array $data
+     * @throws \ReflectionException
+     */
     public function populate(array $data): void
     {
         $listItemClass = $this->getListItemClass();

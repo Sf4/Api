@@ -3,7 +3,7 @@
 namespace Sf4\Api\Request;
 
 use Sf4\Api\Dto\DtoInterface;
-use Sf4\Api\Dto\DtoTraitInterface;
+use Sf4\Api\Dto\Traits\DtoTraitInterface;
 use Sf4\Api\RequestHandler\RequestHandlerTraitInterface;
 use Sf4\Api\Response\ResponseInterface;
 use Sf4\Api\Response\ResponseTraitInterface;

@@ -9,7 +9,7 @@
 namespace Sf4\Api\Request;
 
 use Sf4\Api\Dto\DtoInterface;
-use Sf4\Api\Dto\DtoTrait;
+use Sf4\Api\Dto\Traits\DtoTrait;
 use Sf4\Api\RequestHandler\RequestHandlerTrait;
 use Sf4\Api\Response\ResponseInterface;
 use Sf4\Api\Response\ResponseTrait;

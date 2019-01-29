@@ -6,9 +6,9 @@
  * Time: 9:47
  */
 
-namespace Sf4\Api\Dto;
+namespace Sf4\Api\Dto\Response;
 
-class EmptyDto extends AbstractDto
+class EmptyDto extends AbstractResponseDto
 {
 
 }

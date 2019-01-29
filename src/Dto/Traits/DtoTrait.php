@@ -6,7 +6,9 @@
  * Time: 8:18
  */
 
-namespace Sf4\Api\Dto;
+namespace Sf4\Api\Dto\Traits;
+
+use Sf4\Api\Dto\DtoInterface;
 
 trait DtoTrait
 {

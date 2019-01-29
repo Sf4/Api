@@ -9,7 +9,7 @@
 namespace Sf4\Api\Response;
 
 use Sf4\Api\Dto\DtoInterface;
-use Sf4\Api\Dto\DtoTraitInterface;
+use Sf4\Api\Dto\Traits\DtoTraitInterface;
 use Sf4\Api\Request\RequestTraitInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 

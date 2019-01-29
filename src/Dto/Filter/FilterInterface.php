@@ -12,5 +12,14 @@ use Sf4\Api\Dto\DtoInterface;
 
 interface FilterInterface extends DtoInterface
 {
+    /**
+     * @param array|object|null $data
+     * @throws \ReflectionException
+     */
+    public function populate(array $data): void;
 
+    /**
+     * @return array
+     */
+    public function toArray(): array;
 }

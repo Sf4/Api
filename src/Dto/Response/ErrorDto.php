@@ -6,9 +6,9 @@
  * Time: 7:44
  */
 
-namespace Sf4\Api\Dto;
+namespace Sf4\Api\Dto\Response;
 
-class ErrorDto extends AbstractDto
+class ErrorDto extends AbstractResponseDto
 {
     public $error;
 }

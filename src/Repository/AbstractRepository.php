@@ -11,6 +11,7 @@ namespace Sf4\Api\Repository;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 use Sf4\Api\Exception\InvalidObjectTypeException;
 
 abstract class AbstractRepository extends EntityRepository
@@ -25,13 +26,17 @@ abstract class AbstractRepository extends EntityRepository
     public function findDataById($id): ?array
     {
         $this->throwExceptionWhenDbNameIsNull();
-
-        return $this->findOneOrNullData(
-            'SELECT * FROM ' . static::TABLE_NAME . ' WHERE id = ?',
-            [
-                $id
-            ]
+        $qb = $this->createQueryBuilder('main');
+        $qb->where(
+            $qb->expr()->eq('main.id', ':id')
         );
+        $qb->setParameter(':id', $id);
+
+        $results = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
+        if($results) {
+            return $results[0];
+        }
+        return null;
     }
 
     /**
