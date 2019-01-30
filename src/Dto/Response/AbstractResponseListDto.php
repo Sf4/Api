@@ -10,6 +10,7 @@ namespace Sf4\Api\Dto\Response;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Sf4\Api\Dto\DtoInterface;
+use Sf4\Api\Dto\Filter\FilterInterface;
 use Sf4\Api\Dto\Traits\PaginationTrait;
 
 abstract class AbstractResponseListDto extends AbstractResponseDto
@@ -25,8 +26,8 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
     /** @var int $count */
     protected $count = 0;
 
-    /** @var array $filter */
-    protected $filter = [];
+    /** @var FilterInterface $filter */
+    protected $filter = null;
 
     public function __construct()
     {
@@ -124,17 +125,17 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
     }
 
     /**
-     * @return array
+     * @return FilterInterface
      */
-    public function getFilter(): array
+    public function getFilter(): ?FilterInterface
     {
         return $this->filter;
     }
 
     /**
-     * @param array $filter
+     * @param FilterInterface $filter
      */
-    public function setFilter(array $filter): void
+    public function setFilter(FilterInterface $filter): void
     {
         $this->filter = $filter;
     }

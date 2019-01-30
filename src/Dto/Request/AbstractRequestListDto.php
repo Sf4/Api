@@ -50,11 +50,17 @@ abstract class AbstractRequestListDto extends AbstractRequestDto implements Requ
         ];
     }
 
+    protected abstract function getFilterClass(): string;
+
     /**
      * @return FilterInterface|null
      */
     public function getFilter(): ?FilterInterface
     {
+        if(!$this->filter) {
+            $class = $this->getFilterClass();
+            $this->filter = new $class();
+        }
         return $this->filter;
     }
 
