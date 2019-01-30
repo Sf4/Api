@@ -57,6 +57,17 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
                 $data['items'][] = $item->toArray();
             }
         }
+        $data['filter'] = $this->getFilterData();
+        return $data;
+    }
+
+    protected function getFilterData(): array
+    {
+        $data = [];
+        if($this->getFilter() instanceof FilterInterface) {
+            $data = $this->getFilter()->toArray();
+        }
+
         return $data;
     }
 
