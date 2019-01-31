@@ -11,39 +11,28 @@ namespace Sf4\Api\Dto\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sf4\Api\Dto\DtoInterface;
 use Sf4\Api\Dto\Filter\FilterInterface;
+use Sf4\Api\Dto\Order\OrderInterface;
+use Sf4\Api\Dto\Request\RequestListDtoInterface;
+use Sf4\Api\Dto\Traits\FilterTrait;
+use Sf4\Api\Dto\Traits\ItemsTrait;
+use Sf4\Api\Dto\Traits\OrdersTrait;
 use Sf4\Api\Dto\Traits\PaginationTrait;
 
 abstract class AbstractResponseListDto extends AbstractResponseDto
 {
+    use ItemsTrait;
     use PaginationTrait;
-
-    /** @var ArrayCollection $items */
-    protected $items;
-
-    /** @var int $total */
-    protected $total = 0;
-
-    /** @var int $count */
-    protected $count = 0;
-
-    /** @var FilterInterface $filter */
-    protected $filter = null;
+    use FilterTrait;
+    use OrdersTrait;
 
     public function __construct()
     {
         $this->items = new ArrayCollection();
+        $this->orders = new ArrayCollection();
         parent::__construct();
     }
 
     public abstract function getListItemClass(): string;
-
-    /**
-     * @param DtoInterface $dto
-     */
-    public function addItem(DtoInterface $dto)
-    {
-        $this->items->add($dto);
-    }
 
     /**
      * @return array
@@ -51,13 +40,20 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
     public function toArray(): array
     {
         $data = parent::toArray();
-        $data['items'] = [];
+        $data['items'] = $this->getItemsData();
+        $data[RequestListDtoInterface::FIELD_FILTER] = $this->getFilterData();
+        $data[RequestListDtoInterface::FIELD_SORT] = $this->getSortData();
+        return $data;
+    }
+
+    protected function getItemsData(): array
+    {
+        $data = [];
+        /** @var DtoInterface $item */
         foreach($this->items as $item) {
-            if($item instanceof DtoInterface) {
-                $data['items'][] = $item->toArray();
-            }
+            $data[] = $item->toArray();
         }
-        $data['filter'] = $this->getFilterData();
+
         return $data;
     }
 
@@ -66,6 +62,17 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
         $data = [];
         if($this->getFilter() instanceof FilterInterface) {
             $data = $this->getFilter()->toArray();
+        }
+
+        return $data;
+    }
+
+    protected function getSortData(): array
+    {
+        $data = [];
+        /** @var OrderInterface $order */
+        foreach($this->getOrders() as $order) {
+            $data[] = $order->toArray();
         }
 
         return $data;
@@ -101,53 +108,5 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
         if($this->getCurrentPage() > 1) {
             $this->setPreviousPage($this->getCurrentPage() - 1);
         }
-    }
-
-    /**
-     * @return int
-     */
-    public function getTotal(): int
-    {
-        return $this->total;
-    }
-
-    /**
-     * @param int $total
-     */
-    public function setTotal(int $total): void
-    {
-        $this->total = $total;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCount(): int
-    {
-        return $this->count;
-    }
-
-    /**
-     * @param int $count
-     */
-    public function setCount(int $count): void
-    {
-        $this->count = $count;
-    }
-
-    /**
-     * @return FilterInterface
-     */
-    public function getFilter(): ?FilterInterface
-    {
-        return $this->filter;
-    }
-
-    /**
-     * @param FilterInterface $filter
-     */
-    public function setFilter(FilterInterface $filter): void
-    {
-        $this->filter = $filter;
     }
 }

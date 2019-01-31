@@ -13,7 +13,7 @@ use Sf4\Api\Dto\Filter\FilterInterface;
 interface RequestListDtoInterface
 {
     const FIELD_FILTER = 'filter';
-    const FIELD_ORDER = 'order';
+    const FIELD_SORT = 'sort';
 
     /**
      * @return FilterInterface|null
