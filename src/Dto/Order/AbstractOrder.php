@@ -20,12 +20,39 @@ abstract class AbstractOrder implements OrderInterface
     /** @var string $field */
     protected $field;
 
+    public function populate(array $data)
+    {
+        if (isset($data[static::PROPERTY_DIRECTION]) && isset($data[static::PROPERTY_FIELD])) {
+            $this->setDirection($data[static::PROPERTY_DIRECTION]);
+            $this->setField($data[static::PROPERTY_FIELD]);
+        }
+    }
+
+    public function toArray(): array
+    {
+        return [
+            static::PROPERTY_DIRECTION => $this->getDirection(),
+            static::PROPERTY_FIELD => $this->getField()
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getDirection(): string
+    {
+        if (!$this->direction) {
+            $this->direction = static::DIRECTION_ASCENDING;
+        }
+        return $this->direction;
+    }
+
     /**
      * @param string $direction
      */
     public function setDirection(string $direction)
     {
-        if(false === $this->directionExists($direction)) {
+        if (false === $this->directionExists($direction)) {
             $direction = static::DIRECTION_ASCENDING;
         }
         $this->direction = $direction;
@@ -34,12 +61,23 @@ abstract class AbstractOrder implements OrderInterface
     /**
      * @return string
      */
-    public function getDirection(): string
+    public function getField(): string
     {
-        if(!$this->direction) {
-            $this->direction = static::DIRECTION_ASCENDING;
+        if (!$this->field) {
+            $this->field = static::DEFAULT_FIELD;
         }
-        return $this->direction;
+        return $this->field;
+    }
+
+    /**
+     * @param string $field
+     */
+    public function setField(string $field)
+    {
+        if (false === $this->fieldExists($field)) {
+            $field = static::DEFAULT_FIELD;
+        }
+        $this->field = $field;
     }
 
     /**
@@ -56,48 +94,10 @@ abstract class AbstractOrder implements OrderInterface
 
     /**
      * @param string $field
-     */
-    public function setField(string $field)
-    {
-        if(false === $this->fieldExists($field)) {
-            $field = static::DEFAULT_FIELD;
-        }
-        $this->field = $field;
-    }
-
-    /**
-     * @return string
-     */
-    public function getField(): string
-    {
-        if(!$this->field) {
-            $this->field = static::DEFAULT_FIELD;
-        }
-        return $this->field;
-    }
-
-    /**
-     * @param string $field
      * @return bool
      */
     protected function fieldExists(string $field): bool
     {
         return in_array($field, $this->getAvailableFields());
-    }
-
-    public function populate(array $data)
-    {
-        if(isset($data[static::PROPERTY_DIRECTION]) && isset($data[static::PROPERTY_FIELD])) {
-            $this->setDirection($data[static::PROPERTY_DIRECTION]);
-            $this->setField($data[static::PROPERTY_FIELD]);
-        }
-    }
-
-    public function toArray(): array
-    {
-        return [
-            static::PROPERTY_DIRECTION => $this->getDirection(),
-            static::PROPERTY_FIELD => $this->getField()
-        ];
     }
 }

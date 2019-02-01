@@ -9,9 +9,9 @@
 namespace Sf4\Api\Response;
 
 use Sf4\Api\Dto\DtoInterface;
-use Sf4\Api\Dto\Traits\DtoTrait;
 use Sf4\Api\Dto\Response\EmptyDto;
 use Sf4\Api\Dto\Response\ErrorDto;
+use Sf4\Api\Dto\Traits\DtoTrait;
 use Sf4\Api\Repository\AbstractRepository;
 use Sf4\Api\Request\RequestTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -69,22 +69,6 @@ abstract class AbstractResponse implements ResponseInterface
     }
 
     /**
-     * @param DtoInterface $dto
-     * @param array $data|null
-     */
-    protected function populateDto(DtoInterface $dto, ?array $data)
-    {
-        if($data) {
-            try {
-                $dto->populate($data);
-            } catch (\ReflectionException $e) {
-                $dto = new ErrorDto();
-                $dto->error = $e->getMessage();
-            }
-        }
-    }
-
-    /**
      * @return DtoInterface
      */
     public function getResponseDto(): DtoInterface
@@ -139,17 +123,33 @@ abstract class AbstractResponse implements ResponseInterface
     public function getRepository(string $entityClass): ?AbstractRepository
     {
         $request = $this->getRequest();
-        if(!$request) {
+        if (!$request) {
             return null;
         }
         $requestHandler = $request->getRequestHandler();
         $manager = $requestHandler->getEntityManager();
 
         $repository = $manager->getRepository($entityClass);
-        if($repository instanceof AbstractRepository) {
+        if ($repository instanceof AbstractRepository) {
             return $repository;
         }
 
         return null;
+    }
+
+    /**
+     * @param DtoInterface $dto
+     * @param array $data |null
+     */
+    protected function populateDto(DtoInterface $dto, ?array $data)
+    {
+        if ($data) {
+            try {
+                $dto->populate($data);
+            } catch (\ReflectionException $e) {
+                $dto = new ErrorDto();
+                $dto->error = $e->getMessage();
+            }
+        }
     }
 }

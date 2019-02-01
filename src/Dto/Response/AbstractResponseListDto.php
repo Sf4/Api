@@ -32,8 +32,6 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
         parent::__construct();
     }
 
-    public abstract function getListItemClass(): string;
-
     /**
      * @return array
      */
@@ -50,7 +48,7 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
     {
         $data = [];
         /** @var DtoInterface $item */
-        foreach($this->items as $item) {
+        foreach ($this->items as $item) {
             $data[] = $item->toArray();
         }
 
@@ -60,7 +58,7 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
     protected function getFilterData(): array
     {
         $data = [];
-        if($this->getFilter() instanceof FilterInterface) {
+        if ($this->getFilter() instanceof FilterInterface) {
             $data = $this->getFilter()->toArray();
         }
 
@@ -71,7 +69,7 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
     {
         $data = [];
         /** @var OrderInterface $order */
-        foreach($this->getOrders() as $order) {
+        foreach ($this->getOrders() as $order) {
             $data[] = $order->toArray();
         }
 
@@ -85,10 +83,10 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
     public function populate(array $data): void
     {
         $listItemClass = $this->getListItemClass();
-        foreach($data as $item) {
-            if(is_array($item)) {
+        foreach ($data as $item) {
+            if (is_array($item)) {
                 $dto = new $listItemClass();
-                if($dto instanceof DtoInterface) {
+                if ($dto instanceof DtoInterface) {
                     $dto->populate($item);
                     $this->addItem($dto);
                 }
@@ -96,17 +94,19 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
         }
 
         $this->setCount($this->items->count());
-        if($this->getTotal() <= 0) {
+        if ($this->getTotal() <= 0) {
             $this->setTotal($this->getCount());
         }
 
         $this->setTotalPages(ceil($this->getTotal() / $this->getItemsPerPage()));
 
-        if($this->getTotalPages() > $this->getCurrentPage()) {
+        if ($this->getTotalPages() > $this->getCurrentPage()) {
             $this->setNextPage($this->getCurrentPage() + 1);
         }
-        if($this->getCurrentPage() > 1) {
+        if ($this->getCurrentPage() > 1) {
             $this->setPreviousPage($this->getCurrentPage() - 1);
         }
     }
+
+    public abstract function getListItemClass(): string;
 }

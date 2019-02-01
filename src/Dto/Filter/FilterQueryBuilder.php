@@ -19,8 +19,8 @@ class FilterQueryBuilder
      */
     public static function buildQuery(QueryBuilder $queryBuilder, ?FilterItemInterface $filterItem, string $fieldName)
     {
-        if(!$filterItem || empty($filterItem->getValue())) {
-            return ;
+        if (!$filterItem || empty($filterItem->getValue())) {
+            return;
         }
         switch ($filterItem->getType()) {
             case FilterItemInterface::TYPE_LIKE:
@@ -44,9 +44,10 @@ class FilterQueryBuilder
             case FilterItemInterface::TYPE_NOT_NULL:
                 $expression = static::addIsNotNullExpression($queryBuilder, $fieldName);
                 break;
-            default: $expression = null;
+            default:
+                $expression = null;
         }
-        if($expression) {
+        if ($expression) {
             $queryBuilder->andWhere(
                 $expression
             );
@@ -102,9 +103,28 @@ class FilterQueryBuilder
     {
         $values = static::convertStringToArray($filterItem->getValue());
 
-        if(true === is_array($values)) {
+        if (true === is_array($values)) {
             return $queryBuilder->expr()->in($fieldName, $values);
         }
+        return null;
+    }
+
+    /**
+     * @param $string
+     * @return array|null
+     */
+    protected static function convertStringToArray($string)
+    {
+        if (false === is_array($string) && true === is_scalar($string)) {
+            if (false !== strpos($string, ',')) {
+                return explode(',', $string);
+            } else {
+                return [
+                    $string
+                ];
+            }
+        }
+
         return null;
     }
 
@@ -118,28 +138,9 @@ class FilterQueryBuilder
     {
         $values = static::convertStringToArray($filterItem->getValue());
 
-        if(true === is_array($values)) {
+        if (true === is_array($values)) {
             return $queryBuilder->expr()->notIn($fieldName, $values);
         }
-        return null;
-    }
-
-    /**
-     * @param $string
-     * @return array|null
-     */
-    protected static function convertStringToArray($string)
-    {
-        if(false === is_array($string) && true === is_scalar($string)) {
-            if(false !== strpos($string, ',')) {
-                return explode(',', $string);
-            } else {
-                return [
-                    $string
-                ];
-            }
-        }
-
         return null;
     }
 

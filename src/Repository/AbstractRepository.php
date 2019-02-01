@@ -33,10 +33,20 @@ abstract class AbstractRepository extends EntityRepository
         $qb->setParameter(':id', $id);
 
         $results = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
-        if($results) {
+        if ($results) {
             return $results[0];
         }
         return null;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    protected function throwExceptionWhenDbNameIsNull()
+    {
+        if (static::TABLE_NAME === null) {
+            throw new InvalidObjectTypeException('Invalid repository');
+        }
     }
 
     /**
@@ -91,16 +101,6 @@ abstract class AbstractRepository extends EntityRepository
     public function getEntityById(string $id)
     {
         return $this->getEntityBy('id', $id);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    protected function throwExceptionWhenDbNameIsNull()
-    {
-        if (static::TABLE_NAME === null) {
-            throw new InvalidObjectTypeException('Invalid repository');
-        }
     }
 
     /**

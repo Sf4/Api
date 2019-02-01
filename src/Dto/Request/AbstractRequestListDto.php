@@ -44,23 +44,8 @@ abstract class AbstractRequestListDto extends AbstractRequestDto implements Requ
     protected function populateFilter(array $data)
     {
         $filterData = $this->getFieldData($data, static::FIELD_FILTER);
-        if($filterData) {
+        if ($filterData) {
             $this->getFilter()->populate($filterData);
-        }
-    }
-
-    protected function populateOrder(array $data)
-    {
-        $sortData = $this->getFieldData($data, static::FIELD_SORT);
-        if($sortData) {
-            $orderClass = $this->getOrderClass();
-            foreach($sortData as $orderData) {
-                $orderData = $this->unpopulateObject($orderData);
-                /** @var OrderInterface $order */
-                $order = new $orderClass();
-                $order->populate($orderData);
-                $this->addOrder($order);
-            }
         }
     }
 
@@ -71,13 +56,13 @@ abstract class AbstractRequestListDto extends AbstractRequestDto implements Requ
      */
     protected function getFieldData(array $data, string $field): ?array
     {
-        if(false === isset($data[$field])) {
+        if (false === isset($data[$field])) {
             return null;
         }
 
-        $data  = $this->unpopulateObject($data[$field]);
+        $data = $this->unpopulateObject($data[$field]);
 
-        if(is_array($data)) {
+        if (is_array($data)) {
             return $data;
         }
 
@@ -91,16 +76,47 @@ abstract class AbstractRequestListDto extends AbstractRequestDto implements Requ
     protected function unpopulateObject($object): ?array
     {
         $response = null;
-        if(true === is_object($object)) {
+        if (true === is_object($object)) {
             $populator = new Populator();
             $response = $populator->unpopulate($object);
-        } else if(is_array($object)) {
+        } else if (is_array($object)) {
             $response = $object;
-        } else if(is_scalar($object)) {
+        } else if (is_scalar($object)) {
             $response = [$object];
         }
         return $response;
     }
+
+    /**
+     * @return FilterInterface|null
+     */
+    public function getFilter(): ?FilterInterface
+    {
+        if (!$this->filter) {
+            $class = $this->getFilterClass();
+            $this->filter = new $class();
+        }
+        return $this->filter;
+    }
+
+    protected abstract function getFilterClass(): string;
+
+    protected function populateOrder(array $data)
+    {
+        $sortData = $this->getFieldData($data, static::FIELD_SORT);
+        if ($sortData) {
+            $orderClass = $this->getOrderClass();
+            foreach ($sortData as $orderData) {
+                $orderData = $this->unpopulateObject($orderData);
+                /** @var OrderInterface $order */
+                $order = new $orderClass();
+                $order->populate($orderData);
+                $this->addOrder($order);
+            }
+        }
+    }
+
+    protected abstract function getOrderClass(): string;
 
     /**
      * @return array
@@ -108,33 +124,17 @@ abstract class AbstractRequestListDto extends AbstractRequestDto implements Requ
     public function toArray(): array
     {
         $filterData = [];
-        if($this->getFilter()) {
+        if ($this->getFilter()) {
             $filterData = $this->getFilter()->toArray();
         }
         $sortData = [];
         /** @var OrderInterface $order */
-        foreach($this->getOrders() as $order) {
+        foreach ($this->getOrders() as $order) {
             $sortData[] = $order->toArray();
         }
         return [
             static::FIELD_FILTER => $filterData,
             static::FIELD_SORT => $sortData
         ];
-    }
-
-    protected abstract function getFilterClass(): string;
-
-    protected abstract function getOrderClass(): string;
-
-    /**
-     * @return FilterInterface|null
-     */
-    public function getFilter(): ?FilterInterface
-    {
-        if(!$this->filter) {
-            $class = $this->getFilterClass();
-            $this->filter = new $class();
-        }
-        return $this->filter;
     }
 }

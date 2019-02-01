@@ -26,18 +26,18 @@ trait OrdersTrait
     }
 
     /**
-     * @param OrderInterface|null $order
-     */
-    public function addOrder(OrderInterface $order): void
-    {
-        $this->orders->add($order);
-    }
-
-    /**
      * @param ArrayCollection $orders
      */
     public function setOrders(ArrayCollection $orders)
     {
         $this->orders = $orders;
+    }
+
+    /**
+     * @param OrderInterface|null $order
+     */
+    public function addOrder(OrderInterface $order): void
+    {
+        $this->orders->add($order);
     }
 }

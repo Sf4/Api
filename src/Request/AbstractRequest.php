@@ -60,11 +60,11 @@ abstract class AbstractRequest implements RequestInterface
         $requestContent = $request->getContent();
         if ($requestContent) {
             $data = json_decode($requestContent);
-            if($data && is_object($data)) {
+            if ($data && is_object($data)) {
                 $populator = new Populator();
                 $data = $populator->unpopulate($data);
             }
-            if(is_array($data)) {
+            if (is_array($data)) {
                 $this->getDto()->populate($data);
             }
         }

@@ -26,17 +26,9 @@ abstract class AbstractDto implements DtoInterface
      */
     public function populate(array $data): void
     {
-        if($data) {
+        if ($data) {
             $this->getPopulator()->populate($data, $this);
         }
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        return $this->getPopulator()->unpopulate($this);
     }
 
     /**
@@ -53,5 +45,13 @@ abstract class AbstractDto implements DtoInterface
     protected function setPopulator(Populator $populator): void
     {
         $this->populator = $populator;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->getPopulator()->unpopulate($this);
     }
 }
