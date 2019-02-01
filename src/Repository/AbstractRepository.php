@@ -11,12 +11,17 @@ namespace Sf4\Api\Repository;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Sf4\Api\Exception\InvalidObjectTypeException;
 
 abstract class AbstractRepository extends EntityRepository
 {
     const TABLE_NAME = null;
+
+    const FIELD_ID = 'main.id';
 
     /**
      * @param $id
@@ -134,5 +139,19 @@ abstract class AbstractRepository extends EntityRepository
     public function getEntityByUuid(string $id)
     {
         return $this->getEntityBy('uuid', $id);
+    }
+
+    protected function getSingleArrayResult(QueryBuilder $qb): ?array
+    {
+        $response = null;
+        try {
+            $response = $qb->getQuery()->getSingleResult(Query::HYDRATE_ARRAY);
+        } catch (NoResultException $e) {
+            $response = null;
+        } catch (NonUniqueResultException $e) {
+            $response = null;
+        }
+
+        return $response;
     }
 }
