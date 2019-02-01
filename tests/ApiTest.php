@@ -8,10 +8,10 @@
 
 namespace Sf4\Api;
 
-use Sf4\Api\Request\DefaultRequest;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Sf4\Api\EventSubscriber\RequestSubscriber;
+use Sf4\Api\Request\DefaultRequest;
 use Sf4\Api\RequestHandler\RequestHandler;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -30,22 +30,22 @@ class ApiTest extends WebTestCase
 
     public function testOptionsRequest()
     {
-        $this->_testDefaultRoute(Request::METHOD_OPTIONS);
+        $this->pTestDefaultRoute(Request::METHOD_OPTIONS);
     }
 
     public function testDefaultRequest()
     {
-        $this->_testDefaultRoute(Request::METHOD_GET);
+        $this->pTestDefaultRoute(Request::METHOD_GET);
     }
 
-    protected function _testDefaultRoute(string $requestMethod)
+    protected function pTestDefaultRoute(string $requestMethod)
     {
         $request = new Request();
         $request->attributes->set('_route', 'api_default');
         $request->setMethod($requestMethod);
         $response = $this->createEventAndReturnResponse($request);
         $responseStatusCode = $response->getStatusCode();
-        $this->assertTrue($responseStatusCode === Response::HTTP_OK );
+        $this->assertTrue($responseStatusCode === Response::HTTP_OK);
     }
 
     protected function handleRequest(GetResponseEvent $event)
