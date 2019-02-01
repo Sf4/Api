@@ -16,22 +16,13 @@ trait StatusTrait
      */
     protected $status;
 
-    /**
-     * @return int|null
-     */
-    public function getStatus(): ?int
+    public function getStatus()
     {
         return $this->status;
     }
 
-    /**
-     * @param int|null $status
-     * @return StatusTrait
-     */
-    public function setStatus(?int $status): self
+    public function setStatus($status)
     {
         $this->status = $status;
-
-        return $this;
     }
 }
