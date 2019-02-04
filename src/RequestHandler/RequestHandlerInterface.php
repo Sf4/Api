@@ -11,6 +11,7 @@ namespace Sf4\Api\RequestHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 interface RequestHandlerInterface
 {
@@ -34,4 +35,14 @@ interface RequestHandlerInterface
      * @param EntityManagerInterface $entityManager
      */
     public function setEntityManager(EntityManagerInterface $entityManager): void;
+
+    /**
+     * @return TranslatorInterface
+     */
+    public function getTranslator(): TranslatorInterface;
+
+    /**
+     * @param TranslatorInterface $translator
+     */
+    public function setTranslator(TranslatorInterface $translator): void;
 }
