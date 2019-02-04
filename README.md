@@ -53,6 +53,9 @@ services:
             -   method: setEntityManager
                 arguments:
                     -   '@Doctrine\ORM\EntityManagerInterface'
+            -   method: setTranslator
+                arguments:
+                    -   '@Symfony\Component\Translation\TranslatorInterface'
             -   method: setAvailableRoutes
                 arguments:
                     -   api_default: 'Sf4\Api\Request\DefaultRequest'

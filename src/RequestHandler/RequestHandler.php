@@ -8,11 +8,13 @@
 
 namespace Sf4\Api\RequestHandler;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Sf4\Api\Dto\Response\ErrorDto;
 use Sf4\Api\Request\OptionsRequest;
 use Sf4\Api\Request\RequestInterface;
 use Sf4\Api\Request\RequestTrait;
+use Sf4\Api\RequestHandler\Traits\AvailableRoutesTrait;
+use Sf4\Api\Utils\Traits\EntitymanagerTrait;
+use Sf4\Api\Utils\Traits\TranslatorTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -20,12 +22,9 @@ class RequestHandler implements RequestHandlerInterface
 {
 
     use RequestTrait;
-
-    /** @var array $availableRoutes */
-    protected $availableRoutes = [];
-
-    /** @var EntityManagerInterface $entityManager */
-    protected $entityManager;
+    use TranslatorTrait;
+    use EntitymanagerTrait;
+    use AvailableRoutesTrait;
 
     /**
      * @param Request $request
@@ -82,22 +81,6 @@ class RequestHandler implements RequestHandlerInterface
     }
 
     /**
-     * @return array
-     */
-    protected function getAvailableRoutes(): array
-    {
-        return $this->availableRoutes;
-    }
-
-    /**
-     * @param array $availableRoutes
-     */
-    public function setAvailableRoutes(array $availableRoutes)
-    {
-        $this->availableRoutes = $availableRoutes;
-    }
-
-    /**
      * @param Request $request
      * @param string $requestClassName
      * @throws \ReflectionException
@@ -138,21 +121,5 @@ class RequestHandler implements RequestHandlerInterface
         }
 
         return null;
-    }
-
-    /**
-     * @return EntityManagerInterface
-     */
-    public function getEntityManager(): EntityManagerInterface
-    {
-        return $this->entityManager;
-    }
-
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function setEntityManager(EntityManagerInterface $entityManager): void
-    {
-        $this->entityManager = $entityManager;
     }
 }

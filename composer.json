@@ -22,7 +22,8 @@
         "ramsey/uuid-doctrine": "^1.5",
         "sf4/populator": "^1.1",
         "symfony/framework-bundle": "^4.2",
-        "symfony/orm-pack": "^1.0"
+        "symfony/orm-pack": "^1.0",
+        "symfony/translation": "^4.2"
     },
     "require-dev": {
         "phpunit/phpunit": ">=7.0",
