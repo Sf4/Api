@@ -11,6 +11,7 @@ namespace Sf4\Api\EntitySaver;
 use Sf4\Api\Dto\DtoInterface;
 use Sf4\Api\Entity\EntityInterface;
 use Sf4\Api\Notification\NotificationInterface;
+use Sf4\Api\Response\ResponseTrait;
 use Sf4\Api\Utils\Traits\EntitymanagerTrait;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -19,6 +20,7 @@ abstract class AbstractEntitySaver implements EntitySaverInterface
 {
 
     use EntitymanagerTrait;
+    use ResponseTrait;
 
     abstract protected function populateEntity(EntityInterface $entity, DtoInterface $requestDto);
 

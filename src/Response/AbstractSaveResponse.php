@@ -67,6 +67,7 @@ abstract class AbstractSaveResponse extends AbstractResponse
         /** @var EntitySaverInterface $entitySaver */
         $entitySaver = new $entitySaverClass();
         $entitySaver->setEntityManager($entityManager);
+        $entitySaver->setResponse($this);
 
         return $entitySaver->save($entity, $requestDto);
     }

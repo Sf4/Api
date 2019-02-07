@@ -56,4 +56,13 @@ interface ResponseInterface extends DtoTraitInterface, RequestTraitInterface
     public function setResponseHeaders(array $headers): void;
 
     public function init();
+
+    /**
+     * @param $id
+     * @param array $parameters
+     * @param null $domain
+     * @param null $locale
+     * @return string
+     */
+    public function translate($id, array $parameters = array(), $domain = null, $locale = null);
 }

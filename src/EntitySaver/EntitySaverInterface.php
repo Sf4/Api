@@ -12,8 +12,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sf4\Api\Dto\DtoInterface;
 use Sf4\Api\Entity\EntityInterface;
 use Sf4\Api\Notification\NotificationInterface;
+use Sf4\Api\Response\ResponseTraitInterface;
 
-interface EntitySaverInterface
+interface EntitySaverInterface extends ResponseTraitInterface
 {
 
     /**
