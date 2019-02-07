@@ -77,11 +77,10 @@ abstract class AbstractRequestListDto extends AbstractRequestDto implements Requ
     {
         $response = null;
         if (true === is_object($object)) {
-            $populator = new Populator();
-            $response = $populator->unpopulate($object);
-        } else if (is_array($object)) {
+            $response = $this->getPopulator()->unpopulate($object);
+        } elseif (is_array($object)) {
             $response = $object;
-        } else if (is_scalar($object)) {
+        } elseif (is_scalar($object)) {
             $response = [$object];
         }
         return $response;
@@ -99,7 +98,7 @@ abstract class AbstractRequestListDto extends AbstractRequestDto implements Requ
         return $this->filter;
     }
 
-    protected abstract function getFilterClass(): string;
+    abstract protected function getFilterClass(): string;
 
     protected function populateOrder(array $data)
     {
@@ -116,7 +115,7 @@ abstract class AbstractRequestListDto extends AbstractRequestDto implements Requ
         }
     }
 
-    protected abstract function getOrderClass(): string;
+    abstract protected function getOrderClass(): string;
 
     /**
      * @return array

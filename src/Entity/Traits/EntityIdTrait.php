@@ -22,11 +22,12 @@ trait EntityIdTrait
      *
      * @var int|null
      *
+     * @\Sf4\Populator\Annotation\Ignore
      * @ORM\Id
      * @ORM\Column(type="integer", options={"unsigned": true})
      * @ORM\GeneratedValue
      */
-    protected $id;
+    private $id;
 
     /**
      * The internal primary identity key.
@@ -35,7 +36,7 @@ trait EntityIdTrait
      *
      * @ORM\Column(type="uuid", unique=true)
      */
-    protected $uuid;
+    private $uuid;
 
     public function getId(): ?int
     {

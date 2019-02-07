@@ -17,7 +17,7 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Sf4\Api\Exception\InvalidObjectTypeException;
 
-abstract class AbstractRepository extends EntityRepository
+abstract class AbstractRepository extends EntityRepository implements RepositoryInterface
 {
     const TABLE_NAME = null;
 

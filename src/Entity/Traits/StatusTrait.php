@@ -11,9 +11,6 @@ namespace Sf4\Api\Entity\Traits;
 trait StatusTrait
 {
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
     protected $status;
 
     public function getStatus()

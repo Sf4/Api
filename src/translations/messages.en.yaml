@@ -1,0 +1,3 @@
+save:
+    success: 'Data has been saved successfully'
+    error: 'There was an error while saving data'
