@@ -60,8 +60,11 @@ class FilterQueryBuilder
      * @param string $fieldName
      * @return \Doctrine\ORM\Query\Expr\Comparison
      */
-    protected static function addLikeExpression(QueryBuilder $queryBuilder, FilterItemInterface $filterItem, string $fieldName)
-    {
+    protected static function addLikeExpression(
+        QueryBuilder $queryBuilder,
+        FilterItemInterface $filterItem,
+        string $fieldName
+    ) {
         $paramKey = uniqid(':like_');
         $queryBuilder->setParameter($paramKey, $filterItem->getValue());
         return $queryBuilder->expr()->like($fieldName, $paramKey);
@@ -73,8 +76,11 @@ class FilterQueryBuilder
      * @param string $fieldName
      * @return \Doctrine\ORM\Query\Expr\Comparison
      */
-    protected static function addEqualExpression(QueryBuilder $queryBuilder, FilterItemInterface $filterItem, string $fieldName)
-    {
+    protected static function addEqualExpression(
+        QueryBuilder $queryBuilder,
+        FilterItemInterface $filterItem,
+        string $fieldName
+    ) {
         $paramKey = uniqid(':eq_');
         $queryBuilder->setParameter($paramKey, $filterItem->getValue());
         return $queryBuilder->expr()->eq($fieldName, $paramKey);
@@ -86,8 +92,11 @@ class FilterQueryBuilder
      * @param string $fieldName
      * @return \Doctrine\ORM\Query\Expr\Comparison
      */
-    protected static function addNotEqualExpression(QueryBuilder $queryBuilder, FilterItemInterface $filterItem, string $fieldName)
-    {
+    protected static function addNotEqualExpression(
+        QueryBuilder $queryBuilder,
+        FilterItemInterface $filterItem,
+        string $fieldName
+    ) {
         $paramKey = uniqid(':neq_');
         $queryBuilder->setParameter($paramKey, $filterItem->getValue());
         return $queryBuilder->expr()->neq($fieldName, $paramKey);
@@ -99,8 +108,11 @@ class FilterQueryBuilder
      * @param string $fieldName
      * @return \Doctrine\ORM\Query\Expr\Func|null
      */
-    protected static function addInExpression(QueryBuilder $queryBuilder, FilterItemInterface $filterItem, string $fieldName)
-    {
+    protected static function addInExpression(
+        QueryBuilder $queryBuilder,
+        FilterItemInterface $filterItem,
+        string $fieldName
+    ) {
         $values = static::convertStringToArray($filterItem->getValue());
 
         if (true === is_array($values)) {
@@ -134,8 +146,11 @@ class FilterQueryBuilder
      * @param string $fieldName
      * @return \Doctrine\ORM\Query\Expr\Func|null
      */
-    protected static function addNotInExpression(QueryBuilder $queryBuilder, FilterItemInterface $filterItem, string $fieldName)
-    {
+    protected static function addNotInExpression(
+        QueryBuilder $queryBuilder,
+        FilterItemInterface $filterItem,
+        string $fieldName
+    ) {
         $values = static::convertStringToArray($filterItem->getValue());
 
         if (true === is_array($values)) {

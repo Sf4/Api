@@ -11,12 +11,12 @@ namespace Sf4\Api\Dto\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sf4\Api\Dto\DtoInterface;
 use Sf4\Api\Dto\Filter\FilterInterface;
-use Sf4\Api\Dto\Order\OrderInterface;
 use Sf4\Api\Dto\Request\RequestListDtoInterface;
 use Sf4\Api\Dto\Traits\FilterTrait;
 use Sf4\Api\Dto\Traits\ItemsTrait;
 use Sf4\Api\Dto\Traits\OrdersTrait;
 use Sf4\Api\Dto\Traits\PaginationTrait;
+use Sf4\Api\Utils\Traits\ArrayCollectionToArrayTrait;
 
 abstract class AbstractResponseListDto extends AbstractResponseDto
 {
@@ -24,6 +24,7 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
     use PaginationTrait;
     use FilterTrait;
     use OrdersTrait;
+    use ArrayCollectionToArrayTrait;
 
     public function __construct()
     {
@@ -46,13 +47,7 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
 
     protected function getItemsData(): array
     {
-        $data = [];
-        /** @var DtoInterface $item */
-        foreach ($this->items as $item) {
-            $data[] = $item->toArray();
-        }
-
-        return $data;
+        return $this->arrayCollectionToArray($this->items);
     }
 
     protected function getFilterData(): array
@@ -67,13 +62,7 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
 
     protected function getSortData(): array
     {
-        $data = [];
-        /** @var OrderInterface $order */
-        foreach ($this->getOrders() as $order) {
-            $data[] = $order->toArray();
-        }
-
-        return $data;
+        return $this->ordersToArray();
     }
 
     /**
@@ -108,5 +97,5 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
         }
     }
 
-    public abstract function getListItemClass(): string;
+    abstract public function getListItemClass(): string;
 }

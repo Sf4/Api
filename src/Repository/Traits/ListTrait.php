@@ -28,17 +28,13 @@ trait ListTrait
 
     public function getListData(FilterInterface $filter = null, ArrayCollection $orders = null): ?array
     {
-        $qb = $this->createListQueryBuilder();
-        $this->addFilterQuery($qb, $filter);
-        $this->addOrdersQuery($qb, $orders);
+        $qb = $this->createListQueryBuilderWithFilterAndOrderQueries($filter, $orders);
         return $qb->getQuery()->getArrayResult();
     }
 
     public function getListDataCount(FilterInterface $filter = null, ArrayCollection $orders = null)
     {
-        $qb = $this->createListQueryBuilder();
-        $this->addFilterQuery($qb, $filter);
-        $this->addOrdersQuery($qb, $orders);
+        $qb = $this->createListQueryBuilderWithFilterAndOrderQueries($filter, $orders);
         $qb->select(
             $qb->expr()->count(AbstractRepository::FIELD_ID)
         );
@@ -51,6 +47,17 @@ trait ListTrait
             $response = 0;
         }
         return $response;
+    }
+
+    protected function createListQueryBuilderWithFilterAndOrderQueries(
+        FilterInterface $filter = null,
+        ArrayCollection $orders = null
+    ) {
+        $queryBuilder = $this->createListQueryBuilder();
+        $this->addFilterQuery($queryBuilder, $filter);
+        $this->addOrdersQuery($queryBuilder, $orders);
+
+        return $queryBuilder;
     }
 
     protected function addOrdersQuery(QueryBuilder $queryBuilder, ArrayCollection $orders = null)

@@ -53,4 +53,13 @@ class BaseMessage implements MessageInterface
     {
         $this->key = $key;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'type' => $this->getType(),
+            'key' => $this->getKey(),
+            'message' => $this->getMessage()
+        ];
+    }
 }

@@ -29,5 +29,4 @@ trait AvailableRoutesTrait
     {
         $this->availableRoutes = $availableRoutes;
     }
-
 }

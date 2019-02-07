@@ -10,7 +10,7 @@ namespace Sf4\Api\Response;
 
 use Sf4\Api\Dto\DtoInterface;
 use Sf4\Api\Dto\Response\EmptyDto;
-use Sf4\Api\Dto\Response\ErrorDto;
+use Sf4\Api\Dto\Traits\CreateErrorDtoTrait;
 use Sf4\Api\Dto\Traits\DtoTrait;
 use Sf4\Api\Repository\AbstractRepository;
 use Sf4\Api\Request\RequestTrait;
@@ -21,6 +21,7 @@ abstract class AbstractResponse implements ResponseInterface
 
     use DtoTrait;
     use RequestTrait;
+    use CreateErrorDtoTrait;
 
     /** @var DtoInterface $responseDto */
     protected $responseDto;
@@ -48,7 +49,7 @@ abstract class AbstractResponse implements ResponseInterface
         $this->setResponseHeaders($headers);
     }
 
-    public abstract function init();
+    abstract public function init();
 
     /**
      * @return JsonResponse
@@ -140,6 +141,7 @@ abstract class AbstractResponse implements ResponseInterface
     /**
      * @param DtoInterface $dto
      * @param array $data |null
+     * @return DtoInterface|\Sf4\Api\Dto\Response\ErrorDto
      */
     protected function populateDto(DtoInterface $dto, ?array $data)
     {
@@ -147,9 +149,9 @@ abstract class AbstractResponse implements ResponseInterface
             try {
                 $dto->populate($data);
             } catch (\ReflectionException $e) {
-                $dto = new ErrorDto();
-                $dto->error = $e->getMessage();
+                $dto = $this->createErrorDtoTrait($e);
             }
         }
+        return $dto;
     }
 }

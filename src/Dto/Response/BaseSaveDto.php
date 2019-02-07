@@ -11,4 +11,31 @@ namespace Sf4\Api\Dto\Response;
 class BaseSaveDto extends AbstractResponseSaveDto
 {
 
+    /**
+     * @param array|object|null $data
+     */
+    public function populate(array $data): void
+    {
+        if (isset($data[static::FIELD_STATUS])) {
+            $this->setStatus($data[static::FIELD_STATUS]);
+        }
+        if (isset($data[static::FIELD_MESSAGE])) {
+            $this->setMessage($data[static::FIELD_MESSAGE]);
+        }
+        if (isset($data[static::FIELD_NOTIFICATION])) {
+            $this->setNotification($data[static::FIELD_NOTIFICATION]);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            static::FIELD_STATUS => $this->getStatus(),
+            static::FIELD_MESSAGE => $this->getMessage(),
+            static::FIELD_NOTIFICATION => $this->getNotification()->toArray()
+        ];
+    }
 }

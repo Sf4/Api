@@ -8,14 +8,23 @@
 
 namespace Sf4\Api\Dto\Response;
 
+use Sf4\Api\Notification\NotificationInterface;
+
 abstract class AbstractResponseSaveDto implements ResponseSaveDtoInterface
 {
     const STATUS_OK = 'OK';
     const STATUS_ERROR = 'ERROR';
 
+    const FIELD_STATUS = 'status';
+    const FIELD_MESSAGE = 'message';
+    const FIELD_NOTIFICATION = 'notification';
+
     protected $status;
 
     protected $message;
+
+    /** @var NotificationInterface */
+    protected $notification;
 
     public function setOkStatus()
     {
@@ -57,5 +66,21 @@ abstract class AbstractResponseSaveDto implements ResponseSaveDtoInterface
     public function setMessage($message): void
     {
         $this->message = $message;
+    }
+
+    /**
+     * @return NotificationInterface
+     */
+    public function getNotification(): NotificationInterface
+    {
+        return $this->notification;
+    }
+
+    /**
+     * @param NotificationInterface $notification
+     */
+    public function setNotification(NotificationInterface $notification): void
+    {
+        $this->notification = $notification;
     }
 }

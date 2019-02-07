@@ -23,4 +23,6 @@ interface MessageInterface
     public function setMessage(string $message): void;
 
     public function setKey(string $key): void;
+
+    public function toArray(): array;
 }

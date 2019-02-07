@@ -8,7 +8,7 @@
 
 namespace Sf4\Api\RequestHandler;
 
-use Sf4\Api\Dto\Response\ErrorDto;
+use Sf4\Api\Dto\Traits\CreateErrorDtoTrait;
 use Sf4\Api\Request\OptionsRequest;
 use Sf4\Api\Request\RequestInterface;
 use Sf4\Api\Request\RequestTrait;
@@ -25,6 +25,7 @@ class RequestHandler implements RequestHandlerInterface
     use TranslatorTrait;
     use EntitymanagerTrait;
     use AvailableRoutesTrait;
+    use CreateErrorDtoTrait;
 
     /**
      * @param Request $request
@@ -100,8 +101,7 @@ class RequestHandler implements RequestHandlerInterface
         if ($request) {
             $response = $request->getResponse();
             if ($response) {
-                $errorDto = new ErrorDto();
-                $errorDto->error = $exception->getMessage();
+                $errorDto = $this->createErrorDtoTrait($exception);
                 $response->setResponseDto($errorDto);
             }
         }

@@ -13,7 +13,6 @@ use Sf4\Api\Dto\Filter\FilterInterface;
 use Sf4\Api\Dto\Order\OrderInterface;
 use Sf4\Api\Dto\Traits\FilterTrait;
 use Sf4\Api\Dto\Traits\OrdersTrait;
-use Sf4\Populator\Populator;
 
 abstract class AbstractRequestListDto extends AbstractRequestDto implements RequestListDtoInterface
 {
@@ -126,11 +125,7 @@ abstract class AbstractRequestListDto extends AbstractRequestDto implements Requ
         if ($this->getFilter()) {
             $filterData = $this->getFilter()->toArray();
         }
-        $sortData = [];
-        /** @var OrderInterface $order */
-        foreach ($this->getOrders() as $order) {
-            $sortData[] = $order->toArray();
-        }
+        $sortData = $this->ordersToArray();
         return [
             static::FIELD_FILTER => $filterData,
             static::FIELD_SORT => $sortData

@@ -10,9 +10,12 @@ namespace Sf4\Api\Dto\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Sf4\Api\Dto\Order\OrderInterface;
+use Sf4\Api\Utils\Traits\ArrayCollectionToArrayTrait;
 
 trait OrdersTrait
 {
+
+    use ArrayCollectionToArrayTrait;
 
     /** @var ArrayCollection $orders */
     private $orders;
@@ -39,5 +42,10 @@ trait OrdersTrait
     public function addOrder(OrderInterface $order): void
     {
         $this->orders->add($order);
+    }
+
+    protected function ordersToArray(): array
+    {
+        return $this->arrayCollectionToArray($this->getOrders());
     }
 }
