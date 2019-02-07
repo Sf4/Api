@@ -139,6 +139,20 @@ abstract class AbstractResponse implements ResponseInterface
     }
 
     /**
+     * @param $id
+     * @param array $parameters
+     * @param null $domain
+     * @param null $locale
+     * @return string
+     */
+    public function translate($id, array $parameters = array(), $domain = null, $locale = null)
+    {
+        $translator = $this->getRequest()->getRequestHandler()->getTranslator();
+
+        return $translator->trans($id, $parameters, $domain, $locale);
+    }
+
+    /**
      * @param DtoInterface $dto
      * @param array $data |null
      * @return DtoInterface|\Sf4\Api\Dto\Response\ErrorDto
