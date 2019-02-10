@@ -10,7 +10,7 @@ namespace Sf4\Api\Utils\Traits;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-trait EntitymanagerTrait
+trait EntityManagerTrait
 {
 
     /** @var EntityManagerInterface $entityManager */

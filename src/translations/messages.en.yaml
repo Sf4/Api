@@ -1,3 +1,9 @@
 save:
     success: 'Data has been saved successfully'
     error: 'There was an error while saving data'
+validate:
+    invalid_entity: 'Technical error: Invalid entity'
+    not_blank: 'This value should not be blank.'
+    email: 'This value is not a valid email address.'
+    min_length: 'This value is too short. It should have {{ limit }} character or more.'
+    regex: 'This value is not valid.'

@@ -8,8 +8,15 @@
 
 namespace Sf4\Api\Dto\Response;
 
+use Sf4\Api\Notification\BaseNotification;
+
 class BaseSaveDto extends AbstractResponseSaveDto
 {
+
+    public function __construct()
+    {
+        $this->setNotification(new BaseNotification());
+    }
 
     /**
      * @param array|object|null $data

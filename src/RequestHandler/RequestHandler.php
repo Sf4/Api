@@ -13,7 +13,7 @@ use Sf4\Api\Request\OptionsRequest;
 use Sf4\Api\Request\RequestInterface;
 use Sf4\Api\Request\RequestTrait;
 use Sf4\Api\RequestHandler\Traits\AvailableRoutesTrait;
-use Sf4\Api\Utils\Traits\EntitymanagerTrait;
+use Sf4\Api\Utils\Traits\EntityManagerTrait;
 use Sf4\Api\Utils\Traits\TranslatorTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +23,7 @@ class RequestHandler implements RequestHandlerInterface
 
     use RequestTrait;
     use TranslatorTrait;
-    use EntitymanagerTrait;
+    use EntityManagerTrait;
     use AvailableRoutesTrait;
     use CreateErrorDtoTrait;
 

@@ -31,7 +31,7 @@ abstract class AbstractSaveResponse extends AbstractResponse
 
         /** @var NotificationInterface $notifications */
         $notifications = $this->save($requestDto);
-        if ($notifications->hasErrorMessages()) {
+        if (false === $notifications->hasErrorMessages()) {
             $saveDto->setOkStatus();
             $message = $this->getMessage(true);
         } else {
@@ -40,6 +40,7 @@ abstract class AbstractSaveResponse extends AbstractResponse
         }
 
         $saveDto->setMessage($message);
+        $saveDto->setNotification($notifications);
         $this->setResponseDto($saveDto);
     }
 

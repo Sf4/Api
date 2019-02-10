@@ -2,13 +2,13 @@
 /**
  * Created by PhpStorm.
  * User: siim
- * Date: 6.02.19
- * Time: 9:58
+ * Date: 9.02.19
+ * Time: 16:29
  */
 
 namespace Sf4\Api\Notification;
 
-interface ErrorMessageInterface extends MessageInterface
+interface ErrorMessageInterface
 {
-    const TYPE = 'ERROR';
+
 }
