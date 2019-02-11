@@ -21,7 +21,7 @@ abstract class AbstractRepository extends EntityRepository implements Repository
 {
     const TABLE_NAME = null;
 
-    const FIELD_ID = 'main.id';
+    const DB_FIELD_ID = 'main.id';
 
     /**
      * @param $id
@@ -33,7 +33,7 @@ abstract class AbstractRepository extends EntityRepository implements Repository
         $this->throwExceptionWhenDbNameIsNull();
         $qb = $this->createQueryBuilder('main');
         $qb->where(
-            $qb->expr()->eq('main.id', ':id')
+            $qb->expr()->eq(static::DB_FIELD_ID, ':id')
         );
         $qb->setParameter(':id', $id);
 
