@@ -13,12 +13,14 @@ use Sf4\Api\Dto\Filter\FilterInterface;
 use Sf4\Api\Dto\Order\OrderInterface;
 use Sf4\Api\Dto\Traits\FilterTrait;
 use Sf4\Api\Dto\Traits\OrdersTrait;
+use Sf4\Api\Utils\Traits\ArrayCollectionToArrayTrait;
 
 abstract class AbstractRequestListDto extends AbstractRequestDto implements RequestListDtoInterface
 {
 
     use FilterTrait;
     use OrdersTrait;
+    use ArrayCollectionToArrayTrait;
 
     public function __construct()
     {

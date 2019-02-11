@@ -36,7 +36,7 @@ trait ListTrait
     {
         $qb = $this->createListQueryBuilderWithFilterAndOrderQueries($filter, $orders);
         $qb->select(
-            $qb->expr()->count(AbstractRepository::FIELD_ID)
+            $qb->expr()->count(AbstractRepository::DB_FIELD_ID)
         );
 
         try {
