@@ -25,7 +25,6 @@ abstract class AbstractRequestListDto extends AbstractRequestDto implements Requ
     public function __construct()
     {
         $this->orders = new ArrayCollection();
-        parent::__construct();
     }
 
     /**
@@ -61,30 +60,13 @@ abstract class AbstractRequestListDto extends AbstractRequestDto implements Requ
             return null;
         }
 
-        $data = $this->unpopulateObject($data[$field]);
+        $data = $this->objectToArray($data[$field]);
 
         if (is_array($data)) {
             return $data;
         }
 
         return null;
-    }
-
-    /**
-     * @param $object
-     * @return array|null
-     */
-    protected function unpopulateObject($object): ?array
-    {
-        $response = null;
-        if (true === is_object($object)) {
-            $response = $this->getPopulator()->unpopulate($object);
-        } elseif (is_array($object)) {
-            $response = $object;
-        } elseif (is_scalar($object)) {
-            $response = [$object];
-        }
-        return $response;
     }
 
     /**
@@ -107,7 +89,7 @@ abstract class AbstractRequestListDto extends AbstractRequestDto implements Requ
         if ($sortData) {
             $orderClass = $this->getOrderClass();
             foreach ($sortData as $orderData) {
-                $orderData = $this->unpopulateObject($orderData);
+                $orderData = $this->objectToArray($orderData);
                 /** @var OrderInterface $order */
                 $order = new $orderClass();
                 $order->populate($orderData);

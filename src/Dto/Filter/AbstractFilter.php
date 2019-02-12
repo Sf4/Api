@@ -14,7 +14,6 @@ abstract class AbstractFilter extends AbstractDto implements FilterInterface
 {
     /**
      * @param array $data
-     * @throws \ReflectionException
      */
     public function populate(array $data): void
     {

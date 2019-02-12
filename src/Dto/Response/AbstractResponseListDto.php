@@ -30,7 +30,6 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
     {
         $this->items = new ArrayCollection();
         $this->orders = new ArrayCollection();
-        parent::__construct();
     }
 
     /**

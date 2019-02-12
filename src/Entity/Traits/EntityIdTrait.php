@@ -22,7 +22,6 @@ trait EntityIdTrait
      *
      * @var int|null
      *
-     * @\Sf4\Populator\Annotation\Ignore
      * @ORM\Id
      * @ORM\Column(type="integer", options={"unsigned": true})
      * @ORM\GeneratedValue
