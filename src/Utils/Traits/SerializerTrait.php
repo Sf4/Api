@@ -21,11 +21,24 @@ trait SerializerTrait
      */
     public function populate(array $data): void
     {
+        $this->populateObject($data);
+    }
+
+    /**
+     * @param array $data
+     * @param null $object
+     */
+    public function populateObject(array $data, $object = null): void
+    {
+        if (null === $object) {
+            $object = $this;
+        }
+
         if (is_array($data)) {
             $json = json_encode($data);
-            $class = get_class($this);
+            $class = get_class($object);
             $this->createSerializer()->deserialize($json, $class, 'json', [
-                'object_to_populate' => $this
+                'object_to_populate' => $object
             ]);
         }
     }
