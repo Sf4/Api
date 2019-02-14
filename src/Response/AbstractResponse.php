@@ -163,7 +163,7 @@ abstract class AbstractResponse implements ResponseInterface
             try {
                 $dto->populate($data);
             } catch (\ReflectionException $e) {
-                $dto = $this->createErrorDtoTrait($e);
+                $dto = $this->createErrorDto($e);
             }
         }
         return $dto;

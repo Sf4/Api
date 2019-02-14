@@ -9,12 +9,18 @@
 namespace Sf4\Api\RequestHandler;
 
 use Sf4\Api\Dto\Traits\CreateErrorDtoTrait;
+use Sf4\Api\Event\RequestCreatedEvent;
+use Sf4\Api\Exception\RequestNotCreatedException;
+use Sf4\Api\Request\DefaultRequest;
+use Sf4\Api\Request\EmptyRequest;
 use Sf4\Api\Request\OptionsRequest;
 use Sf4\Api\Request\RequestInterface;
 use Sf4\Api\Request\RequestTrait;
 use Sf4\Api\RequestHandler\Traits\AvailableRoutesTrait;
+use Sf4\Api\Response\EmptyResponse;
 use Sf4\Api\Utils\Traits\EntityManagerTrait;
 use Sf4\Api\Utils\Traits\TranslatorTrait;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -89,7 +95,20 @@ class RequestHandler implements RequestHandlerInterface
     protected function handleRequestClass(Request $request, string $requestClassName)
     {
         $this->createRequestClass($requestClassName);
-        $this->getRequest()->handle($request);
+
+        if ($this->getRequest()) {
+            $event = new RequestCreatedEvent($this->getRequest());
+            $dispatcher = new EventDispatcher();
+            $dispatcher->dispatch(RequestCreatedEvent::NAME, $event);
+
+            if ($event->getResponse()) {
+                $this->getRequest()->setResponse($event->getResponse());
+            } else {
+                $this->getRequest()->handle($request);
+            }
+        } else {
+            $this->handleError(new RequestNotCreatedException());
+        }
     }
 
     /**
@@ -98,13 +117,19 @@ class RequestHandler implements RequestHandlerInterface
     protected function handleError(\Exception $exception)
     {
         $request = $this->getRequest();
-        if ($request) {
-            $response = $request->getResponse();
-            if ($response) {
-                $errorDto = $this->createErrorDtoTrait($exception);
-                $response->setResponseDto($errorDto);
-            }
+
+        if (!$request) {
+            $request = new EmptyRequest();
         }
+
+        $response = $request->getResponse();
+
+        if (!$response) {
+            $response = new EmptyResponse();
+        }
+
+        $errorDto = $this->createErrorDto($exception);
+        $response->setResponseDto($errorDto);
     }
 
     /**
