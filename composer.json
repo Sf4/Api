@@ -20,6 +20,7 @@
         "php": "~7.1",
         "ext-json": "*",
         "ramsey/uuid-doctrine": "^1.5",
+        "symfony/event-dispatcher": "^4.2",
         "symfony/framework-bundle": "^4.2",
         "symfony/orm-pack": "^1.0",
         "symfony/serializer": "^4.2",

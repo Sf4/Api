@@ -84,4 +84,12 @@ abstract class AbstractRequest implements RequestInterface
     {
         $this->request = $request;
     }
+
+    /**
+     * @return string
+     */
+    public function getRoute(): string
+    {
+        return static::ROUTE;
+    }
 }

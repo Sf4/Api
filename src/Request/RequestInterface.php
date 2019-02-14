@@ -35,4 +35,9 @@ interface RequestInterface extends ResponseTraitInterface, DtoTraitInterface, Re
      * @param Request|null $request
      */
     public function setRequest(?Request $request): void;
+
+    /**
+     * @return string
+     */
+    public function getRoute(): string;
 }
