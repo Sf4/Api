@@ -17,7 +17,7 @@ trait AvailableRoutesTrait
     /**
      * @return array
      */
-    protected function getAvailableRoutes(): array
+    public function getAvailableRoutes(): array
     {
         return $this->availableRoutes;
     }

@@ -11,16 +11,15 @@ namespace Sf4\Api\RequestHandler;
 use Sf4\Api\Dto\Traits\CreateErrorDtoTrait;
 use Sf4\Api\Event\RequestCreatedEvent;
 use Sf4\Api\Exception\RequestNotCreatedException;
-use Sf4\Api\Request\DefaultRequest;
 use Sf4\Api\Request\EmptyRequest;
 use Sf4\Api\Request\OptionsRequest;
 use Sf4\Api\Request\RequestInterface;
 use Sf4\Api\Request\RequestTrait;
 use Sf4\Api\RequestHandler\Traits\AvailableRoutesTrait;
+use Sf4\Api\RequestHandler\Traits\EventDispatcherTrait;
 use Sf4\Api\Response\EmptyResponse;
 use Sf4\Api\Utils\Traits\EntityManagerTrait;
 use Sf4\Api\Utils\Traits\TranslatorTrait;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -32,6 +31,7 @@ class RequestHandler implements RequestHandlerInterface
     use EntityManagerTrait;
     use AvailableRoutesTrait;
     use CreateErrorDtoTrait;
+    use EventDispatcherTrait;
 
     /**
      * @param Request $request
@@ -97,9 +97,10 @@ class RequestHandler implements RequestHandlerInterface
         $this->createRequestClass($requestClassName);
 
         if ($this->getRequest()) {
+            $this->getRequest()->setRequest($request);
+
             $event = new RequestCreatedEvent($this->getRequest());
-            $dispatcher = new EventDispatcher();
-            $dispatcher->dispatch(RequestCreatedEvent::NAME, $event);
+            $this->getDispatcher()->dispatch(RequestCreatedEvent::NAME, $event);
 
             if ($event->getResponse()) {
                 $this->getRequest()->setResponse($event->getResponse());
