@@ -36,13 +36,25 @@ class RepositoryFactory
      */
     public function create(string $tableName): ?RepositoryInterface
     {
-        if (isset($this->entities[$tableName])) {
-            $entityClass = $this->entities[$tableName];
+        $entityClass = $this->getEntityClass($tableName);
+        if ($entityClass) {
             $repository = $this->entityManager->getRepository($entityClass);
-
             if ($repository instanceof RepositoryInterface) {
                 return $repository;
             }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $tableName
+     * @return string|null
+     */
+    public function getEntityClass(string $tableName): ?string
+    {
+        if (isset($this->entities[$tableName])) {
+            return $this->entities[$tableName];
         }
 
         return null;
