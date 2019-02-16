@@ -17,6 +17,7 @@ use Sf4\Api\Request\RequestInterface;
 use Sf4\Api\Request\RequestTrait;
 use Sf4\Api\RequestHandler\Traits\AvailableRoutesTrait;
 use Sf4\Api\RequestHandler\Traits\EventDispatcherTrait;
+use Sf4\Api\RequestHandler\Traits\RepositoryFactoryTrait;
 use Sf4\Api\Response\EmptyResponse;
 use Sf4\Api\Utils\Traits\EntityManagerTrait;
 use Sf4\Api\Utils\Traits\TranslatorTrait;
@@ -32,6 +33,7 @@ class RequestHandler implements RequestHandlerInterface
     use AvailableRoutesTrait;
     use CreateErrorDtoTrait;
     use EventDispatcherTrait;
+    use RepositoryFactoryTrait;
 
     /**
      * @param Request $request

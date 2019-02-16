@@ -46,6 +46,12 @@ services:
 
 #   ...
 
+    Sf4\Api\Repository\RepositoryFactory:
+        class: Sf4\Api\Repository\RepositoryFactory
+        arguments:
+            $entityManager: '@Doctrine\ORM\EntityManagerInterface'
+            $entities:      []
+
     Sf4\Api\EventSubscriber\RequestSubscriber: ~
     Sf4\Api\RequestHandler\RequestHandlerInterface:
         class: Sf4\Api\RequestHandler\RequestHandler
