@@ -9,6 +9,7 @@
 namespace Sf4\Api\RequestHandler;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Sf4\Api\Repository\RepositoryFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -45,4 +46,14 @@ interface RequestHandlerInterface
      * @param TranslatorInterface $translator
      */
     public function setTranslator(TranslatorInterface $translator): void;
+
+    /**
+     * @return RepositoryFactory
+     */
+    public function getRepositoryFactory(): RepositoryFactory;
+
+    /**
+     * @param RepositoryFactory $repositoryFactory
+     */
+    public function setRepositoryFactory(RepositoryFactory $repositoryFactory): void;
 }
