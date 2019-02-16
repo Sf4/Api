@@ -13,6 +13,7 @@ use Sf4\Api\Dto\Response\EmptyDto;
 use Sf4\Api\Dto\Traits\CreateErrorDtoTrait;
 use Sf4\Api\Dto\Traits\DtoTrait;
 use Sf4\Api\Repository\AbstractRepository;
+use Sf4\Api\Repository\RepositoryInterface;
 use Sf4\Api\Request\RequestTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -118,24 +119,19 @@ abstract class AbstractResponse implements ResponseInterface
     }
 
     /**
-     * @param string $entityClass
+     * @param string $tableName
      * @return AbstractRepository|null
      */
-    public function getRepository(string $entityClass): ?AbstractRepository
+    public function getRepository(string $tableName): ?RepositoryInterface
     {
         $request = $this->getRequest();
         if (!$request) {
             return null;
         }
         $requestHandler = $request->getRequestHandler();
-        $manager = $requestHandler->getEntityManager();
 
-        $repository = $manager->getRepository($entityClass);
-        if ($repository instanceof AbstractRepository) {
-            return $repository;
-        }
-
-        return null;
+        $repositoryFactory = $requestHandler->getRepositoryFactory();
+        return $repositoryFactory->create($tableName);
     }
 
     /**
