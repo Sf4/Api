@@ -56,4 +56,24 @@ interface RequestHandlerInterface
      * @param RepositoryFactory $repositoryFactory
      */
     public function setRepositoryFactory(RepositoryFactory $repositoryFactory): void;
+
+    /**
+     * @return array
+     */
+    public function getAvailableRoutes(): array;
+
+    /**
+     * @param array $availableRoutes
+     */
+    public function setAvailableRoutes(array $availableRoutes);
+
+    /**
+     * @return array|null
+     */
+    public function getSites(): ?array;
+
+    /**
+     * @param array|null $sites
+     */
+    public function setSites(?array $sites): void;
 }

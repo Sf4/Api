@@ -38,11 +38,18 @@ api_default:
     path: /
     methods: [GET, OPTIONS]
     
+api_site:
+    path: /site/{token}
+    methods: [GET, OPTIONS]
+    
 ```
 
 config/services.yaml
 ``` yaml
 services:
+    parameters:
+        # ...
+        api_token: '%env(resolve:API_TOKEN)%'
 
 #   ...
 
@@ -62,9 +69,22 @@ services:
             -   method: setTranslator
                 arguments:
                     -   '@Symfony\Component\Translation\TranslatorInterface'
+            -   method: setDispatcher
+                arguments:
+                    -   '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
+            -   method: setRepositoryFactory
+                arguments:
+                    -   '@Sf4\Api\Repository\RepositoryFactory'
+            -   method: setSites
+                arguments:
+                    -
+                        -   { site: 'parent', url: null, token: null }
+                        # -   { site: 'parent', url: 'parent.example.com', token: 'API_TOKEN' }
+                        # -   { site: 'example', url: 'site.example.com', token: 'API_TOKEN' }
             -   method: setAvailableRoutes
                 arguments:
                     -   api_default: 'Sf4\Api\Request\DefaultRequest'
+                        api_site: 'Sf4\Api\Request\SiteRequest'
 ```
 
 ## Testing

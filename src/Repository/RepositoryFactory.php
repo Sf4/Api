@@ -9,9 +9,12 @@
 namespace Sf4\Api\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Sf4\Api\Utils\Traits\EntityManagerTrait;
 
 class RepositoryFactory
 {
+
+    use EntityManagerTrait;
 
     /** @var EntityManagerInterface $entityManager */
     protected $entityManager;
@@ -26,7 +29,7 @@ class RepositoryFactory
      */
     public function __construct(EntityManagerInterface $entityManager, array $entities)
     {
-        $this->entityManager = $entityManager;
+        $this->setEntityManager($entityManager);
         $this->entities = $entities;
     }
 
@@ -38,7 +41,7 @@ class RepositoryFactory
     {
         $entityClass = $this->getEntityClass($tableName);
         if ($entityClass) {
-            $repository = $this->entityManager->getRepository($entityClass);
+            $repository = $this->getEntityManager()->getRepository($entityClass);
             if ($repository instanceof RepositoryInterface) {
                 return $repository;
             }
