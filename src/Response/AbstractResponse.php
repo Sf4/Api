@@ -33,6 +33,9 @@ abstract class AbstractResponse implements ResponseInterface
     /** @var array $responseHeaders */
     protected $responseHeaders;
 
+    /** @var JsonResponse $jsonResponse */
+    protected $jsonResponse;
+
     public function __construct()
     {
         $this->createJsonResponse(new EmptyDto(), 200, static::HEADERS);
@@ -57,17 +60,29 @@ abstract class AbstractResponse implements ResponseInterface
      */
     public function getJsonResponse(): JsonResponse
     {
-        $response = new JsonResponse(
-            $this->getResponseDto()->toArray(),
-            $this->getResponseStatus(),
-            $this->getResponseHeaders()
-        );
+        if (!$this->jsonResponse) {
+            $response = new JsonResponse(
+                $this->getResponseDto()->toArray(),
+                $this->getResponseStatus(),
+                $this->getResponseHeaders()
+            );
+        } else {
+            $response = $this->jsonResponse;
+        }
         $request = $this->getRequest()->getRequest();
         $response->headers->set(
             'Access-Control-Allow-Origin',
             $request->headers->get('Origin')
         );
         return $response;
+    }
+
+    /**
+     * @param JsonResponse $jsonResponse
+     */
+    public function setJsonResponse(JsonResponse $jsonResponse)
+    {
+        $this->jsonResponse = $jsonResponse;
     }
 
     /**

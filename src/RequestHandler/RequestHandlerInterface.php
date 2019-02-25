@@ -10,6 +10,7 @@ namespace Sf4\Api\RequestHandler;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Sf4\Api\Repository\RepositoryFactory;
+use Sf4\Api\Services\CacheAdapterInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -76,4 +77,14 @@ interface RequestHandlerInterface
      * @param array|null $sites
      */
     public function setSites(?array $sites): void;
+
+    /**
+     * @return CacheAdapterInterface
+     */
+    public function getCacheAdapter(): CacheAdapterInterface;
+
+    /**
+     * @param CacheAdapterInterface $cacheAdapter
+     */
+    public function setCacheAdapter(CacheAdapterInterface $cacheAdapter): void;
 }
