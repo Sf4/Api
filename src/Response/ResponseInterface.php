@@ -65,4 +65,9 @@ interface ResponseInterface extends DtoTraitInterface, RequestTraitInterface
      * @return string
      */
     public function translate($id, array $parameters = array(), $domain = null, $locale = null);
+
+    /**
+     * @param JsonResponse $jsonResponse
+     */
+    public function setJsonResponse(JsonResponse $jsonResponse);
 }

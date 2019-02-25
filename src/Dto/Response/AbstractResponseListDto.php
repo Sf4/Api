@@ -26,6 +26,8 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
     use OrdersTrait;
     use ArrayCollectionToArrayTrait;
 
+    const ITEMS = 'items';
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -38,7 +40,7 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
     public function toArray(): array
     {
         $data = parent::toArray();
-        $data['items'] = $this->getItemsData();
+        $data[static::ITEMS] = $this->getItemsData();
         $data[RequestListDtoInterface::FIELD_FILTER] = $this->getFilterData();
         $data[RequestListDtoInterface::FIELD_SORT] = $this->getSortData();
         return $data;
@@ -71,6 +73,11 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
     public function populate(array $data): void
     {
         $listItemClass = $this->getListItemClass();
+
+        if (array_key_exists(static::ITEMS, $data)) {
+            $data = $data[static::ITEMS];
+        }
+
         foreach ($data as $item) {
             if (is_array($item)) {
                 $dto = new $listItemClass();

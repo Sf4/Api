@@ -16,6 +16,7 @@ use Sf4\Api\Request\OptionsRequest;
 use Sf4\Api\Request\RequestInterface;
 use Sf4\Api\Request\RequestTrait;
 use Sf4\Api\RequestHandler\Traits\AvailableRoutesTrait;
+use Sf4\Api\RequestHandler\Traits\CacheAdapterTrait;
 use Sf4\Api\RequestHandler\Traits\EventDispatcherTrait;
 use Sf4\Api\RequestHandler\Traits\RepositoryFactoryTrait;
 use Sf4\Api\RequestHandler\Traits\SitesTrait;
@@ -36,6 +37,7 @@ class RequestHandler implements RequestHandlerInterface
     use EventDispatcherTrait;
     use RepositoryFactoryTrait;
     use SitesTrait;
+    use CacheAdapterTrait;
 
     /**
      * @param Request $request
@@ -55,12 +57,12 @@ class RequestHandler implements RequestHandlerInterface
 
     /**
      * @param Request $request
-     * @throws \ReflectionException
      */
     protected function handleOptionsRequest(Request $request)
     {
         $this->createRequestClass(OptionsRequest::class);
-        $this->getRequest()->handle($request);
+        $this->getRequest()->setRequest($request);
+        $this->getRequest()->handle();
     }
 
     /**
@@ -79,7 +81,6 @@ class RequestHandler implements RequestHandlerInterface
 
     /**
      * @param Request $request
-     * @throws \ReflectionException
      */
     protected function handleNormalRequest(Request $request)
     {
@@ -94,7 +95,6 @@ class RequestHandler implements RequestHandlerInterface
     /**
      * @param Request $request
      * @param string $requestClassName
-     * @throws \ReflectionException
      */
     protected function handleRequestClass(Request $request, string $requestClassName)
     {
@@ -109,7 +109,7 @@ class RequestHandler implements RequestHandlerInterface
             if ($event->getResponse()) {
                 $this->getRequest()->setResponse($event->getResponse());
             } else {
-                $this->getRequest()->handle($request);
+                $this->getRequest()->handle();
             }
         } else {
             $this->handleError(new RequestNotCreatedException());

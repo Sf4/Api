@@ -53,6 +53,9 @@ services:
 
 #   ...
 
+    Sf4\Api\Services\TagAwareCacheAdapter: ~
+    Sf4\Api\Services\CacheAdapterInterface: '@App\Services\TagAwareCacheAdapter'
+
     Sf4\Api\Repository\RepositoryFactory:
         class: Sf4\Api\Repository\RepositoryFactory
         arguments:
@@ -75,6 +78,9 @@ services:
             -   method: setRepositoryFactory
                 arguments:
                     -   '@Sf4\Api\Repository\RepositoryFactory'
+            -   method: setCacheAdapter
+                arguments:
+                    -   '@Sf4\Api\Services\CacheAdapterInterface'
             -   method: setSites
                 arguments:
                     -
@@ -85,6 +91,17 @@ services:
                 arguments:
                     -   api_default: 'Sf4\Api\Request\DefaultRequest'
                         api_site: 'Sf4\Api\Request\SiteRequest'
+```
+
+config/packages/translation.yaml
+```
+framework:
+    # ...
+    translator:
+        # ...
+        paths:
+            # ...
+            - '%kernel.project_dir%/vendor/sf4/api/src/translations'
 ```
 
 ## Testing

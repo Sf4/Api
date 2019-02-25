@@ -20,11 +20,7 @@ interface RequestInterface extends ResponseTraitInterface, DtoTraitInterface, Re
      */
     public function init(ResponseInterface $response, DtoInterface $dto);
 
-    /**
-     * @param Request $request
-     * @throws \ReflectionException
-     */
-    public function handle(Request $request);
+    public function handle();
 
     /**
      * @return Request
@@ -40,4 +36,10 @@ interface RequestInterface extends ResponseTraitInterface, DtoTraitInterface, Re
      * @return string
      */
     public function getRoute(): string;
+
+    /**
+     * @param \Closure $closure
+     * @param string|null $cacheKey
+     */
+    public function getCachedResponse(\Closure $closure, string $cacheKey = null);
 }

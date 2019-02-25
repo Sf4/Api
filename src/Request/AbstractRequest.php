@@ -13,6 +13,7 @@ use Sf4\Api\Dto\Traits\DtoTrait;
 use Sf4\Api\RequestHandler\RequestHandlerTrait;
 use Sf4\Api\Response\ResponseInterface;
 use Sf4\Api\Response\ResponseTrait;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractRequest implements RequestInterface
@@ -50,23 +51,61 @@ abstract class AbstractRequest implements RequestInterface
     }
 
     /**
-     * @param Request $request
-     * @throws \ReflectionException
+     * @param \Closure $closure
+     * @param string|null $cacheKey
+     * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function handle(Request $request)
+    public function getCachedResponse(\Closure $closure, string $cacheKey = null)
     {
-        $this->setRequest($request);
-        $requestContent = $request->getContent();
-        if ($requestContent) {
-            $data = json_decode($requestContent);
-            if ($data && is_object($data)) {
-                $data = json_decode(json_encode($data), true);
+        if ($cacheKey) {
+            $cacheKey = md5($cacheKey);
+            $cacheAdapter = $this->getRequestHandler()->getCacheAdapter();
+            $cacheItem = $cacheAdapter->getItem($cacheKey);
+            if ($cacheItem->isHit()) {
+                /*
+                 * Return cached response
+                 */
+                $responseContent = json_decode($cacheItem->get(), true);
+                $this->getResponse()->setJsonResponse(
+                    new JsonResponse(
+                        $responseContent,
+                        $this->getResponse()->getResponseStatus(),
+                        $this->getResponse()->getResponseHeaders()
+                    )
+                );
+            } else {
+                /*
+                 * Handle request and add response to cache
+                 */
+                $closure();
+                $responseContent = $this->getRequestHandler()->getResponse()->getContent();
+                if ($responseContent) {
+                    $cacheItem->set($responseContent);
+                    $cacheItem->expiresAfter(0);
+                    $cacheAdapter->save($cacheItem);
+                }
             }
-            if (is_array($data)) {
+        } else {
+            /*
+             * Handle request
+             */
+            $closure();
+        }
+    }
+
+    /**
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public function handle()
+    {
+        $this->getCachedResponse(function () {
+            $requestContent = $this->getRequest()->getContent();
+            if ($requestContent) {
+                $data = json_decode($requestContent, true);
                 $this->getDto()->populate($data);
             }
-        }
-        $this->getResponse()->init();
+            $this->getResponse()->init();
+        });
     }
 
     /**
