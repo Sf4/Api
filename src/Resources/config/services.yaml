@@ -1,0 +1,38 @@
+services:
+    Sf4\Api\Services\TagAwareCacheAdapter: ~
+    Sf4\Api\Services\CacheAdapterInterface: '@App\Services\TagAwareCacheAdapter'
+
+    Sf4\Api\Repository\RepositoryFactory:
+        class: Sf4\Api\Repository\RepositoryFactory
+        arguments:
+            $entityManager: '@Doctrine\ORM\EntityManagerInterface'
+            $entities:      []
+
+    Sf4\Api\EventSubscriber\RequestSubscriber: ~
+    Sf4\Api\RequestHandler\RequestHandlerInterface:
+        class: Sf4\Api\RequestHandler\RequestHandler
+        calls:
+            -   method: setEntityManager
+                arguments:
+                    - '@Doctrine\ORM\EntityManagerInterface'
+            -   method: setTranslator
+                arguments:
+                    - '@Symfony\Component\Translation\TranslatorInterface'
+            -   method: setDispatcher
+                arguments:
+                    - '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
+            -   method: setRepositoryFactory
+                arguments:
+                    - '@Sf4\Api\Repository\RepositoryFactory'
+            -   method: setCacheAdapter
+                arguments:
+                    - '@Sf4\Api\Services\CacheAdapterInterface'
+            -   method: setSites
+                arguments:
+                    -   - { site: 'parent', url: null, token: null }
+#                         -   { site: 'parent', url: 'parent.example.com', token: 'API_TOKEN' }
+#                         -   { site: 'example', url: 'site.example.com', token: 'API_TOKEN' }
+            -   method: setAvailableRoutes
+                arguments:
+                    -   api_default: 'Sf4\Api\Request\DefaultRequest'
+                        api_site: 'Sf4\Api\Request\SiteRequest'
