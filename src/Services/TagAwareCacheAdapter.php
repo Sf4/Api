@@ -13,12 +13,7 @@ class TagAwareCacheAdapter implements CacheAdapterInterface
 {
     protected $cache;
 
-    public function __construct()
-    {
-        $this->init();
-    }
-
-    protected function init()
+    public function init()
     {
         $redisConnection = RedisAdapter::createConnection(
             'redis://localhost'

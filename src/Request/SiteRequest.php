@@ -13,7 +13,7 @@ use Sf4\Api\Response\SiteResponse;
 class SiteRequest extends AbstractRequest
 {
 
-    const ROUTE = 'api_site';
+    const ROUTE = 'sf4_api_site';
 
     public function __construct()
     {

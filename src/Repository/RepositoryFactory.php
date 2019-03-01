@@ -27,10 +27,29 @@ class RepositoryFactory
      * @param EntityManagerInterface $entityManager
      * @param array $entities
      */
-    public function __construct(EntityManagerInterface $entityManager, array $entities)
+    public function __construct(EntityManagerInterface $entityManager, array $entities = [])
     {
         $this->setEntityManager($entityManager);
         $this->entities = $entities;
+    }
+
+    /**
+     * @param array $entities
+     */
+    public function addEntities(array $entities)
+    {
+        foreach ($entities as $tableName => $entityClass) {
+            $this->addEntity($tableName, $entityClass);
+        }
+    }
+
+    /**
+     * @param string $tableName
+     * @param string $entityClass
+     */
+    public function addEntity(string $tableName, string $entityClass)
+    {
+        $this->entities[$tableName] = $entityClass;
     }
 
     /**

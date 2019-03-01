@@ -12,7 +12,7 @@ use Sf4\Api\Response\DefaultResponse;
 
 class DefaultRequest extends AbstractRequest
 {
-    const ROUTE = 'api_default';
+    const ROUTE = 'sf4_api_default';
 
     public function __construct()
     {

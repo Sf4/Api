@@ -17,7 +17,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 interface RequestHandlerInterface
 {
-
     /**
      * @param Request $request
      */
@@ -69,6 +68,17 @@ interface RequestHandlerInterface
     public function setAvailableRoutes(array $availableRoutes);
 
     /**
+     * @param array $availableRoutes
+     */
+    public function addAvailableRoutes(array $availableRoutes);
+
+    /**
+     * @param string $route
+     * @param string $requestClass
+     */
+    public function addAvailableRoute(string $route, string $requestClass);
+
+    /**
      * @return array|null
      */
     public function getSites(): ?array;
@@ -77,6 +87,16 @@ interface RequestHandlerInterface
      * @param array|null $sites
      */
     public function setSites(?array $sites): void;
+
+    /**
+     * @param array|null $sites
+     */
+    public function addSites(?array $sites);
+
+    /**
+     * @param array $site
+     */
+    public function addSite(array $site);
 
     /**
      * @return CacheAdapterInterface

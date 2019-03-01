@@ -54,7 +54,7 @@ services:
 #   ...
 
     Sf4\Api\Services\TagAwareCacheAdapter: ~
-    Sf4\Api\Services\CacheAdapterInterface: '@App\Services\TagAwareCacheAdapter'
+    Sf4\Api\Services\CacheAdapterInterface: '@Sf4\Api\Services\TagAwareCacheAdapter'
 
     Sf4\Api\Repository\RepositoryFactory:
         class: Sf4\Api\Repository\RepositoryFactory

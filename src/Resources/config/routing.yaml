@@ -1,0 +1,7 @@
+sf4_api_default:
+    path: /
+    methods: [GET, OPTIONS]
+
+sf4_api_site:
+    path: /site/{token}
+    methods: [GET, OPTIONS]

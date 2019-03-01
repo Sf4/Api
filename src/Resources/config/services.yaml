@@ -1,16 +1,21 @@
 services:
-    Sf4\Api\Services\TagAwareCacheAdapter: ~
-    Sf4\Api\Services\CacheAdapterInterface: '@App\Services\TagAwareCacheAdapter'
+    Sf4\Api\Services\TagAwareCacheAdapter:
+        class: Sf4\Api\Services\TagAwareCacheAdapter
+        lazy: true
+        calls:
+            - method: init
+    Sf4\Api\Services\CacheAdapterInterface: '@Sf4\Api\Services\TagAwareCacheAdapter'
 
     Sf4\Api\Repository\RepositoryFactory:
         class: Sf4\Api\Repository\RepositoryFactory
+        lazy: true
         arguments:
             $entityManager: '@Doctrine\ORM\EntityManagerInterface'
-            $entities:      []
+            $entities: []
 
-    Sf4\Api\EventSubscriber\RequestSubscriber: ~
     Sf4\Api\RequestHandler\RequestHandlerInterface:
         class: Sf4\Api\RequestHandler\RequestHandler
+        lazy: true
         calls:
             -   method: setEntityManager
                 arguments:
@@ -27,12 +32,10 @@ services:
             -   method: setCacheAdapter
                 arguments:
                     - '@Sf4\Api\Services\CacheAdapterInterface'
-            -   method: setSites
-                arguments:
-                    -   - { site: 'parent', url: null, token: null }
-#                         -   { site: 'parent', url: 'parent.example.com', token: 'API_TOKEN' }
-#                         -   { site: 'example', url: 'site.example.com', token: 'API_TOKEN' }
-            -   method: setAvailableRoutes
-                arguments:
-                    -   api_default: 'Sf4\Api\Request\DefaultRequest'
-                        api_site: 'Sf4\Api\Request\SiteRequest'
+
+    Sf4\Api\EventSubscriber\RequestSubscriber:
+        class: Sf4\Api\EventSubscriber\RequestSubscriber
+        lazy: true
+        tags: ['kernel.event_subscriber']
+        arguments:
+            - '@Sf4\Api\RequestHandler\RequestHandlerInterface'
