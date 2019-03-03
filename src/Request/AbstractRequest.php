@@ -64,10 +64,6 @@ abstract class AbstractRequest implements RequestInterface
         array $tags = [],
         int $expiresAfter = null
     ) {
-        if (null === $expiresAfter) {
-            $expiresAfter = 10;
-        }
-
         if ($cacheKey) {
             $cacheKey = md5($cacheKey);
             $requestHandler = $this->getRequestHandler();

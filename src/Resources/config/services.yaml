@@ -39,3 +39,6 @@ services:
         tags: ['kernel.event_subscriber']
         arguments:
             - '@Sf4\Api\RequestHandler\RequestHandlerInterface'
+
+    Sf4\Api\Routing\ApiLoader:
+        tags: [routing.loader]
