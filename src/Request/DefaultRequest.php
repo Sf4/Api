@@ -29,8 +29,8 @@ class DefaultRequest extends AbstractRequest
         ];
     }
 
-    protected function getCacheExpiresAfter(): ?int
+    protected function getCacheKey(): string
     {
-        return null;
+        return $this->getRoute();
     }
 }

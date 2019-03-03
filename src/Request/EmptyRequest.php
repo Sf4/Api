@@ -24,8 +24,8 @@ class EmptyRequest extends AbstractRequest
         return [];
     }
 
-    protected function getCacheExpiresAfter(): ?int
+    protected function getCacheKey(): string
     {
-        return null;
+        return '__EMPTY';
     }
 }

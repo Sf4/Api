@@ -143,12 +143,12 @@ abstract class AbstractRequest implements RequestInterface
         return static::ROUTE;
     }
 
-    protected function getCacheKey(): string
-    {
-        return $this->getRoute();
-    }
+    abstract protected function getCacheKey(): string;
 
     abstract protected function getCacheTags(): array;
 
-    abstract protected function getCacheExpiresAfter(): ?int;
+    protected function getCacheExpiresAfter(): ?int
+    {
+        return null;
+    }
 }

@@ -29,11 +29,6 @@ class OptionsRequest extends AbstractRequest
         return [];
     }
 
-    protected function getCacheExpiresAfter(): ?int
-    {
-        return null;
-    }
-
     protected function getCacheKey(): string
     {
         return CacheKeysInterface::KEY_OPTIONS;
