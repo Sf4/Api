@@ -31,4 +31,36 @@ trait CacheAdapterTrait
     {
         $this->cacheAdapter = $cacheAdapter;
     }
+
+    /**
+     * @param string $cacheKey
+     * @param \Closure $closure
+     * @param array $tags
+     * @param null $expiresAfter
+     * @return mixed|null
+     * @throws \Psr\Cache\CacheException
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public function getCacheDataOrAdd(string $cacheKey, \Closure $closure, array $tags = [], $expiresAfter = null)
+    {
+        $data = null;
+        $cacheItem = $this->getCacheAdapter()->getItem($cacheKey);
+        if ($cacheItem->isHit()) {
+            $data = $cacheItem->get();
+        } else {
+            $data = $closure();
+            if ($data) {
+                $cacheItem->set($data);
+                if (!empty($tags)) {
+                    $cacheItem->tag($tags);
+                }
+                if ($expiresAfter) {
+                    $cacheItem->expiresAfter($expiresAfter);
+                }
+                $this->getCacheAdapter()->save($cacheItem);
+            }
+        }
+
+        return $data;
+    }
 }

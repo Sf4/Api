@@ -17,16 +17,14 @@ abstract class AbstractFilter extends AbstractDto implements FilterInterface
      */
     public function populate(array $data): void
     {
-        $newData = [];
         foreach ($data as $key => $value) {
             if (isset($value->type) && isset($value->value)) {
                 $filterItem = new BaseFilterItem();
                 $filterItem->setType($value->type);
                 $filterItem->setValue($value->value);
-                $newData[$key] = $filterItem;
+                $this->$key = $filterItem;
             }
         }
-        parent::populate($newData);
     }
 
     /**
@@ -35,6 +33,16 @@ abstract class AbstractFilter extends AbstractDto implements FilterInterface
     public function toArray(): array
     {
         $data = parent::toArray();
+
+        return $this->filterDataToArray($data);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function filterDataToArray(array $data): array
+    {
         foreach ($data as $key => $filterItem) {
             if ($filterItem instanceof FilterItemInterface) {
                 $data[$key] = [

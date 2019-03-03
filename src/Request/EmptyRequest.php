@@ -18,4 +18,14 @@ class EmptyRequest extends AbstractRequest
             new EmptyResponse()
         );
     }
+
+    protected function getCacheTags(): array
+    {
+        return [];
+    }
+
+    protected function getCacheExpiresAfter(): ?int
+    {
+        return null;
+    }
 }

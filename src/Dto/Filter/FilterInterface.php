@@ -22,4 +22,10 @@ interface FilterInterface extends DtoInterface
      * @return array
      */
     public function toArray(): array;
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function filterDataToArray(array $data): array;
 }

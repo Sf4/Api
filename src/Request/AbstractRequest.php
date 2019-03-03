@@ -53,38 +53,43 @@ abstract class AbstractRequest implements RequestInterface
     /**
      * @param \Closure $closure
      * @param string|null $cacheKey
+     * @param array $tags
+     * @param int|null $expiresAfter
+     * @throws \Psr\Cache\CacheException
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function getCachedResponse(\Closure $closure, string $cacheKey = null)
-    {
+    public function getCachedResponse(
+        \Closure $closure,
+        string $cacheKey = null,
+        array $tags = [],
+        int $expiresAfter = null
+    ) {
+        if (null === $expiresAfter) {
+            $expiresAfter = 10;
+        }
+
         if ($cacheKey) {
             $cacheKey = md5($cacheKey);
-            $cacheAdapter = $this->getRequestHandler()->getCacheAdapter();
-            $cacheItem = $cacheAdapter->getItem($cacheKey);
-            if ($cacheItem->isHit()) {
-                /*
-                 * Return cached response
-                 */
-                $responseContent = json_decode($cacheItem->get(), true);
-                $this->getResponse()->setJsonResponse(
-                    new JsonResponse(
-                        $responseContent,
-                        $this->getResponse()->getResponseStatus(),
-                        $this->getResponse()->getResponseHeaders()
-                    )
-                );
-            } else {
-                /*
-                 * Handle request and add response to cache
-                 */
-                $closure();
-                $responseContent = $this->getRequestHandler()->getResponse()->getContent();
-                if ($responseContent) {
-                    $cacheItem->set($responseContent);
-                    $cacheItem->expiresAfter(0);
-                    $cacheAdapter->save($cacheItem);
-                }
-            }
+            $requestHandler = $this->getRequestHandler();
+
+            $data = $requestHandler->getCacheDataOrAdd(
+                $cacheKey,
+                function () use ($closure, $requestHandler) {
+                    $closure();
+                    return $requestHandler->getResponse()->getContent();
+                },
+                $tags,
+                $expiresAfter
+            );
+
+            $responseContent = json_decode($data, true);
+            $this->getResponse()->setJsonResponse(
+                new JsonResponse(
+                    $responseContent,
+                    $this->getResponse()->getResponseStatus(),
+                    $this->getResponse()->getResponseHeaders()
+                )
+            );
         } else {
             /*
              * Handle request
@@ -94,18 +99,24 @@ abstract class AbstractRequest implements RequestInterface
     }
 
     /**
+     * @throws \Psr\Cache\CacheException
      * @throws \Psr\Cache\InvalidArgumentException
      */
     public function handle()
     {
-        $this->getCachedResponse(function () {
-            $requestContent = $this->getRequest()->getContent();
-            if ($requestContent) {
-                $data = json_decode($requestContent, true);
-                $this->getDto()->populate($data);
-            }
-            $this->getResponse()->init();
-        });
+        $this->getCachedResponse(
+            function () {
+                $requestContent = $this->getRequest()->getContent();
+                if ($requestContent) {
+                    $data = json_decode($requestContent, true);
+                    $this->getDto()->populate($data);
+                }
+                $this->getResponse()->init();
+            },
+            $this->getCacheKey(),
+            $this->getCacheTags(),
+            $this->getCacheExpiresAfter()
+        );
     }
 
     /**
@@ -131,4 +142,13 @@ abstract class AbstractRequest implements RequestInterface
     {
         return static::ROUTE;
     }
+
+    protected function getCacheKey(): string
+    {
+        return $this->getRoute();
+    }
+
+    abstract protected function getCacheTags(): array;
+
+    abstract protected function getCacheExpiresAfter(): ?int;
 }

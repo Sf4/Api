@@ -107,4 +107,15 @@ interface RequestHandlerInterface
      * @param CacheAdapterInterface $cacheAdapter
      */
     public function setCacheAdapter(CacheAdapterInterface $cacheAdapter): void;
+
+    /**
+     * @param string $cacheKey
+     * @param \Closure $closure
+     * @param array $tags
+     * @param null $expiresAfter
+     * @return mixed|null
+     * @throws \Psr\Cache\CacheException
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public function getCacheDataOrAdd(string $cacheKey, \Closure $closure, array $tags = [], $expiresAfter = null);
 }

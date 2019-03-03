@@ -8,6 +8,7 @@
 
 namespace Sf4\Api\Request;
 
+use Sf4\Api\CacheAdapter\CacheKeysInterface;
 use Sf4\Api\Response\SiteResponse;
 
 class SiteRequest extends AbstractRequest
@@ -20,5 +21,17 @@ class SiteRequest extends AbstractRequest
         $this->init(
             new SiteResponse()
         );
+    }
+
+    protected function getCacheTags(): array
+    {
+        return [
+            CacheKeysInterface::TAG_SITE
+        ];
+    }
+
+    protected function getCacheExpiresAfter(): ?int
+    {
+        return null;
     }
 }

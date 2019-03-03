@@ -8,6 +8,7 @@
 
 namespace Sf4\Api\Request;
 
+use Sf4\Api\CacheAdapter\CacheKeysInterface;
 use Sf4\Api\Response\OptionsResponse;
 
 class OptionsRequest extends AbstractRequest
@@ -21,5 +22,20 @@ class OptionsRequest extends AbstractRequest
         $this->init(
             new OptionsResponse()
         );
+    }
+
+    protected function getCacheTags(): array
+    {
+        return [];
+    }
+
+    protected function getCacheExpiresAfter(): ?int
+    {
+        return null;
+    }
+
+    protected function getCacheKey(): string
+    {
+        return CacheKeysInterface::KEY_OPTIONS;
     }
 }

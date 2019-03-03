@@ -40,6 +40,13 @@ interface RequestInterface extends ResponseTraitInterface, DtoTraitInterface, Re
     /**
      * @param \Closure $closure
      * @param string|null $cacheKey
+     * @param array $tags
+     * @param int $expiresAfter
      */
-    public function getCachedResponse(\Closure $closure, string $cacheKey = null);
+    public function getCachedResponse(
+        \Closure $closure,
+        string $cacheKey = null,
+        array $tags = [],
+        int $expiresAfter = null
+    );
 }
