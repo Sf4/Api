@@ -56,6 +56,22 @@ class RequestHandler implements RequestHandlerInterface
     }
 
     /**
+     * @return JsonResponse|null
+     */
+    public function getResponse(): ?JsonResponse
+    {
+        $request = $this->getRequest();
+        if ($request) {
+            $response = $request->getResponse();
+            if ($response) {
+                return $response->getJsonResponse();
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @param Request $request
      */
     protected function handleOptionsRequest(Request $request)
@@ -135,21 +151,5 @@ class RequestHandler implements RequestHandlerInterface
 
         $errorDto = $this->createErrorDto($exception);
         $response->setResponseDto($errorDto);
-    }
-
-    /**
-     * @return JsonResponse|null
-     */
-    public function getResponse(): ?JsonResponse
-    {
-        $request = $this->getRequest();
-        if ($request) {
-            $response = $request->getResponse();
-            if ($response) {
-                return $response->getJsonResponse();
-            }
-        }
-
-        return null;
     }
 }
