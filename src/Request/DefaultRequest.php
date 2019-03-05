@@ -32,7 +32,7 @@ class DefaultRequest extends AbstractRequest
      */
     protected function getCacheTags(): array
     {
-        return $this->getCacheTags();
+        return [];
     }
 
     /**
@@ -40,6 +40,6 @@ class DefaultRequest extends AbstractRequest
      */
     protected function getCacheKey(): ?string
     {
-        return $this->getRoute();
+        return $this->getUrl();
     }
 }

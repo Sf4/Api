@@ -8,6 +8,7 @@
 
 namespace Sf4\Api\Request;
 
+use Sf4\Api\CacheAdapter\CacheKeysInterface;
 use Sf4\Api\Request\Traits\GetSiteCacheTags;
 use Sf4\Api\Response\SiteResponse;
 
@@ -32,7 +33,9 @@ class SiteRequest extends AbstractRequest
      */
     protected function getCacheTags(): array
     {
-        return $this->getCacheTags();
+        return [
+            CacheKeysInterface::TAG_SITE
+        ];
     }
 
     /**
