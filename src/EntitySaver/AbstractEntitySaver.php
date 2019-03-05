@@ -22,12 +22,28 @@ abstract class AbstractEntitySaver implements EntitySaverInterface
     use EntityManagerTrait;
     use ResponseTrait;
 
+    /**
+     * @param EntityInterface $entity
+     * @param DtoInterface $requestDto
+     * @return mixed
+     */
     abstract protected function populateEntity(EntityInterface $entity, DtoInterface $requestDto);
 
+    /**
+     * @param EntityInterface $entity
+     * @param ValidatorInterface $validator
+     * @return NotificationInterface
+     */
     abstract protected function validate(
         EntityInterface $entity,
         ValidatorInterface $validator
     ): NotificationInterface;
+
+    /**
+     * @param EntityInterface $entity
+     * @return mixed
+     */
+    abstract protected function postEntitySave(EntityInterface $entity);
 
     /**
      * @param EntityInterface $entity
@@ -45,6 +61,7 @@ abstract class AbstractEntitySaver implements EntitySaverInterface
             $entityManager = $this->getEntityManager();
             $entityManager->persist($entity);
             $entityManager->flush();
+            $this->postEntitySave($entity);
         }
         return $notification;
     }

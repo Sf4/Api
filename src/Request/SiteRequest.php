@@ -8,14 +8,18 @@
 
 namespace Sf4\Api\Request;
 
-use Sf4\Api\CacheAdapter\CacheKeysInterface;
+use Sf4\Api\Request\Traits\GetSiteCacheTags;
 use Sf4\Api\Response\SiteResponse;
 
 class SiteRequest extends AbstractRequest
 {
+    use GetSiteCacheTags;
 
     const ROUTE = 'sf4_api_site';
 
+    /**
+     * SiteRequest constructor.
+     */
     public function __construct()
     {
         $this->init(
@@ -23,13 +27,17 @@ class SiteRequest extends AbstractRequest
         );
     }
 
+    /**
+     * @return array
+     */
     protected function getCacheTags(): array
     {
-        return [
-            CacheKeysInterface::TAG_SITE
-        ];
+        return $this->getCacheTags();
     }
 
+    /**
+     * @return int|null
+     */
     protected function getCacheExpiresAfter(): ?int
     {
         return null;

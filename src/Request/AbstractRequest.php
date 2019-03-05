@@ -65,7 +65,6 @@ abstract class AbstractRequest implements RequestInterface
         int $expiresAfter = null
     ) {
         if ($cacheKey) {
-            $cacheKey = md5($cacheKey);
             $requestHandler = $this->getRequestHandler();
 
             $data = $requestHandler->getCacheDataOrAdd(
@@ -139,7 +138,7 @@ abstract class AbstractRequest implements RequestInterface
         return static::ROUTE;
     }
 
-    protected function getCacheKey(): string
+    protected function getCacheKey(): ?string
     {
         return $this->getUrl();
     }

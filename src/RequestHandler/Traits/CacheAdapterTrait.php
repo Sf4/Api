@@ -43,6 +43,7 @@ trait CacheAdapterTrait
      */
     public function getCacheDataOrAdd(string $cacheKey, \Closure $closure, array $tags = [], $expiresAfter = null)
     {
+        $cacheKey = md5($cacheKey);
         $data = null;
         $cacheItem = $this->getCacheAdapter()->getItem($cacheKey);
         if ($cacheItem->isHit()) {
@@ -62,5 +63,25 @@ trait CacheAdapterTrait
         }
 
         return $data;
+    }
+
+    /**
+     * @param string $cacheKey
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public function removeByKey(string $cacheKey)
+    {
+        if (empty($cacheKey)) {
+            $cacheKey = md5($cacheKey);
+            $this->getCacheAdapter()->delete($cacheKey);
+        }
+    }
+
+    /**
+     * @param array $tags
+     */
+    public function removeByTag(array $tags)
+    {
+        $this->getCacheAdapter()->invalidateTags($tags);
     }
 }

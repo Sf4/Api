@@ -12,6 +12,9 @@ use Sf4\Api\Response\EmptyResponse;
 
 class EmptyRequest extends AbstractRequest
 {
+    /**
+     * EmptyRequest constructor.
+     */
     public function __construct()
     {
         $this->init(
@@ -19,6 +22,9 @@ class EmptyRequest extends AbstractRequest
         );
     }
 
+    /**
+     * @return array
+     */
     protected function getCacheTags(): array
     {
         return [];

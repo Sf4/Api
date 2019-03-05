@@ -24,12 +24,18 @@ class OptionsRequest extends AbstractRequest
         );
     }
 
+    /**
+     * @return array
+     */
     protected function getCacheTags(): array
     {
         return [];
     }
 
-    protected function getCacheKey(): string
+    /**
+     * @return string|null
+     */
+    protected function getCacheKey(): ?string
     {
         return CacheKeysInterface::KEY_OPTIONS;
     }

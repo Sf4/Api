@@ -22,6 +22,9 @@ class RepositoryFactory
     /** @var array $entities */
     protected $entities;
 
+    /** @var array $repositories */
+    protected $repositories = [];
+
     /**
      * RepositoryFactory constructor.
      * @param EntityManagerInterface $entityManager
@@ -58,10 +61,15 @@ class RepositoryFactory
      */
     public function create(string $tableName): ?RepositoryInterface
     {
+        if (array_key_exists($tableName, $this->repositories)) {
+            return $this->repositories[$tableName];
+        }
+
         $entityClass = $this->getEntityClass($tableName);
         if ($entityClass) {
             $repository = $this->getEntityManager()->getRepository($entityClass);
             if ($repository instanceof RepositoryInterface) {
+                $this->repositories[$tableName] = $repository;
                 return $repository;
             }
         }
