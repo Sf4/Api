@@ -138,18 +138,30 @@ abstract class AbstractRequest implements RequestInterface
         return static::ROUTE;
     }
 
+    /**
+     * @return string|null
+     */
     protected function getCacheKey(): ?string
     {
         return $this->getUrl();
     }
 
+    /**
+     * @return array
+     */
     abstract protected function getCacheTags(): array;
 
+    /**
+     * @return int|null
+     */
     protected function getCacheExpiresAfter(): ?int
     {
         return null;
     }
 
+    /**
+     * @return string
+     */
     protected function getUrl(): string
     {
         return $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
