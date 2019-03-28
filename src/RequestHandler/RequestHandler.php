@@ -72,19 +72,22 @@ class RequestHandler implements RequestHandlerInterface
     }
 
     /**
-     * @param Request $request
+     * @param Request $httpRequest
      */
-    protected function handleOptionsRequest(Request $request)
+    protected function handleOptionsRequest(Request $httpRequest): void
     {
         $this->createRequestClass(OptionsRequest::class);
-        $this->getRequest()->setRequest($request);
-        $this->getRequest()->handle();
+        $request = $this->getRequest();
+        if ($request) {
+            $request->setRequest($httpRequest);
+            $request->handle();
+        }
     }
 
     /**
      * @param string $requestClassName
      */
-    protected function createRequestClass(string $requestClassName)
+    protected function createRequestClass(string $requestClassName): void
     {
         /** @var RequestInterface $request */
         $request = new $requestClassName();
@@ -98,7 +101,7 @@ class RequestHandler implements RequestHandlerInterface
     /**
      * @param Request $request
      */
-    protected function handleNormalRequest(Request $request)
+    protected function handleNormalRequest(Request $request): void
     {
         $routes = $this->getAvailableRoutes();
         $route = $request->attributes->get('_route');
@@ -112,7 +115,7 @@ class RequestHandler implements RequestHandlerInterface
      * @param Request $request
      * @param string $requestClassName
      */
-    protected function handleRequestClass(Request $request, string $requestClassName)
+    protected function handleRequestClass(Request $request, string $requestClassName): void
     {
         $this->createRequestClass($requestClassName);
 
@@ -135,7 +138,7 @@ class RequestHandler implements RequestHandlerInterface
     /**
      * @param \Exception $exception
      */
-    protected function handleError(\Exception $exception)
+    protected function handleError(\Exception $exception): void
     {
         $request = $this->getRequest();
 

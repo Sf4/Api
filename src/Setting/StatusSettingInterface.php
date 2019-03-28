@@ -10,8 +10,8 @@ namespace Sf4\Api\Setting;
 
 interface StatusSettingInterface
 {
-    const ACTIVE = 1;
-    const INACTIVE = 0;
-    const ARCHIVED = 3;
-    const PENDING = 4;
+    public const ACTIVE = 1;
+    public const INACTIVE = 0;
+    public const ARCHIVED = 3;
+    public const PENDING = 4;
 }

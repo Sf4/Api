@@ -16,9 +16,15 @@ class SiteResponse extends AbstractResponse
     public function init()
     {
         $dto = new SiteResponseDto();
-        $dto->setAvailableRoutes(
-            $this->getRequest()->getRequestHandler()->getAvailableRoutes()
-        );
+        $request = $this->getRequest();
+        if ($request) {
+            $requestHandler = $request->getRequestHandler();
+            if ($requestHandler) {
+                $dto->setAvailableRoutes(
+                    $requestHandler->getAvailableRoutes()
+                );
+            }
+        }
         $this->setResponseDto($dto);
     }
 }

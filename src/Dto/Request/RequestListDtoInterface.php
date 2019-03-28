@@ -12,8 +12,8 @@ use Sf4\Api\Dto\Filter\FilterInterface;
 
 interface RequestListDtoInterface
 {
-    const FIELD_FILTER = 'filter';
-    const FIELD_SORT = 'sort';
+    public const FIELD_FILTER = 'filter';
+    public const FIELD_SORT = 'sort';
 
     /**
      * @return FilterInterface|null

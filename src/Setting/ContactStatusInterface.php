@@ -10,6 +10,6 @@ namespace Sf4\Api\Setting;
 
 class ContactStatusInterface
 {
-    const PERSON = 1;
-    const COMPANY = 2;
+    public const PERSON = 1;
+    public const COMPANY = 2;
 }

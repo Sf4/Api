@@ -19,9 +19,9 @@ use Sf4\Api\Exception\InvalidObjectTypeException;
 
 abstract class AbstractRepository extends EntityRepository implements RepositoryInterface
 {
-    const TABLE_NAME = null;
+    public const TABLE_NAME = null;
 
-    const DB_FIELD_ID = 'main.id';
+    public const DB_FIELD_ID = 'main.id';
 
     /**
      * @param $id

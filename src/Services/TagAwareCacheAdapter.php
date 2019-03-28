@@ -13,7 +13,7 @@ class TagAwareCacheAdapter implements CacheAdapterInterface
 {
     protected $cache;
 
-    public function init()
+    public function init(): void
     {
         $redisConnection = RedisAdapter::createConnection(
             'redis://localhost'
@@ -45,7 +45,7 @@ class TagAwareCacheAdapter implements CacheAdapterInterface
      * @return ItemInterface
      *   The corresponding Cache Item.
      */
-    public function getItem($key)
+    public function getItem($key): ?ItemInterface
     {
         return $this->getCache()->getItem($key);
     }
@@ -96,7 +96,7 @@ class TagAwareCacheAdapter implements CacheAdapterInterface
      * @return bool
      *   True if item exists in the cache, false otherwise.
      */
-    public function hasItem($key)
+    public function hasItem($key): bool
     {
         return $this->getCache()->hasItem($key);
     }
@@ -107,7 +107,7 @@ class TagAwareCacheAdapter implements CacheAdapterInterface
      * @return bool
      *   True if the pool was successfully cleared. False if there was an error.
      */
-    public function clear()
+    public function clear(): bool
     {
         return $this->getCache()->clear();
     }
@@ -125,7 +125,7 @@ class TagAwareCacheAdapter implements CacheAdapterInterface
      * @return bool
      *   True if the item was successfully removed. False if there was an error.
      */
-    public function deleteItem($key)
+    public function deleteItem($key): bool
     {
         return $this->getCache()->deleteItem($key);
     }
@@ -142,7 +142,7 @@ class TagAwareCacheAdapter implements CacheAdapterInterface
      * @return bool
      *   True if the items were successfully removed. False if there was an error.
      */
-    public function deleteItems(array $keys)
+    public function deleteItems(array $keys): bool
     {
         return $this->getCache()->deleteItems($keys);
     }
@@ -156,7 +156,7 @@ class TagAwareCacheAdapter implements CacheAdapterInterface
      * @return bool
      *   True if the item was successfully persisted. False if there was an error.
      */
-    public function save(CacheItemInterface $item)
+    public function save(CacheItemInterface $item): bool
     {
         return $this->getCache()->save($item);
     }
@@ -170,7 +170,7 @@ class TagAwareCacheAdapter implements CacheAdapterInterface
      * @return bool
      *   False if the item could not be queued or if a commit was attempted and failed. True otherwise.
      */
-    public function saveDeferred(CacheItemInterface $item)
+    public function saveDeferred(CacheItemInterface $item): bool
     {
         return $this->getCache()->saveDeferred($item);
     }
@@ -181,7 +181,7 @@ class TagAwareCacheAdapter implements CacheAdapterInterface
      * @return bool
      *   True if all not-yet-saved items were successfully saved or there were none. False otherwise.
      */
-    public function commit()
+    public function commit(): bool
     {
         return $this->getCache()->commit();
     }
@@ -232,7 +232,7 @@ class TagAwareCacheAdapter implements CacheAdapterInterface
      *
      * @throws InvalidArgumentException When $tags is not valid
      */
-    public function invalidateTags(array $tags)
+    public function invalidateTags(array $tags): bool
     {
         return $this->getCache()->invalidateTags($tags);
     }

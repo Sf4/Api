@@ -10,6 +10,6 @@ namespace Sf4\Api\CacheAdapter;
 
 interface CacheKeysInterface
 {
-    const TAG_SITE = 'site';
-    const KEY_OPTIONS = '__options';
+    public const TAG_SITE = 'site';
+    public const KEY_OPTIONS = '__options';
 }

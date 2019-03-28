@@ -46,11 +46,11 @@ trait CacheAdapterTrait
         $cacheKey = md5($cacheKey);
         $data = null;
         $cacheItem = $this->getCacheAdapter()->getItem($cacheKey);
-        if ($cacheItem->isHit()) {
+        if ($cacheItem && $cacheItem->isHit()) {
             $data = $cacheItem->get();
         } else {
             $data = $closure();
-            if ($data) {
+            if ($data && $cacheItem) {
                 $cacheItem->set($data);
                 if (!empty($tags)) {
                     $cacheItem->tag($tags);
@@ -69,7 +69,7 @@ trait CacheAdapterTrait
      * @param string $cacheKey
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function removeByKey(string $cacheKey)
+    public function removeByKey(string $cacheKey): void
     {
         if (empty($cacheKey)) {
             $cacheKey = md5($cacheKey);
@@ -80,7 +80,7 @@ trait CacheAdapterTrait
     /**
      * @param array $tags
      */
-    public function removeByTag(array $tags)
+    public function removeByTag(array $tags): void
     {
         $this->getCacheAdapter()->invalidateTags($tags);
     }

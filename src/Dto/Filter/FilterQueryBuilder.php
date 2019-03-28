@@ -17,8 +17,11 @@ class FilterQueryBuilder
      * @param FilterItemInterface $filterItem
      * @param string $fieldName
      */
-    public static function buildQuery(QueryBuilder $queryBuilder, ?FilterItemInterface $filterItem, string $fieldName)
-    {
+    public static function buildQuery(
+        QueryBuilder $queryBuilder,
+        ?FilterItemInterface $filterItem,
+        string $fieldName
+    ): void {
         if (!$filterItem || empty($filterItem->getValue())) {
             return;
         }
@@ -64,8 +67,8 @@ class FilterQueryBuilder
         QueryBuilder $queryBuilder,
         FilterItemInterface $filterItem,
         string $fieldName
-    ) {
-        $paramKey = uniqid(':like_');
+    ): \Doctrine\ORM\Query\Expr\Comparison {
+        $paramKey = uniqid(':like_', true);
         $queryBuilder->setParameter($paramKey, $filterItem->getValue());
         return $queryBuilder->expr()->like($fieldName, $paramKey);
     }
@@ -80,8 +83,8 @@ class FilterQueryBuilder
         QueryBuilder $queryBuilder,
         FilterItemInterface $filterItem,
         string $fieldName
-    ) {
-        $paramKey = uniqid(':eq_');
+    ): \Doctrine\ORM\Query\Expr\Comparison {
+        $paramKey = uniqid(':eq_', true);
         $queryBuilder->setParameter($paramKey, $filterItem->getValue());
         return $queryBuilder->expr()->eq($fieldName, $paramKey);
     }
@@ -96,8 +99,8 @@ class FilterQueryBuilder
         QueryBuilder $queryBuilder,
         FilterItemInterface $filterItem,
         string $fieldName
-    ) {
-        $paramKey = uniqid(':neq_');
+    ): \Doctrine\ORM\Query\Expr\Comparison {
+        $paramKey = uniqid(':neq_', true);
         $queryBuilder->setParameter($paramKey, $filterItem->getValue());
         return $queryBuilder->expr()->neq($fieldName, $paramKey);
     }
@@ -112,7 +115,7 @@ class FilterQueryBuilder
         QueryBuilder $queryBuilder,
         FilterItemInterface $filterItem,
         string $fieldName
-    ) {
+    ): ?\Doctrine\ORM\Query\Expr\Func {
         $values = static::convertStringToArray($filterItem->getValue());
 
         if (true === is_array($values)) {
@@ -125,16 +128,15 @@ class FilterQueryBuilder
      * @param $string
      * @return array|null
      */
-    protected static function convertStringToArray($string)
+    protected static function convertStringToArray($string): ?array
     {
         if (false === is_array($string) && true === is_scalar($string)) {
             if (false !== strpos($string, ',')) {
                 return explode(',', $string);
-            } else {
-                return [
-                    $string
-                ];
             }
+            return [
+                $string
+            ];
         }
 
         return null;
@@ -150,7 +152,7 @@ class FilterQueryBuilder
         QueryBuilder $queryBuilder,
         FilterItemInterface $filterItem,
         string $fieldName
-    ) {
+    ): ?\Doctrine\ORM\Query\Expr\Func {
         $values = static::convertStringToArray($filterItem->getValue());
 
         if (true === is_array($values)) {
@@ -164,7 +166,7 @@ class FilterQueryBuilder
      * @param string $fieldName
      * @return string
      */
-    protected static function addIsNullExpression(QueryBuilder $queryBuilder, string $fieldName)
+    protected static function addIsNullExpression(QueryBuilder $queryBuilder, string $fieldName): string
     {
         return $queryBuilder->expr()->isNull($fieldName);
     }
@@ -174,7 +176,7 @@ class FilterQueryBuilder
      * @param string $fieldName
      * @return string
      */
-    protected static function addIsNotNullExpression(QueryBuilder $queryBuilder, string $fieldName)
+    protected static function addIsNotNullExpression(QueryBuilder $queryBuilder, string $fieldName): string
     {
         return $queryBuilder->expr()->isNotNull($fieldName);
     }

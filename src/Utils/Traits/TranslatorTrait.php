@@ -31,4 +31,20 @@ trait TranslatorTrait
     {
         $this->translator = $translator;
     }
+
+    /**
+     * @param $id
+     * @param array $parameters
+     * @param null $domain
+     * @param null $locale
+     * @return string
+     */
+    public function translate($id, array $parameters = array(), $domain = null, $locale = null): string
+    {
+        if ($this->translator) {
+            return $this->translator->trans($id, $parameters, $domain, $locale);
+        }
+
+        return $id;
+    }
 }

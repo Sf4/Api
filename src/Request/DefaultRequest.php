@@ -15,7 +15,7 @@ class DefaultRequest extends AbstractRequest
 {
     use GetSiteCacheTags;
 
-    const ROUTE = 'sf4_api_default';
+    public const ROUTE = 'sf4_api_default';
 
     /**
      * DefaultRequest constructor.
@@ -33,13 +33,5 @@ class DefaultRequest extends AbstractRequest
     protected function getCacheTags(): array
     {
         return [];
-    }
-
-    /**
-     * @return string|null
-     */
-    protected function getCacheKey(): ?string
-    {
-        return $this->getUrl();
     }
 }

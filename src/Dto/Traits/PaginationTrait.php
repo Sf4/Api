@@ -21,10 +21,10 @@ trait PaginationTrait
     protected $currentPage = 1;
 
     /** @var int|null $nextPage */
-    protected $nextPage = null;
+    protected $nextPage;
 
     /** @var int|null $previousPage */
-    protected $previousPage = null;
+    protected $previousPage;
 
     /**
      * @return int

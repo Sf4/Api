@@ -10,6 +10,6 @@ namespace Sf4\Api\Setting;
 
 interface AddressTypeSettingInterface
 {
-    const REGULAR = 1;
-    const LEGAL = 2;
+    public const REGULAR = 1;
+    public const LEGAL = 2;
 }

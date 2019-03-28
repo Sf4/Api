@@ -41,11 +41,11 @@ abstract class AbstractRequest implements RequestInterface
         }
     }
 
-    protected function attachDtoToResponse()
+    protected function attachDtoToResponse(): void
     {
         $response = $this->getResponse();
         $dto = $this->getDto();
-        if ($response !== null && $response->getDto() === null && $dto !== null) {
+        if (null !== $dto && null !== $response && null === $response->getDto()) {
             $response->setDto($dto);
         }
     }
@@ -64,27 +64,30 @@ abstract class AbstractRequest implements RequestInterface
         array $tags = [],
         int $expiresAfter = null
     ) {
-        if ($cacheKey) {
-            $requestHandler = $this->getRequestHandler();
 
+        $requestHandler = $this->getRequestHandler();
+        if ($cacheKey && $requestHandler && $jsonResponse = $requestHandler->getResponse()) {
             $data = $requestHandler->getCacheDataOrAdd(
                 $cacheKey,
-                function () use ($closure, $requestHandler) {
+                static function () use ($closure, $jsonResponse) {
                     $closure();
-                    return $requestHandler->getResponse()->getContent();
+                    return $jsonResponse->getContent();
                 },
                 $tags,
                 $expiresAfter
             );
 
             $responseContent = json_decode($data, true);
-            $this->getResponse()->setJsonResponse(
-                new JsonResponse(
-                    $responseContent,
-                    $this->getResponse()->getResponseStatus(),
-                    $this->getResponse()->getResponseHeaders()
-                )
-            );
+            $response = $this->getResponse();
+            if ($response) {
+                $response->setJsonResponse(
+                    new JsonResponse(
+                        $responseContent,
+                        $response->getResponseStatus(),
+                        $response->getResponseHeaders()
+                    )
+                );
+            }
         } else {
             /*
              * Handle request
@@ -101,12 +104,20 @@ abstract class AbstractRequest implements RequestInterface
     {
         $this->getCachedResponse(
             function () {
-                $requestContent = $this->getRequest()->getContent();
-                if ($requestContent) {
-                    $data = json_decode($requestContent, true);
-                    $this->getDto()->populate($data);
+                $httpRequest = $this->getRequest();
+                $response = $this->getResponse();
+
+                if ($httpRequest) {
+                    $requestContent = $httpRequest->getContent();
+                    $dto = $this->getDto();
+                    if ($requestContent && $dto) {
+                        $data = json_decode($requestContent, true);
+                        $dto->populate($data);
+                    }
                 }
-                $this->getResponse()->init();
+                if ($response) {
+                    $response->init();
+                }
             },
             $this->getCacheKey(),
             $this->getCacheTags(),

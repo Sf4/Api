@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 trait ArrayCollectionToArrayTrait
 {
-    protected function arrayCollectionToArray(ArrayCollection $items)
+    protected function arrayCollectionToArray(ArrayCollection $items): array
     {
         $data = [];
         foreach ($items as $item) {

@@ -25,7 +25,7 @@ trait ConvertViolationsToErrorMessage
         ConstraintViolationListInterface $violationList,
         NotificationInterface $notification,
         string $fieldName
-    ) {
+    ): void {
         if (0 !== count($violationList)) {
             /** @var ConstraintViolationInterface $violation */
             foreach ($violationList as $violation) {

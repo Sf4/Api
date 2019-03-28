@@ -12,7 +12,7 @@ use Sf4\Api\Dto\Response\ErrorDto;
 
 trait CreateErrorDtoTrait
 {
-    protected function createErrorDto(\Exception $exception)
+    protected function createErrorDto(\Exception $exception): ErrorDto
     {
         $errorDto = new ErrorDto();
         $errorDto->error = $exception->getMessage();

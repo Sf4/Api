@@ -18,7 +18,7 @@ trait TruncateTableTrait
      * @throws \Doctrine\DBAL\ConnectionException
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function truncateTable(EntityManagerInterface $em, string $className)
+    public function truncateTable(EntityManagerInterface $em, string $className): void
     {
         $classMetaData = $em->getClassMetadata($className);
         $connection = $em->getConnection();

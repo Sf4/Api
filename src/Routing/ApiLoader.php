@@ -13,7 +13,7 @@ use Symfony\Component\Routing\RouteCollection;
 
 class ApiLoader extends Loader
 {
-    const TYPE = 'sf4_api';
+    public const TYPE = 'sf4_api';
 
     /** @var bool $isLoaded */
     protected $isLoaded = false;
@@ -23,7 +23,7 @@ class ApiLoader extends Loader
      * @param null $type
      * @return RouteCollection|null
      */
-    public function load($resource, $type = null)
+    public function load($resource, $type = null): ?RouteCollection
     {
         if (true === $this->isLoaded) {
             return null;
@@ -31,10 +31,10 @@ class ApiLoader extends Loader
 
         $routes = new RouteCollection();
 
-        $resource = '@Sf4ApiBundle/Resources/config/routing.yaml';
-        $type = 'yaml';
-
-        $importedRoutes = $this->import($resource, $type);
+        $importedRoutes = $this->import(
+            '@Sf4ApiBundle/Resources/config/routing.yaml',
+            'yaml'
+        );
         $routes->addCollection($importedRoutes);
 
         $this->isLoaded = true;
@@ -47,7 +47,7 @@ class ApiLoader extends Loader
      * @param null $type
      * @return bool
      */
-    public function supports($resource, $type = null)
+    public function supports($resource, $type = null): bool
     {
         return static::TYPE === $type;
     }

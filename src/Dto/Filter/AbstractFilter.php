@@ -18,7 +18,7 @@ abstract class AbstractFilter extends AbstractDto implements FilterInterface
     public function populate(array $data): void
     {
         foreach ($data as $key => $value) {
-            if (isset($value->type) && isset($value->value)) {
+            if (isset($value->type, $value->value)) {
                 $filterItem = new BaseFilterItem();
                 $filterItem->setType($value->type);
                 $filterItem->setValue($value->value);

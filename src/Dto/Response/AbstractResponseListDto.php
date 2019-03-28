@@ -26,7 +26,7 @@ abstract class AbstractResponseListDto extends AbstractResponseDto
     use OrdersTrait;
     use ArrayCollectionToArrayTrait;
 
-    const ITEMS = 'items';
+    public const ITEMS = 'items';
 
     public function __construct()
     {

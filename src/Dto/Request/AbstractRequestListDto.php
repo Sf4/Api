@@ -44,8 +44,9 @@ abstract class AbstractRequestListDto extends AbstractRequestDto implements Requ
     protected function populateFilter(array $data)
     {
         $filterData = $this->getFieldData($data, static::FIELD_FILTER);
-        if ($filterData) {
-            $this->getFilter()->populate($filterData);
+        $filter = $this->getFilter();
+        if ($filterData && $filter) {
+            $filter->populate($filterData);
         }
     }
 

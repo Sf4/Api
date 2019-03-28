@@ -10,5 +10,5 @@ namespace Sf4\Api\Notification;
 
 class BaseErrorMessage extends AbstractMessage implements ErrorMessageInterface
 {
-    const TYPE = 'ERROR';
+    public const TYPE = 'ERROR';
 }

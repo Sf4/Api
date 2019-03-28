@@ -47,7 +47,7 @@ trait EntityIdTrait
         return $this->uuid;
     }
 
-    public function createUuid()
+    public function createUuid(): void
     {
         $this->uuid = $this->createNewToken();
     }

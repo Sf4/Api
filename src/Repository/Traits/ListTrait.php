@@ -52,7 +52,7 @@ trait ListTrait
     protected function createListQueryBuilderWithFilterAndOrderQueries(
         FilterInterface $filter = null,
         ArrayCollection $orders = null
-    ) {
+    ): QueryBuilder {
         $queryBuilder = $this->createListQueryBuilder();
         $this->addFilterQuery($queryBuilder, $filter);
         $this->addOrdersQuery($queryBuilder, $orders);
@@ -60,7 +60,7 @@ trait ListTrait
         return $queryBuilder;
     }
 
-    protected function addOrdersQuery(QueryBuilder $queryBuilder, ArrayCollection $orders = null)
+    protected function addOrdersQuery(QueryBuilder $queryBuilder, ArrayCollection $orders = null): void
     {
         if (!$orders) {
             return;

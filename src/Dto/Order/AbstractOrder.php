@@ -11,8 +11,8 @@ namespace Sf4\Api\Dto\Order;
 abstract class AbstractOrder implements OrderInterface
 {
 
-    const PROPERTY_DIRECTION = 'direction';
-    const PROPERTY_FIELD = 'field';
+    public const PROPERTY_DIRECTION = 'direction';
+    public const PROPERTY_FIELD = 'field';
 
     /** @var string $direction */
     protected $direction;
@@ -20,9 +20,9 @@ abstract class AbstractOrder implements OrderInterface
     /** @var string $field */
     protected $field;
 
-    public function populate(array $data)
+    public function populate(array $data): void
     {
-        if (isset($data[static::PROPERTY_DIRECTION]) && isset($data[static::PROPERTY_FIELD])) {
+        if (isset($data[static::PROPERTY_DIRECTION], $data[static::PROPERTY_FIELD])) {
             $this->setDirection($data[static::PROPERTY_DIRECTION]);
             $this->setField($data[static::PROPERTY_FIELD]);
         }
@@ -50,7 +50,7 @@ abstract class AbstractOrder implements OrderInterface
     /**
      * @param string $direction
      */
-    public function setDirection(string $direction)
+    public function setDirection(string $direction): void
     {
         if (false === $this->directionExists($direction)) {
             $direction = static::DIRECTION_ASCENDING;
@@ -72,7 +72,7 @@ abstract class AbstractOrder implements OrderInterface
     /**
      * @param string $field
      */
-    public function setField(string $field)
+    public function setField(string $field): void
     {
         if (false === $this->fieldExists($field)) {
             $field = static::DEFAULT_FIELD;
@@ -89,7 +89,7 @@ abstract class AbstractOrder implements OrderInterface
         return in_array($direction, [
             static::DIRECTION_ASCENDING,
             static::DIRECTION_DESCENDING
-        ]);
+        ], true);
     }
 
     /**
@@ -98,6 +98,6 @@ abstract class AbstractOrder implements OrderInterface
      */
     protected function fieldExists(string $field): bool
     {
-        return in_array($field, $this->getAvailableFields());
+        return in_array($field, $this->getAvailableFields(), true);
     }
 }

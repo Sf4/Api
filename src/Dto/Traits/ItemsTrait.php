@@ -25,7 +25,7 @@ trait ItemsTrait
     /**
      * @param DtoInterface $dto
      */
-    public function addItem(DtoInterface $dto)
+    public function addItem(DtoInterface $dto): void
     {
         $this->items->add($dto);
     }

@@ -14,52 +14,45 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
 
-    const NAME = 'sf4_api';
-    const SITES = 'sites';
-    const SITES_SITE = 'site';
-    const SITES_URL = 'url';
-    const SITES_TOKEN = 'token';
-    const ROUTES = 'routes';
-    const ROUTES_ROUTE = 'route';
-    const ROUTES_REQUEST_CLASS = 'request_class';
-    const ENTITIES = 'entities';
-    const ENTITIES_TABLE_NAME = 'table_name';
-    const ENTITIES_ENTITY_CLASS = 'entity_class';
+    public const NAME = 'sf4_api';
+    public const SITES = 'sites';
+    public const SITES_SITE = 'site';
+    public const SITES_URL = 'url';
+    public const SITES_TOKEN = 'token';
+    public const ROUTES = 'routes';
+    public const ROUTES_ROUTE = 'route';
+    public const ROUTES_REQUEST_CLASS = 'request_class';
+    public const ENTITIES = 'entities';
+    public const ENTITIES_TABLE_NAME = 'table_name';
+    public const ENTITIES_ENTITY_CLASS = 'entity_class';
 
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root(static::NAME);
 
-        $rootNode
-            ->children()
-                ->arrayNode(static::SITES)
-                    ->arrayPrototype()
-                        ->children()
-                            ->scalarNode(static::SITES_SITE)->end()
-                            ->scalarNode(static::SITES_URL)->end()
-                            ->scalarNode(static::SITES_TOKEN)->end()
-                        ->end()
-                    ->end()
-                ->end()
-                ->arrayNode(static::ROUTES)
-                    ->arrayPrototype()
-                        ->children()
-                            ->scalarNode(static::ROUTES_ROUTE)->end()
-                            ->scalarNode(static::ROUTES_REQUEST_CLASS)->end()
-                        ->end()
-                    ->end()
-                ->end()
-                ->arrayNode(static::ENTITIES)
-                    ->arrayPrototype()
-                        ->children()
-                        ->scalarNode(static::ENTITIES_TABLE_NAME)->end()
-                        ->scalarNode(static::ENTITIES_ENTITY_CLASS)->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end()
-        ;
+        $children = $rootNode->children();
+
+        $sites = $children->arrayNode(static::SITES)->arrayPrototype()->children();
+        $sites->scalarNode(static::SITES_SITE)->end();
+        $sites->scalarNode(static::SITES_URL)->end();
+        $sites->scalarNode(static::SITES_TOKEN)->end();
+        $sites->end()->end();
+        $sites->end();
+
+        $routes = $children->arrayNode(static::ROUTES)->arrayPrototype()->children();
+        $routes->scalarNode(static::ROUTES_ROUTE)->end();
+        $routes->scalarNode(static::ROUTES_REQUEST_CLASS)->end();
+        $routes->end()->end();
+        $routes->end();
+
+        $entities = $children->arrayNode(static::ENTITIES)->arrayPrototype()->children();
+        $entities->scalarNode(static::ENTITIES_TABLE_NAME)->end();
+        $entities->scalarNode(static::ENTITIES_ENTITY_CLASS)->end();
+        $entities->end()->end();
+        $entities->end();
+
+        $children->end();
 
         return $treeBuilder;
     }

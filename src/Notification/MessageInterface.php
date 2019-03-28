@@ -10,7 +10,7 @@ namespace Sf4\Api\Notification;
 
 interface MessageInterface
 {
-    const TYPE = 'MESSAGE';
+    public const TYPE = 'MESSAGE';
 
     public function getType(): string;
 

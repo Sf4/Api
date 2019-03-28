@@ -29,7 +29,7 @@ class BaseNotification implements NotificationInterface
         return $this->messages;
     }
 
-    public function addMessage(MessageInterface $message)
+    public function addMessage(MessageInterface $message): void
     {
         $this->getMessages()->add($message);
     }

@@ -10,13 +10,13 @@ namespace Sf4\Api\Dto\Filter;
 
 interface FilterItemInterface
 {
-    const TYPE_LIKE = 'like';
-    const TYPE_EQUAL = 'equal';
-    const TYPE_NOT_EQUAL = 'not_equal';
-    const TYPE_IN = 'in';
-    const TYPE_NOT_IN = 'not_in';
-    const TYPE_IS_NULL = 'is_null';
-    const TYPE_NOT_NULL = 'not_null';
+    public const TYPE_LIKE = 'like';
+    public const TYPE_EQUAL = 'equal';
+    public const TYPE_NOT_EQUAL = 'not_equal';
+    public const TYPE_IN = 'in';
+    public const TYPE_NOT_IN = 'not_in';
+    public const TYPE_IS_NULL = 'is_null';
+    public const TYPE_NOT_NULL = 'not_null';
 
     /**
      * @return mixed

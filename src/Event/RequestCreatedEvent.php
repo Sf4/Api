@@ -18,7 +18,7 @@ class RequestCreatedEvent extends Event
     use RequestTrait;
     use ResponseTrait;
 
-    const NAME = 'api.request.created';
+    public const NAME = 'api.request.created';
 
     /**
      * RequestCreatedEvent constructor.

@@ -30,7 +30,7 @@ trait OrdersTrait
     /**
      * @param ArrayCollection $orders
      */
-    public function setOrders(ArrayCollection $orders)
+    public function setOrders(ArrayCollection $orders): void
     {
         $this->orders = $orders;
     }

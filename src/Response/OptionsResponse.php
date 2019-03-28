@@ -16,13 +16,15 @@ class OptionsResponse extends AbstractResponse
         $headers = $this->getResponseHeaders();
         if ($request) {
             $httpRequest = $request->getRequest();
-            $requestHeaders = $httpRequest->headers;
-            $headers['Access-Control-Allow-Credentials'] = 'true';
-            if ($requestHeaders->has('Access-Control-Request-Headers')) {
-                $headers['Access-Control-Allow-Headers'] = $requestHeaders->get('Access-Control-Request-Headers');
-            }
-            if ($requestHeaders->has('Access-Control-Request-Method')) {
-                $headers['Access-Control-Allow-Methods'] = $requestHeaders->get('Access-Control-Request-Method');
+            if ($httpRequest) {
+                $requestHeaders = $httpRequest->headers;
+                $headers['Access-Control-Allow-Credentials'] = 'true';
+                if ($requestHeaders->has('Access-Control-Request-Headers')) {
+                    $headers['Access-Control-Allow-Headers'] = $requestHeaders->get('Access-Control-Request-Headers');
+                }
+                if ($requestHeaders->has('Access-Control-Request-Method')) {
+                    $headers['Access-Control-Allow-Methods'] = $requestHeaders->get('Access-Control-Request-Method');
+                }
             }
         }
         $this->setResponseHeaders($headers);

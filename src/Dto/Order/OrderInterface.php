@@ -11,9 +11,9 @@ namespace Sf4\Api\Dto\Order;
 interface OrderInterface
 {
 
-    const DIRECTION_ASCENDING = 'ASC';
-    const DIRECTION_DESCENDING = 'DESC';
-    const DEFAULT_FIELD = 'id';
+    public const DIRECTION_ASCENDING = 'ASC';
+    public const DIRECTION_DESCENDING = 'DESC';
+    public const DEFAULT_FIELD = 'id';
 
     public function setDirection(string $direction);
 

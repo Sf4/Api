@@ -16,7 +16,7 @@ class SiteRequest extends AbstractRequest
 {
     use GetSiteCacheTags;
 
-    const ROUTE = 'sf4_api_site';
+    public const ROUTE = 'sf4_api_site';
 
     /**
      * SiteRequest constructor.
@@ -36,13 +36,5 @@ class SiteRequest extends AbstractRequest
         return [
             CacheKeysInterface::TAG_SITE
         ];
-    }
-
-    /**
-     * @return int|null
-     */
-    protected function getCacheExpiresAfter(): ?int
-    {
-        return null;
     }
 }

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 interface ResponseInterface extends DtoTraitInterface, RequestTraitInterface
 {
-    const HEADERS = [
+    public const HEADERS = [
         'accept' => 'application/json',
         'Content-Type' => 'application/json'
     ];
@@ -64,7 +64,7 @@ interface ResponseInterface extends DtoTraitInterface, RequestTraitInterface
      * @param null $locale
      * @return string
      */
-    public function translate($id, array $parameters = array(), $domain = null, $locale = null);
+    public function translate($id, array $parameters = array(), $domain = null, $locale = null): string;
 
     /**
      * @param JsonResponse $jsonResponse

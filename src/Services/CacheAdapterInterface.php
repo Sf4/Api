@@ -25,7 +25,7 @@ interface CacheAdapterInterface
      * @return ItemInterface
      *   The corresponding Cache Item.
      */
-    public function getItem($key);
+    public function getItem($key): ?ItemInterface;
 
     /**
      * Returns a traversable set of cache items.
@@ -62,7 +62,7 @@ interface CacheAdapterInterface
      * @return bool
      *   True if item exists in the cache, false otherwise.
      */
-    public function hasItem($key);
+    public function hasItem($key): bool;
 
     /**
      * Deletes all items in the pool.
@@ -70,7 +70,7 @@ interface CacheAdapterInterface
      * @return bool
      *   True if the pool was successfully cleared. False if there was an error.
      */
-    public function clear();
+    public function clear(): bool;
 
     /**
      * Removes the item from the pool.
@@ -85,7 +85,7 @@ interface CacheAdapterInterface
      * @return bool
      *   True if the item was successfully removed. False if there was an error.
      */
-    public function deleteItem($key);
+    public function deleteItem($key): bool;
 
     /**
      * Removes multiple items from the pool.
@@ -99,7 +99,7 @@ interface CacheAdapterInterface
      * @return bool
      *   True if the items were successfully removed. False if there was an error.
      */
-    public function deleteItems(array $keys);
+    public function deleteItems(array $keys): bool;
 
     /**
      * Persists a cache item immediately.
@@ -110,7 +110,7 @@ interface CacheAdapterInterface
      * @return bool
      *   True if the item was successfully persisted. False if there was an error.
      */
-    public function save(CacheItemInterface $item);
+    public function save(CacheItemInterface $item): bool;
 
     /**
      * Sets a cache item to be persisted later.
@@ -121,7 +121,7 @@ interface CacheAdapterInterface
      * @return bool
      *   False if the item could not be queued or if a commit was attempted and failed. True otherwise.
      */
-    public function saveDeferred(CacheItemInterface $item);
+    public function saveDeferred(CacheItemInterface $item): bool;
 
     /**
      * Persists any deferred cache items.
@@ -129,7 +129,7 @@ interface CacheAdapterInterface
      * @return bool
      *   True if all not-yet-saved items were successfully saved or there were none. False otherwise.
      */
-    public function commit();
+    public function commit(): bool;
 
     /**
      * Fetches a value from the pool or computes it if not found.
@@ -172,5 +172,5 @@ interface CacheAdapterInterface
      *
      * @return bool True on success
      */
-    public function invalidateTags(array $tags);
+    public function invalidateTags(array $tags): bool;
 }

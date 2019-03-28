@@ -19,13 +19,13 @@ abstract class AbstractEntityValidator
     use TranslatorTrait;
     use ConvertViolationsToErrorMessage;
 
-    const VALUE = 'value';
-    const CONSTRAINTS = 'constraints';
-    const MIN = 'min';
-    const PATTERN = 'pattern';
+    public const VALUE = 'value';
+    public const CONSTRAINTS = 'constraints';
+    public const MIN = 'min';
+    public const PATTERN = 'pattern';
 
-    const OPTION_MESSAGE = 'message';
-    const OPTION_MIN_MESSAGE = 'minMessage';
+    public const OPTION_MESSAGE = 'message';
+    public const OPTION_MIN_MESSAGE = 'minMessage';
 
     /*
      * \p{L} - single character
@@ -36,7 +36,7 @@ abstract class AbstractEntityValidator
      * \X - line break characters,
      * \p{P} - any kind of punctuation character
      */
-    const NAME_REGEX = '/^(\p{Lu})([\p{L}\p{Zs}-]+)(\p{Ll})$/um';
+    public const NAME_REGEX = '/^(\p{Lu})([\p{L}\p{Zs}-]+)(\p{Ll})$/um';
 
     /**
      * @param EntityInterface $entity
@@ -53,7 +53,7 @@ abstract class AbstractEntityValidator
         EntityInterface $entity,
         ValidatorInterface $validator,
         NotificationInterface $notification
-    ) {
+    ): void {
         $rules = $this->getValidationRules($entity);
         foreach ($rules as $fieldName => $rule) {
             $this->validateField($validator, $notification, $fieldName, $rule);
@@ -71,7 +71,7 @@ abstract class AbstractEntityValidator
         NotificationInterface $notification,
         string $fieldName,
         array $rule
-    ) {
+    ): void {
         $this->convertViolationsToErrormessage(
             $validator->validate(
                 $rule[static::VALUE],
@@ -80,19 +80,5 @@ abstract class AbstractEntityValidator
             $notification,
             $fieldName
         );
-    }
-
-    /**
-     * @param $id
-     * @param array $parameters
-     * @param null $domain
-     * @param null $locale
-     * @return string
-     */
-    protected function translate($id, array $parameters = array(), $domain = null, $locale = null)
-    {
-        $translator = $this->getTranslator();
-
-        return $translator->trans($id, $parameters, $domain, $locale);
     }
 }

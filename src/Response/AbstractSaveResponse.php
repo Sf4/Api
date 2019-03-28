@@ -17,21 +17,27 @@ use Sf4\Api\Repository\RepositoryInterface;
 
 abstract class AbstractSaveResponse extends AbstractResponse
 {
-    const MESSAGE_SUCCESS = 'save.success';
-    const MESSAGE_ERROR = 'save.error';
+    public const MESSAGE_SUCCESS = 'save.success';
+    public const MESSAGE_ERROR = 'save.error';
 
     abstract protected function getSaveDtoClass(): string;
 
     public function init()
     {
-        $requestDto = $this->getRequest()->getDto();
+        $request = $this->getRequest();
         $saveDtoClass = $this->getSaveDtoClass();
         /** @var ResponseSaveDtoInterface $saveDto */
         $saveDto = new $saveDtoClass();
+        $notifications = null;
 
-        /** @var NotificationInterface $notifications */
-        $notifications = $this->save($requestDto);
-        if (false === $notifications->hasErrorMessages()) {
+        if ($request) {
+            $requestDto = $request->getDto();
+            if ($requestDto) {
+                /** @var NotificationInterface $notifications */
+                $notifications = $this->save($requestDto);
+            }
+        }
+        if ($notifications && false === $notifications->hasErrorMessages()) {
             $saveDto->setOkStatus();
             $message = $this->getMessage(true);
         } else {
@@ -48,34 +54,45 @@ abstract class AbstractSaveResponse extends AbstractResponse
 
     abstract protected function getEntitySaverClass(): string;
 
-    protected function save(DtoInterface $requestDto): NotificationInterface
+    protected function save(DtoInterface $requestDto): ?NotificationInterface
     {
-        $entityManager = $this->getRequest()->getRequestHandler()->getEntityManager();
-        $entityClass = $this->getEntityClass();
-        $entity = null;
-        $uuid = $this->getRequest()->getRequest()->attributes->get('id');
-        if ($uuid) {
-            /** @var RepositoryInterface $repository */
-            $repository = $entityManager->getRepository($entityClass);
-            /** @var EntityInterface $entity */
-            $entity = $repository->getEntityByUuid($uuid);
-        }
-        if (!$entity) {
-            $entity = new $entityClass();
+        $request = $this->getRequest();
+        if ($request) {
+            $entityClass = $this->getEntityClass();
+            $uuid = $request->getRequest()->attributes->get('id');
+            $requestHandler = $request->getRequestHandler();
+
+            $entityManager = null;
+            if ($requestHandler) {
+                $entityManager = $requestHandler->getEntityManager();
+            }
+
+            $entity = null;
+            if ($uuid) {
+                /** @var RepositoryInterface $repository */
+                $repository = $entityManager->getRepository($entityClass);
+                /** @var EntityInterface $entity */
+                $entity = $repository->getEntityByUuid($uuid);
+            }
+            if (!$entity) {
+                $entity = new $entityClass();
+            }
+
+            $entitySaverClass = $this->getEntitySaverClass();
+            /** @var EntitySaverInterface $entitySaver */
+            $entitySaver = new $entitySaverClass();
+            $entitySaver->setEntityManager($entityManager);
+            $entitySaver->setResponse($this);
+
+            return $entitySaver->save($entity, $requestDto);
         }
 
-        $entitySaverClass = $this->getEntitySaverClass();
-        /** @var EntitySaverInterface $entitySaver */
-        $entitySaver = new $entitySaverClass();
-        $entitySaver->setEntityManager($entityManager);
-        $entitySaver->setResponse($this);
-
-        return $entitySaver->save($entity, $requestDto);
+        return null;
     }
 
     abstract protected function getMessageCodePrefix(): string;
 
-    protected function getMessage(bool $isSuccess)
+    protected function getMessage(bool $isSuccess): string
     {
         if ($isSuccess === true) {
             $code = static::MESSAGE_SUCCESS;
@@ -83,14 +100,22 @@ abstract class AbstractSaveResponse extends AbstractResponse
             $code = static::MESSAGE_ERROR;
         }
 
-        $prefix = $this->getMessageCodePrefix();
-        $translator = $this->getRequest()->getRequestHandler()->getTranslator();
-        $translation = $translator->trans($prefix . $code);
+        $request = $this->getRequest();
+        if ($request) {
+            $requestHandler = $request->getRequestHandler();
+            if ($requestHandler) {
+                $translator = $requestHandler->getTranslator();
+                $prefix = $this->getMessageCodePrefix();
+                $translation = $translator->trans($prefix . $code);
 
-        if ($translation === $prefix . $code) {
-            $translation = $translator->trans($code);
+                if ($translation === $prefix . $code) {
+                    $translation = $translator->trans($code);
+                }
+
+                return $translation;
+            }
         }
 
-        return $translation;
+        return $code;
     }
 }

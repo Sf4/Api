@@ -27,6 +27,15 @@ abstract class AbstractDto implements DtoInterface
 
     /**
      * @param $name
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return isset($this->$name);
+    }
+
+    /**
+     * @param $name
      * @return mixed|null
      */
     public function __get($name)

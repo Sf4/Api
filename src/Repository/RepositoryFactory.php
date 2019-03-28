@@ -16,9 +16,6 @@ class RepositoryFactory
 
     use EntityManagerTrait;
 
-    /** @var EntityManagerInterface $entityManager */
-    protected $entityManager;
-
     /** @var array $entities */
     protected $entities;
 
@@ -39,7 +36,7 @@ class RepositoryFactory
     /**
      * @param array $entities
      */
-    public function addEntities(array $entities)
+    public function addEntities(array $entities): void
     {
         foreach ($entities as $tableName => $entityClass) {
             $this->addEntity($tableName, $entityClass);
@@ -50,7 +47,7 @@ class RepositoryFactory
      * @param string $tableName
      * @param string $entityClass
      */
-    public function addEntity(string $tableName, string $entityClass)
+    public function addEntity(string $tableName, string $entityClass): void
     {
         $this->entities[$tableName] = $entityClass;
     }
@@ -83,10 +80,6 @@ class RepositoryFactory
      */
     public function getEntityClass(string $tableName): ?string
     {
-        if (isset($this->entities[$tableName])) {
-            return $this->entities[$tableName];
-        }
-
-        return null;
+        return $this->entities[$tableName] ?? null;
     }
 }

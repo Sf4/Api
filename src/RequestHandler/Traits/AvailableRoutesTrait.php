@@ -25,7 +25,7 @@ trait AvailableRoutesTrait
     /**
      * @param array $availableRoutes
      */
-    public function setAvailableRoutes(array $availableRoutes)
+    public function setAvailableRoutes(array $availableRoutes): void
     {
         $this->availableRoutes = $availableRoutes;
     }
@@ -33,7 +33,7 @@ trait AvailableRoutesTrait
     /**
      * @param array $availableRoutes
      */
-    public function addAvailableRoutes(array $availableRoutes)
+    public function addAvailableRoutes(array $availableRoutes): void
     {
         foreach ($availableRoutes as $route => $requestClass) {
             $this->addAvailableRoute($route, $requestClass);
@@ -44,9 +44,9 @@ trait AvailableRoutesTrait
      * @param string $route
      * @param string $requestClass
      */
-    public function addAvailableRoute(string $route, string $requestClass)
+    public function addAvailableRoute(string $route, string $requestClass): void
     {
-        if (!in_array($route, $this->availableRoutes)) {
+        if (!in_array($route, $this->availableRoutes, true)) {
             $this->availableRoutes[$route] = $requestClass;
         }
     }

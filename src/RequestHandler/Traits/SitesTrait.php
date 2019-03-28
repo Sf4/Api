@@ -34,7 +34,7 @@ trait SitesTrait
     /**
      * @param array|null $sites
      */
-    public function addSites(?array $sites)
+    public function addSites(?array $sites): void
     {
         if (!$sites) {
             return ;
@@ -48,11 +48,13 @@ trait SitesTrait
     /**
      * @param array $site
      */
-    public function addSite(array $site)
+    public function addSite(array $site): void
     {
-        if (isset($site[Configuration::SITES_SITE]) &&
-            isset($site[Configuration::SITES_URL]) &&
-            isset($site[Configuration::SITES_TOKEN])) {
+        if (isset(
+            $site[Configuration::SITES_SITE],
+            $site[Configuration::SITES_URL],
+            $site[Configuration::SITES_TOKEN]
+        )) {
             foreach ($this->sites as $thisSite) {
                 if ($thisSite[Configuration::SITES_SITE] === $site[Configuration::SITES_SITE]) {
                     return ;

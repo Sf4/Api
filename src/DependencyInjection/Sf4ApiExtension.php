@@ -27,7 +27,7 @@ class Sf4ApiExtension extends Extension
      * @param ContainerBuilder $container
      * @throws \Exception
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $this->loadServices($container, __DIR__);
 
@@ -52,7 +52,7 @@ class Sf4ApiExtension extends Extension
     /**
      * @param ContainerBuilder $container
      */
-    protected function addRequestHandlerDefaultSites(ContainerBuilder $container)
+    protected function addRequestHandlerDefaultSites(ContainerBuilder $container): void
     {
         $this->addRequestHandlerSites($container, [
             [
@@ -66,7 +66,7 @@ class Sf4ApiExtension extends Extension
     /**
      * @param ContainerBuilder $container
      */
-    protected function addRequestHandlerDefaultRoutes(ContainerBuilder $container)
+    protected function addRequestHandlerDefaultRoutes(ContainerBuilder $container): void
     {
         $this->addRequestHandlerRoutes($container, [
             [

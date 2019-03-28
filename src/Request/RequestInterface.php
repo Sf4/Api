@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 interface RequestInterface extends ResponseTraitInterface, DtoTraitInterface, RequestHandlerTraitInterface
 {
-    const ROUTE = '';
+    public const ROUTE = '';
 
     /**
      * AbstractRequest constructor.

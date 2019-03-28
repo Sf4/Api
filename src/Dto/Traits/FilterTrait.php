@@ -14,7 +14,7 @@ trait FilterTrait
 {
 
     /** @var FilterInterface $filter */
-    protected $filter = null;
+    protected $filter;
 
     /**
      * @return FilterInterface

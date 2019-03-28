@@ -15,6 +15,7 @@ use Sf4\Api\Dto\Traits\DtoTrait;
 use Sf4\Api\Repository\AbstractRepository;
 use Sf4\Api\Repository\RepositoryInterface;
 use Sf4\Api\Request\RequestTrait;
+use Sf4\Api\Utils\Traits\TranslatorTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 abstract class AbstractResponse implements ResponseInterface
@@ -23,6 +24,7 @@ abstract class AbstractResponse implements ResponseInterface
     use DtoTrait;
     use RequestTrait;
     use CreateErrorDtoTrait;
+    use TranslatorTrait;
 
     /** @var DtoInterface $responseDto */
     protected $responseDto;
@@ -38,6 +40,14 @@ abstract class AbstractResponse implements ResponseInterface
 
     public function __construct()
     {
+        $request = $this->getRequest();
+        if ($request) {
+            $requestHandler = $request->getRequestHandler();
+            if ($requestHandler) {
+                $translator = $requestHandler->getTranslator();
+                $this->setTranslator($translator);
+            }
+        }
         $this->createJsonResponse(new EmptyDto(), 200, static::HEADERS);
     }
 
@@ -46,7 +56,7 @@ abstract class AbstractResponse implements ResponseInterface
      * @param int $status
      * @param array $headers
      */
-    protected function createJsonResponse(DtoInterface $data, int $status = 200, array $headers = self::HEADERS)
+    protected function createJsonResponse(DtoInterface $data, int $status = 200, array $headers = self::HEADERS): void
     {
         $this->setResponseDto($data);
         $this->setResponseStatus($status);
@@ -69,11 +79,16 @@ abstract class AbstractResponse implements ResponseInterface
         } else {
             $response = $this->jsonResponse;
         }
-        $request = $this->getRequest()->getRequest();
-        $response->headers->set(
-            'Access-Control-Allow-Origin',
-            $request->headers->get('Origin')
-        );
+        $request = $this->getRequest();
+        if ($request) {
+            $httpRequest = $request->getRequest();
+            if ($httpRequest) {
+                $response->headers->set(
+                    'Access-Control-Allow-Origin',
+                    $httpRequest->headers->get('Origin')
+                );
+            }
+        }
         return $response;
     }
 
@@ -144,23 +159,12 @@ abstract class AbstractResponse implements ResponseInterface
             return null;
         }
         $requestHandler = $request->getRequestHandler();
+        if ($requestHandler) {
+            $repositoryFactory = $requestHandler->getRepositoryFactory();
+            return $repositoryFactory->create($tableName);
+        }
 
-        $repositoryFactory = $requestHandler->getRepositoryFactory();
-        return $repositoryFactory->create($tableName);
-    }
-
-    /**
-     * @param $id
-     * @param array $parameters
-     * @param null $domain
-     * @param null $locale
-     * @return string
-     */
-    public function translate($id, array $parameters = array(), $domain = null, $locale = null)
-    {
-        $translator = $this->getRequest()->getRequestHandler()->getTranslator();
-
-        return $translator->trans($id, $parameters, $domain, $locale);
+        return null;
     }
 
     /**

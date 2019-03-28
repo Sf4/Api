@@ -15,9 +15,6 @@ class RequestSubscriber implements EventSubscriberInterface
 
     use RequestHandlerTrait;
 
-    /** @var RequestHandlerInterface $requestHandler */
-    protected $requestHandler;
-
     /**
      * RequestSubscriber constructor.
      * @param RequestHandlerInterface $requestHandler
@@ -30,7 +27,7 @@ class RequestSubscriber implements EventSubscriberInterface
     /**
      * @return array
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => 'handleRequest',
@@ -41,13 +38,16 @@ class RequestSubscriber implements EventSubscriberInterface
     /**
      * @param GetResponseEvent $event
      */
-    public function handleRequest(GetResponseEvent $event)
+    public function handleRequest(GetResponseEvent $event): void
     {
         $request = $event->getRequest();
         if ($request->attributes->has('_route')) {
-            $this->getRequestHandler()->handle($request);
-            if ($response = $this->getRequestHandler()->getResponse()) {
-                $event->setResponse($response);
+            $requestHandler = $this->getRequestHandler();
+            if ($requestHandler) {
+                $requestHandler->handle($request);
+                if ($response = $requestHandler->getResponse()) {
+                    $event->setResponse($response);
+                }
             }
         }
     }
@@ -55,7 +55,7 @@ class RequestSubscriber implements EventSubscriberInterface
     /**
      * @param GetResponseForExceptionEvent $event
      */
-    public function handleException(GetResponseForExceptionEvent $event)
+    public function handleException(GetResponseForExceptionEvent $event): void
     {
         $event->setResponse(new JsonResponse([
             $event->getException()->getMessage()

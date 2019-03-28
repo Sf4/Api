@@ -23,7 +23,7 @@ trait Sf4ApiExtensionTrait
      * @param string $dir
      * @throws \Exception
      */
-    protected function loadServices(ContainerBuilder $container, string $dir)
+    protected function loadServices(ContainerBuilder $container, string $dir): void
     {
         $loader = new YamlFileLoader(
             $container,
@@ -36,7 +36,7 @@ trait Sf4ApiExtensionTrait
      * @param ContainerBuilder $container
      * @param array $configSites
      */
-    protected function addRequestHandlerSites(ContainerBuilder $container, array $configSites)
+    protected function addRequestHandlerSites(ContainerBuilder $container, array $configSites): void
     {
         $definition = $container->getDefinition(RequestHandlerInterface::class);
         $definition->addMethodCall(
@@ -51,7 +51,7 @@ trait Sf4ApiExtensionTrait
      * @param ContainerBuilder $container
      * @param array $configRoutes
      */
-    protected function addRequestHandlerRoutes(ContainerBuilder $container, array $configRoutes)
+    protected function addRequestHandlerRoutes(ContainerBuilder $container, array $configRoutes): void
     {
         $availableRoutes = [];
         foreach ($configRoutes as $route) {
@@ -71,7 +71,7 @@ trait Sf4ApiExtensionTrait
      * @param ContainerBuilder $container
      * @param array $configEntities
      */
-    protected function addRepositoryFactoryEntities(ContainerBuilder $container, array $configEntities)
+    protected function addRepositoryFactoryEntities(ContainerBuilder $container, array $configEntities): void
     {
         $definition = $container->getDefinition(RepositoryFactory::class);
         foreach ($configEntities as $entity) {
