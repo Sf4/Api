@@ -1,10 +1,13 @@
 services:
+    Sf4\Api\Services\NoCacheAdapter:
+        class: Sf4\Api\Services\NoCacheAdapter
+        lazy: true
     Sf4\Api\Services\TagAwareCacheAdapter:
         class: Sf4\Api\Services\TagAwareCacheAdapter
         lazy: true
         calls:
             - method: init
-    Sf4\Api\Services\CacheAdapterInterface: '@Sf4\Api\Services\TagAwareCacheAdapter'
+    Sf4\Api\Services\CacheAdapterInterface: '@Sf4\Api\Services\NoCacheAdapter'
 
     Sf4\Api\Repository\RepositoryFactory:
         class: Sf4\Api\Repository\RepositoryFactory

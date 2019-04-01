@@ -18,9 +18,14 @@ class OptionsResponse extends AbstractResponse
             $httpRequest = $request->getRequest();
             if ($httpRequest) {
                 $requestHeaders = $httpRequest->headers;
+
                 $headers['Access-Control-Allow-Credentials'] = 'true';
+                $headers['Access-Control-Max-Age'] = '86400';
+
                 if ($requestHeaders->has('Access-Control-Request-Headers')) {
                     $headers['Access-Control-Allow-Headers'] = $requestHeaders->get('Access-Control-Request-Headers');
+                } else {
+                    $headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type';
                 }
                 if ($requestHeaders->has('Access-Control-Request-Method')) {
                     $headers['Access-Control-Allow-Methods'] = $requestHeaders->get('Access-Control-Request-Method');
