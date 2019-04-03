@@ -18,6 +18,7 @@ use Sf4\Api\Request\RequestTrait;
 use Sf4\Api\RequestHandler\Traits\AvailableRoutesTrait;
 use Sf4\Api\RequestHandler\Traits\CacheAdapterTrait;
 use Sf4\Api\RequestHandler\Traits\EventDispatcherTrait;
+use Sf4\Api\RequestHandler\Traits\ParameterBagTrait;
 use Sf4\Api\RequestHandler\Traits\RepositoryFactoryTrait;
 use Sf4\Api\RequestHandler\Traits\SitesTrait;
 use Sf4\Api\Response\EmptyResponse;
@@ -38,6 +39,7 @@ class RequestHandler implements RequestHandlerInterface
     use RepositoryFactoryTrait;
     use SitesTrait;
     use CacheAdapterTrait;
+    use ParameterBagTrait;
 
     /**
      * @param Request $request

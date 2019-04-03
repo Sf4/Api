@@ -11,9 +11,10 @@ namespace Sf4\Api\Response;
 use Sf4\Api\Dto\DtoInterface;
 use Sf4\Api\Dto\Traits\DtoTraitInterface;
 use Sf4\Api\Request\RequestTraitInterface;
+use Sf4\Api\Utils\Traits\TranslatorTraitInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-interface ResponseInterface extends DtoTraitInterface, RequestTraitInterface
+interface ResponseInterface extends DtoTraitInterface, RequestTraitInterface, TranslatorTraitInterface
 {
     public const HEADERS = [
         'accept' => 'application/json',

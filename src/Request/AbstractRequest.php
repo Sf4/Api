@@ -102,11 +102,14 @@ abstract class AbstractRequest implements RequestInterface
      */
     public function handle()
     {
+        $response = $this->getResponse();
+        $requestHandler = $this->getRequestHandler();
+        if ($response && $requestHandler && $translator = $requestHandler->getTranslator()) {
+            $response->setTranslator($translator);
+        }
         $this->getCachedResponse(
-            function () {
+            function () use ($response) {
                 $httpRequest = $this->getRequest();
-                $response = $this->getResponse();
-
                 if ($httpRequest) {
                     $requestContent = $httpRequest->getContent();
                     $dto = $this->getDto();

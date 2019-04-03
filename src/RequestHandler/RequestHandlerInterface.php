@@ -12,6 +12,7 @@ use Sf4\Api\Request\RequestTraitInterface;
 use Sf4\Api\RequestHandler\Traits\AvailableRoutesTraitInterface;
 use Sf4\Api\RequestHandler\Traits\CacheAdapterTraitInterface;
 use Sf4\Api\RequestHandler\Traits\EventDispatcherTraitInterface;
+use Sf4\Api\RequestHandler\Traits\ParameterBagTraitInterface;
 use Sf4\Api\RequestHandler\Traits\RepositoryFactoryTraitInterface;
 use Sf4\Api\RequestHandler\Traits\SitesTraitInterface;
 use Sf4\Api\Utils\Traits\EntityManagerTraitInterface;
@@ -27,7 +28,8 @@ interface RequestHandlerInterface extends
     EventDispatcherTraitInterface,
     TranslatorTraitInterface,
     EntityManagerTraitInterface,
-    RequestTraitInterface
+    RequestTraitInterface,
+    ParameterBagTraitInterface
 {
     /**
      * @param Request $request

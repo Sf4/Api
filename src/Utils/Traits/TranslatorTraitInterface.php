@@ -21,4 +21,13 @@ interface TranslatorTraitInterface
      * @param TranslatorInterface $translator
      */
     public function setTranslator(TranslatorInterface $translator): void;
+
+    /**
+     * @param $id
+     * @param array $parameters
+     * @param null $domain
+     * @param null $locale
+     * @return string
+     */
+    public function translate($id, array $parameters = array(), $domain = null, $locale = null): string;
 }

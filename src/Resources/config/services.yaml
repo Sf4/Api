@@ -35,6 +35,9 @@ services:
             -   method: setCacheAdapter
                 arguments:
                     - '@Sf4\Api\Services\CacheAdapterInterface'
+            -   method: setParameterBag
+                arguments:
+                    - '@Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface'
 
     Sf4\Api\EventSubscriber\RequestSubscriber:
         class: Sf4\Api\EventSubscriber\RequestSubscriber
