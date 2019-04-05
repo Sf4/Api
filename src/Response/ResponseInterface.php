@@ -11,6 +11,7 @@ namespace Sf4\Api\Response;
 use Sf4\Api\Dto\DtoInterface;
 use Sf4\Api\Dto\Traits\DtoTraitInterface;
 use Sf4\Api\Request\RequestTraitInterface;
+use Sf4\Api\RequestHandler\RequestHandlerInterface;
 use Sf4\Api\Utils\Traits\TranslatorTraitInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -71,4 +72,9 @@ interface ResponseInterface extends DtoTraitInterface, RequestTraitInterface, Tr
      * @param JsonResponse $jsonResponse
      */
     public function setJsonResponse(JsonResponse $jsonResponse);
+
+    /**
+     * @return RequestHandlerInterface|null
+     */
+    public function getRequestHandler(): ?RequestHandlerInterface;
 }

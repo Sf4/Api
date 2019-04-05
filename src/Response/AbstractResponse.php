@@ -8,13 +8,16 @@
 
 namespace Sf4\Api\Response;
 
+use ReflectionException;
 use Sf4\Api\Dto\DtoInterface;
 use Sf4\Api\Dto\Response\EmptyDto;
+use Sf4\Api\Dto\Response\ErrorDto;
 use Sf4\Api\Dto\Traits\CreateErrorDtoTrait;
 use Sf4\Api\Dto\Traits\DtoTrait;
 use Sf4\Api\Repository\AbstractRepository;
 use Sf4\Api\Repository\RepositoryInterface;
 use Sf4\Api\Request\RequestTrait;
+use Sf4\Api\RequestHandler\RequestHandlerInterface;
 use Sf4\Api\Utils\Traits\TranslatorTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -40,15 +43,30 @@ abstract class AbstractResponse implements ResponseInterface
 
     public function __construct()
     {
+        $this->addTranslator();
+        $this->createJsonResponse(new EmptyDto(), 200, static::HEADERS);
+    }
+
+    protected function addTranslator(): void
+    {
+        $requestHandler = $this->getRequestHandler();
+        if ($requestHandler) {
+            $translator = $requestHandler->getTranslator();
+            $this->setTranslator($translator);
+        }
+    }
+
+    /**
+     * @return RequestHandlerInterface|null
+     */
+    public function getRequestHandler(): ?RequestHandlerInterface
+    {
         $request = $this->getRequest();
         if ($request) {
-            $requestHandler = $request->getRequestHandler();
-            if ($requestHandler) {
-                $translator = $requestHandler->getTranslator();
-                $this->setTranslator($translator);
-            }
+            return $request->getRequestHandler();
         }
-        $this->createJsonResponse(new EmptyDto(), 200, static::HEADERS);
+
+        return null;
     }
 
     /**
@@ -154,11 +172,7 @@ abstract class AbstractResponse implements ResponseInterface
      */
     public function getRepository(string $tableName): ?RepositoryInterface
     {
-        $request = $this->getRequest();
-        if (!$request) {
-            return null;
-        }
-        $requestHandler = $request->getRequestHandler();
+        $requestHandler = $this->getRequestHandler();
         if ($requestHandler) {
             $repositoryFactory = $requestHandler->getRepositoryFactory();
             return $repositoryFactory->create($tableName);
@@ -170,14 +184,14 @@ abstract class AbstractResponse implements ResponseInterface
     /**
      * @param DtoInterface $dto
      * @param array $data |null
-     * @return DtoInterface|\Sf4\Api\Dto\Response\ErrorDto
+     * @return DtoInterface|ErrorDto
      */
     protected function populateDto(DtoInterface $dto, ?array $data)
     {
         if ($data) {
             try {
                 $dto->populate($data);
-            } catch (\ReflectionException $e) {
+            } catch (ReflectionException $e) {
                 $dto = $this->createErrorDto($e);
             }
         }

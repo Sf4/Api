@@ -8,6 +8,9 @@
 
 namespace Sf4\Api\Request;
 
+use Closure;
+use Psr\Cache\CacheException;
+use Psr\Cache\InvalidArgumentException;
 use Sf4\Api\Dto\DtoInterface;
 use Sf4\Api\Dto\Traits\DtoTrait;
 use Sf4\Api\RequestHandler\RequestHandlerTrait;
@@ -51,15 +54,15 @@ abstract class AbstractRequest implements RequestInterface
     }
 
     /**
-     * @param \Closure $closure
+     * @param Closure $closure
      * @param string|null $cacheKey
      * @param array $tags
      * @param int|null $expiresAfter
-     * @throws \Psr\Cache\CacheException
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws CacheException
+     * @throws InvalidArgumentException
      */
     public function getCachedResponse(
-        \Closure $closure,
+        Closure $closure,
         string $cacheKey = null,
         array $tags = [],
         int $expiresAfter = null
@@ -97,8 +100,8 @@ abstract class AbstractRequest implements RequestInterface
     }
 
     /**
-     * @throws \Psr\Cache\CacheException
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws CacheException
+     * @throws InvalidArgumentException
      */
     public function handle()
     {
