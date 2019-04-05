@@ -11,6 +11,7 @@ namespace Sf4\Api\EntitySaver;
 use Sf4\Api\Dto\DtoInterface;
 use Sf4\Api\Entity\EntityInterface;
 use Sf4\Api\Notification\NotificationInterface;
+use Sf4\Api\RequestHandler\RequestHandlerInterface;
 use Sf4\Api\Response\ResponseTrait;
 use Sf4\Api\Utils\Traits\EntityManagerTrait;
 use Symfony\Component\Validator\Validation;
@@ -64,5 +65,18 @@ abstract class AbstractEntitySaver implements EntitySaverInterface
             $this->postEntitySave($entity);
         }
         return $notification;
+    }
+
+    /**
+     * @return RequestHandlerInterface|null
+     */
+    public function getRequestHandler(): ?RequestHandlerInterface
+    {
+        $response = $this->getResponse();
+        if ($response) {
+            return $response->getRequestHandler();
+        }
+
+        return null;
     }
 }
